@@ -1,0 +1,23 @@
+{
+  "kind": "singleType",
+  "collectionName": "comment_boxes",
+  "info": {
+    "singularName": "comment-box",
+    "pluralName": "comment-boxes",
+    "displayName": "Comment Box"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "text": {
+      "type": "richtext"
+    },
+    "inputList": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.input"
+    }
+  }
+}

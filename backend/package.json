@@ -1,0 +1,42 @@
+{
+  "name": "lab-nckh",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A Strapi application",
+  "scripts": {
+    "develop": "strapi develop",
+    "dev:admin": "strapi develop --watch-admin",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi",
+    "postinstall": "patch-package"
+  },
+  "devDependencies": {
+    "patch-package": "^7.0.0"
+  },
+  "dependencies": {
+    "@_sh/strapi-plugin-ckeditor": "^2.0.4",
+    "@ckeditor/strapi-plugin-ckeditor": "^0.0.7",
+    "@strapi/plugin-color-picker": "^4.10.5",
+    "@strapi/plugin-i18n": "4.10.5",
+    "@strapi/plugin-users-permissions": "4.10.5",
+    "@strapi/provider-upload-cloudinary": "^4.10.5",
+    "@strapi/strapi": "4.10.5",
+    "pg": "8.8.0",
+    "strapi-plugin-multi-select": "^1.1.0",
+    "strapi-plugin-populate-deep": "^2.0.0",
+    "strapi-plugin-slugify": "^2.3.2",
+    "strapi-tiptap-editor": "^0.9.12"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "strapi": {
+    "uuid": "1a98e1a0-6ec8-44fb-876c-ecdde1df691f"
+  },
+  "engines": {
+    "node": ">=14.19.1 <=18.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
