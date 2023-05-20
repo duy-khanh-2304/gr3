@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_page_section_information_footers",
+  "info": {
+    "displayName": "Section Information Footer"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "text": {
+      "type": "richtext"
+    }
+  }
+}

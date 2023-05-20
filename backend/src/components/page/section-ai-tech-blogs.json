@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_page_section_ai_tech_blogs",
+  "info": {
+    "displayName": "Section AI tech blogs"
+  },
+  "options": {},
+  "attributes": {
+    "section": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page.section"
+    },
+    "flickity": {
+      "type": "boolean"
+    }
+  }
+}

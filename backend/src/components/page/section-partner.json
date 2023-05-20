@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_page_section_partners",
+  "info": {
+    "displayName": "Section Partner"
+  },
+  "options": {},
+  "attributes": {
+    "section": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page.section"
+    }
+  }
+}

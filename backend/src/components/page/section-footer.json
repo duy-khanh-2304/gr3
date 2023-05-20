@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_page_section_footers",
+  "info": {
+    "displayName": "Section Footer"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  }
+}

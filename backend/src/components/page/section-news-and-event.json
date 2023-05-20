@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_page_section_news_and_events",
+  "info": {
+    "displayName": "Section News and Event"
+  },
+  "options": {},
+  "attributes": {
+    "section": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page.section"
+    },
+    "flickity": {
+      "type": "boolean"
+    }
+  }
+}

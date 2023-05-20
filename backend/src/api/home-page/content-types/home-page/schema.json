@@ -1,0 +1,61 @@
+{
+  "kind": "singleType",
+  "collectionName": "home_pages",
+  "info": {
+    "singularName": "home-page",
+    "pluralName": "home-pages",
+    "displayName": "Home Page",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "header": {
+      "displayName": "Header",
+      "type": "component",
+      "repeatable": false,
+      "component": "page.header"
+    },
+    "nav_bar": {
+      "type": "dynamiczone",
+      "components": [
+        "page.logo-navigation",
+        "page.links-navigation",
+        "page.dropdown-navigation"
+      ]
+    },
+    "banner": {
+      "displayName": "Banner",
+      "type": "component",
+      "repeatable": false,
+      "component": "page.banner"
+    },
+    "body": {
+      "type": "dynamiczone",
+      "components": [
+        "page.section-news-and-event",
+        "page.section-solution",
+        "page.section-ai-tech-blogs",
+        "page.section-project",
+        "page.section-partner"
+      ]
+    },
+    "footer": {
+      "type": "dynamiczone",
+      "components": [
+        "page.logo-navigation",
+        "page.section-r-and-d-footer",
+        "page.section-news-and-seminars-footer",
+        "page.section-information-footer"
+      ]
+    },
+    "absolute_footer": {
+      "displayName": "Absolute Footer",
+      "type": "component",
+      "repeatable": false,
+      "component": "page.absolute-footer"
+    }
+  }
+}

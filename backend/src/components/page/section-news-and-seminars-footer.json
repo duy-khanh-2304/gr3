@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_page_section_news_and_seminars_footer_s",
+  "info": {
+    "displayName": "Section News and Seminars (Footer)"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.links-navigation"
+    }
+  }
+}
