@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_page_form_contacts",
+  "info": {
+    "displayName": "Form Contact"
+  },
+  "options": {},
+  "attributes": {
+    "input": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.input"
+    },
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

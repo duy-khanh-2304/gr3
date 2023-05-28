@@ -1,0 +1,28 @@
+.main{
+
+}
+
+.container {
+  max-width: 1170px;
+  min-height: 40px;
+  margin: auto;
+  padding: 10px 15px;
+  font-family: 'Nunito', sans-serif !important;
+  font-weight: 300;
+  font-size: 0.8em;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #b2b0b0;
+}
+
+.subpath {
+  color:#c4c1c1
+}
+
+.subpath:hover {
+  color: #111111D9
+}
+
+.finalText {
+  color: #111111D9
+}

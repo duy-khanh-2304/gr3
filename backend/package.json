@@ -24,6 +24,7 @@
     "@strapi/strapi": "4.10.5",
     "knex": "^2.4.2",
     "pg": "8.8.0",
+    "strapi-location-field-plugin": "^1.2.0",
     "strapi-plugin-multi-select": "^1.1.0",
     "strapi-plugin-populate-deep": "^2.0.0",
     "strapi-plugin-slugify": "^2.3.2",

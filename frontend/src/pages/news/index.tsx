@@ -1,20 +1,30 @@
+import axiosInstance from '@/axiosConfig'
+import Layout from '@/components/Layout'
 import axios from 'axios'
+import Head from 'next/head'
 import React from 'react'
 
 export default function News(props: any) {
-  console.log("Data: ", props.data)
   return (
     <div>
-      Duy Khanh
+      <Head>
+        <title>News Page</title>
+      </Head>
+      <Layout data={props.data}>
+        <div>
+          News Page
+        </div>
+      </Layout>
     </div>
   )
 }
 
-export async function getStaticProps(){
-  const response = await axios.get('http://localhost:1337/api/newses?populate=deep')
+export async function getStaticProps() {
+  const response = (await axiosInstance.get("/api/home-page?populate=deep")).data
   return {
     props: {
-      data: response.data
-    }
+      data: response.data.attributes
+    },
+    revalidate: 10
   }
 }

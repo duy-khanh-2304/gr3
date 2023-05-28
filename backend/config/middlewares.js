@@ -9,6 +9,7 @@ module.exports = [
           'connect-src': ["'self'", 'https:'],
           'img-src': ["'self'", 'data:', 'blob:', 'dl.airtable.com', 'res.cloudinary.com'],
           'media-src': ["'self'", 'data:', 'blob:', 'dl.airtable.com', 'res.cloudinary.com'],
+          "script-src": ["'self'", "'unsafe-inline'", "maps.googleapis.com"],
           upgradeInsecureRequests: null,
         },
       },

@@ -1,0 +1,35 @@
+.main{
+  background-color: #7a9c59;
+}
+
+.container {
+  max-width: 1170px;
+  min-height: 48px;
+  margin: auto;
+  padding: 0 15px;
+  color: #ffffffcc;
+  font-weight: 300;
+  font-size: 0.8em;
+  letter-spacing: .02em;
+  display: flex;
+  align-items: center;
+}
+
+.item:hover{
+  color: #ffffff;
+}
+
+.email{
+  padding-right: 0.7em;
+  border-right: solid #97b17e 1px;
+}
+
+.time{
+  padding: 0 0.7em;
+  border-right: solid #97b17e 1px;
+}
+
+.phoneNumber{
+  padding: 0 0.7em;
+}
+

@@ -1,0 +1,41 @@
+.main{
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 1170px;
+  min-height: 100px;
+  margin: auto;
+  padding: 0 15px;
+  font-weight: 600;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.logo {
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+.flex_list{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.flex_item {
+  font-size: 16px;
+  color: #666666D9;
+  font-weight: 450;
+  padding: 10px 0;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.flex_item:hover {
+  color: #111111D9;
+}

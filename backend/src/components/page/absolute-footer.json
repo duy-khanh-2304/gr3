@@ -1,20 +1,16 @@
 {
   "collectionName": "components_page_absolute_footers",
   "info": {
-    "displayName": "Absolute Footer"
+    "displayName": "Absolute Footer",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "footer_primary": {
-      "type": "string"
+    "primary": {
+      "type": "richtext"
     },
-    "footer_secondary": {
-      "type": "string"
-    },
-    "background_color": {
-      "type": "customField",
-      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-      "customField": "plugin::color-picker.color"
+    "secondary": {
+      "type": "richtext"
     }
   }
 }
