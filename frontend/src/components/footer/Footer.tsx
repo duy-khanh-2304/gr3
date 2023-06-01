@@ -9,7 +9,6 @@ export default function Footer(props: any) {
 
   const logo = footerSection.find((_: any) => _.__component.indexOf('logo-navigation') !== -1)
   const list = footerSection.filter((_: any) => _.__component.indexOf('logo-navigation') === -1)
-
   const optionsAbsoluteFooter = {
     replace: ({attribs, children}: any) => {
       return (

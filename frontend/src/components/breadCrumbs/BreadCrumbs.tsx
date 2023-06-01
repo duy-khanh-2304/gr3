@@ -18,7 +18,7 @@ const _defaultGetDefaultTextGenerator = (path: string) => {
   if(path === 'contactus'){
     return 'Contact Us'
   }else{
-    return path
+    return path.replace(/\b\w/g, letter => letter.toUpperCase())
   }
 };
 
@@ -63,7 +63,6 @@ export default function BreadCrumbs({
       title: <Link href={crumb.href}>{crumb.textGenerator ? crumb.textGenerator : crumb.text}</Link>
     }
   })
-  console.log("List crumbs: ", listCrumbs)
   return (
     <div className={styles.main}>
       <div className={styles.container}>

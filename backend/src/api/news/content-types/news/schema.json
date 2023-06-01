@@ -21,19 +21,6 @@
       "targetField": "title",
       "required": true
     },
-    "content": {
-      "type": "customField",
-      "options": {
-        "preset": "toolbar"
-      },
-      "customField": "plugin::ckeditor5.CKEditor",
-      "required": true
-    },
-    "tags": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::tag.tag"
-    },
     "showCommunicationLink": {
       "type": "boolean",
       "default": true,
@@ -43,6 +30,42 @@
       "type": "boolean",
       "default": true,
       "required": true
+    },
+    "post_image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "publishAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "content": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "tag": {
+      "type": "customField",
+      "options": [
+        "news",
+        "event",
+        "seminar"
+      ],
+      "customField": "plugin::multi-select.multi-select"
+    },
+    "test": {
+      "type": "customField",
+      "options": {
+        "output": "HTML",
+        "preset": "rich"
+      },
+      "customField": "plugin::ckeditor.CKEditor"
     }
   }
 }
