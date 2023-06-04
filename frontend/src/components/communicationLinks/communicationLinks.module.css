@@ -1,0 +1,22 @@
+.container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item{
+  font-size: 22px;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  background-color: #7a9c59;
+  color: #fff;
+  margin: 4px;
+}
+
+.item:hover{
+  background-color: #1E73BE;
+  color: #fff
+}

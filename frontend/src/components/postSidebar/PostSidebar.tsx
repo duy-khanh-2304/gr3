@@ -3,6 +3,7 @@ import React from "react";
 import styles from './postSidebar.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function PostSidebar(props: any){
   const recentPostList = props.recentPostList
@@ -24,15 +25,17 @@ export default function PostSidebar(props: any){
                 return(
                   <div className={styles.recent_post_item} key={index}>
                     <div className={styles.post_time}>
-                      <div className={styles.date_day}>29</div>
-                      <div className={styles.date_month}>Aug</div>
+                      <div className={styles.date_day}>{(new Date(item.attributes.publishAt)).getDate()}</div>
+                      <div className={styles.date_month}>{(new Date(item.attributes.publishAt)).toLocaleString('default', { month: 'short' })}</div>
                     </div>
                     <div className={styles.right_content}>
                       <div className={styles.title}>
-                        {item.attributes.title}
+                        <Link href={`/news/${item.attributes.slug}`}>
+                          {item.attributes.title}
+                        </Link>
                       </div>
-                      <div style={{marginTop: "10px", fontSize: "12px"}}>
-                        Comment {item.attributes.showCommentBox ? 'on' : 'off'}
+                      <div style={{marginTop: "10px", fontSize: "12px", color: "#666666D9"}}>
+                        Comments {item.attributes.showCommentBox ? 'on' : 'off'}
                       </div>
                     </div>
                   </div>

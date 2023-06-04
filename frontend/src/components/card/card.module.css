@@ -27,6 +27,7 @@
   overflow: hidden;
   margin-top: 15px;
   line-height: 1.3rem;
+  font-weight: 300 !important;
 }
 
 .post_image{
@@ -48,8 +49,8 @@
   align-items: center;
   font-size: 24px;
   padding: 10px;
-  width: 4.2rem;
-  height: 4.2rem;
+  width: 4rem;
+  height: 4rem;
 }
 
 .date_day{

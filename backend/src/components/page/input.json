@@ -1,7 +1,8 @@
 {
   "collectionName": "components_page_inputs",
   "info": {
-    "displayName": "Input"
+    "displayName": "Input",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -21,6 +22,9 @@
         "email",
         "textarea"
       ]
+    },
+    "required": {
+      "type": "boolean"
     }
   }
 }
