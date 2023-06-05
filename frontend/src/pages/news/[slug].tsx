@@ -1,22 +1,18 @@
 import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React, { Suspense } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import PostSidebar from "@/components/postSidebar/PostSidebar";
-import parse, { domToReact } from 'html-react-parser'
+import parse from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import sortByPublishedDate from "@/utils/sortByPublishedDate";
 import { getAllNews, getHomePage, getOneNewsBySlug } from "@/clientApi";
 
 export default function DetailPage(props: any) {
-  const router = useRouter()
   const item = props.newsItem
-  console.log("Item: ", item)
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -26,7 +22,7 @@ export default function DetailPage(props: any) {
             height="438px" 
             src={domNode.attribs.url}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          >{domNode.children}</iframe>
+          ></iframe>
         )
       }
     }

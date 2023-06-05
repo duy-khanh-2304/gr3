@@ -1,18 +1,29 @@
 
-// To override this file create a plugins-dev.js one and copy the content of the plugin.js one.
-// When starting the app the script will copy the plugins-dev.js into this one instead.
-import contentTypeBuilder from '../../../content-type-builder/admin/src';
-import email from '../../../email/admin/src';
-import upload from '../../../upload/admin/src';
-import i18N from '../../../../plugins/i18n/admin/src';
-import usersPermissions from '../../../../plugins/users-permissions/admin/src';
+import contentTypeBuilder from '../../../node_modules/@strapi/plugin-content-type-builder/strapi-admin.js';
+import email from '../../../node_modules/@strapi/plugin-email/strapi-admin.js';
+import upload from '../../../node_modules/@strapi/plugin-upload/strapi-admin.js';
+import locationField from '../../../node_modules/strapi-location-field-plugin/strapi-admin.js';
+import ckeditor5 from '../../../node_modules/@_sh/strapi-plugin-ckeditor/strapi-admin.js';
+import ckeditor from '../../../node_modules/@ckeditor/strapi-plugin-ckeditor/strapi-admin.js';
+import colorPicker from '../../../node_modules/@strapi/plugin-color-picker/strapi-admin.js';
+import i18N from '../../../node_modules/@strapi/plugin-i18n/strapi-admin.js';
+import usersPermissions from '../../../node_modules/@strapi/plugin-users-permissions/strapi-admin.js';
+import multiSelect from '../../../node_modules/strapi-plugin-multi-select/strapi-admin.js';
+import strapiTiptapEditor from '../../../node_modules/strapi-tiptap-editor/strapi-admin.js';
+
 
 const plugins = {
   'content-type-builder': contentTypeBuilder,
   'email': email,
   'upload': upload,
+  'location-field': locationField,
+  'ckeditor5': ckeditor5,
+  'ckeditor': ckeditor,
+  'color-picker': colorPicker,
   'i18n': i18N,
   'users-permissions': usersPermissions,
+  'multi-select': multiSelect,
+  'strapi-tiptap-editor': strapiTiptapEditor,
 };
-  
+
 export default plugins;
