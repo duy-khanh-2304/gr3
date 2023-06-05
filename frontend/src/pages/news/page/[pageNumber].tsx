@@ -1,4 +1,3 @@
-import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
@@ -10,8 +9,9 @@ import Card from '@/components/card/Card'
 import parse from 'html-react-parser'
 import { getPaginatedSortedNews, getHomePage, getPaginatedNews } from '@/clientApi'
 import { useRouter } from 'next/router'
+import { redirect } from 'next/navigation'
 
-export default function News(props: any) {
+export default function PageNews(props: any) {
   const newsList = props.newsList.data
   const numberPage = props.newsList.meta.pagination.pageCount
   const layout = props.layout.data.attributes
@@ -42,7 +42,7 @@ export default function News(props: any) {
                 </Grid>
                 {numberPage > 1 && <div className={styles.pagination}>
                   <Stack spacing={2}>
-                    <Pagination count={numberPage} variant='outlined' onChange={handleChangePage} page={1}/>
+                    <Pagination count={numberPage} variant='outlined' onChange={handleChangePage} page={props.currentPage}/>
                   </Stack>
                 </div>}
               </Grid>
@@ -57,14 +57,44 @@ export default function News(props: any) {
   )
 }
 
-export async function getStaticProps() {
+export async function getStaticPaths(){
+  const newsList = await getPaginatedNews()
+  let pageCount = newsList.meta.pagination.pageCount
+  let paths = []
+  while(pageCount > 0){
+    paths.push({
+      params: {
+        pageNumber: pageCount.toString()
+      }
+    })
+    pageCount = pageCount - 1
+  }
+  return {
+    paths: paths,
+    fallback: true
+  }
+}
+
+export async function getStaticProps({params}:any) {
+  const pageNumber = Number(params.pageNumber)
+
   const homePage = await getHomePage() 
-  const newsList = await getPaginatedSortedNews()
+
+  const newsList = await getPaginatedSortedNews(pageNumber)
+  if(pageNumber === 1){
+    return {
+      redirect: {
+        destination: '/news',
+        permanent: false
+      },
+    };
+  }
   return {
     props: {
       layout: homePage,
+      currentPage: pageNumber,
       newsList: newsList
     },
-    revalidate: 10
+    revalidate: 60
   }
 }

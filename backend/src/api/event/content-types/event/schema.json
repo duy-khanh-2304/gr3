@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "newses",
+  "collectionName": "events",
   "info": {
-    "singularName": "news",
-    "pluralName": "newses",
-    "displayName": "News",
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event",
     "description": ""
   },
   "options": {
@@ -21,16 +21,6 @@
       "targetField": "title",
       "required": true
     },
-    "showCommunicationLink": {
-      "type": "boolean",
-      "default": true,
-      "required": true
-    },
-    "showCommentBox": {
-      "type": "boolean",
-      "default": true,
-      "required": true
-    },
     "post_image": {
       "type": "media",
       "multiple": false,
@@ -39,25 +29,40 @@
         "images"
       ]
     },
-    "publishAt": {
-      "type": "datetime",
+    "showCommunicationLink": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "showCommentBox": {
+      "type": "boolean",
+      "default": true,
       "required": true
     },
-    "content": {
-      "type": "customField",
-      "options": {
-        "preset": "toolbar"
-      },
-      "customField": "plugin::ckeditor5.CKEditor"
+    "publishAt": {
+      "required": true,
+      "type": "datetime"
     },
     "tag": {
       "type": "customField",
       "options": [
-        "news",
+        "news ",
         "event",
         "seminar"
       ],
       "customField": "plugin::multi-select.multi-select"
+    },
+    "content": {
+      "type": "dynamiczone",
+      "components": [
+        "content.paragraph",
+        "content.intro-team"
+      ],
+      "required": true
+    },
+    "post_subtitle": {
+      "type": "richtext",
+      "required": true
     }
   }
 }

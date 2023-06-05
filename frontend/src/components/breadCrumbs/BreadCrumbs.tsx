@@ -25,8 +25,9 @@ const _defaultGetDefaultTextGenerator = (path: string) => {
 // Pulled out the path part breakdown because its
 // going to be used by both `asPath` and `pathname`
 const generatePathParts = (pathStr: string) => {
-  const pathWithoutQuery = pathStr.split("?")[0];
-  return pathWithoutQuery.split("/").filter(v => v.length > 0);
+  const pathWithoutQuery = pathStr.split("?")[0]
+  const pathRemovePage = pathWithoutQuery.split("/page/")[0]
+  return pathRemovePage.split("/").filter(v => v.length > 0)
 }
 
 export default function BreadCrumbs({
@@ -53,16 +54,6 @@ export default function BreadCrumbs({
     return [{ href: "/", text: "Home", textGenerator: null }, ...crumbList];
   }, [router.asPath, router.pathname, router.query, getTextGenerator, getDefaultTextGenerator])
   
-  const listCrumbs = breadCrumbs.map((crumb, index) => {
-    if(index === breadCrumbs.length - 1){
-      return {
-        title: crumb.text
-      }
-    }
-    return {
-      title: <Link href={crumb.href}>{crumb.textGenerator ? crumb.textGenerator : crumb.text}</Link>
-    }
-  })
   return (
     <div className={styles.main}>
       <div className={styles.container}>

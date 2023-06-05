@@ -8,23 +8,11 @@ export default function Card(props: any){
   const router = useRouter()
 
   const item = props.item
-  const option = {
-    replace: (domNode: any) => {
-      // if(domNode.name === "oe")
-      return (
-        <div>
-          <span style={{fontSize: "14px !important"}}>
-            {domToReact(domNode.children)}
-          </span>
-        </div>
-      )
-    }
-  }
   const onClick = () => {
     // router.push(`/news/${item.attributes.slug}`)
     window.location.href = `http://localhost:3000/news/${item.attributes.slug}`
   }
-  const sub_title = parse(item.attributes.content, option)
+  const sub_title = parse(item.attributes.post_subtitle)
   return (
     <div>
       <div 

@@ -126,3 +126,11 @@ a:hover{
     color-scheme: dark;
   }
 }
+
+
+/* Mui */
+
+.Mui-selected{
+  color: #fff;
+  background-color: #7a9c59 !important;
+}
