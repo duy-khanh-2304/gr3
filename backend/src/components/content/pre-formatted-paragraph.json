@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_content_pre_formatted_paragraphs",
+  "info": {
+    "displayName": "Pre-formatted paragraph"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "customField",
+      "options": {
+        "output": "HTML",
+        "preset": "rich"
+      },
+      "customField": "plugin::ckeditor.CKEditor"
+    }
+  }
+}

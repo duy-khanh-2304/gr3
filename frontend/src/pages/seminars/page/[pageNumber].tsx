@@ -1,33 +1,32 @@
-import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
-import styles from './newsList.module.css'
+import styles from './seminarList.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
 import parse from 'html-react-parser'
-import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost } from '@/clientApi'
+import { getHomePage, getLatestPost, getPaginatedSeminars, getPaginatedSortedSeminars } from '@/clientApi'
 import { useRouter } from 'next/router'
+import { redirect } from 'next/navigation'
 
-export default function News(props: any) {
-  const newsList = props.newsList.data
-  const numberPage = props.newsList.meta.pagination.pageCount
+export default function PageSeminar(props: any) {
+  const seminarList = props.seminarList.data
+  const numberPage = props.seminarList.meta.pagination.pageCount
   const layout = props.layout.data.attributes
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/news/page/${value}`
+    window.location.href = `http://localhost:3000/seminars/page/${value}`
   }
 
-  const router = useRouter()
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/news/${item.attributes.slug}`
+    window.location.href = `http://localhost:3000/seminars/${item.attributes.slug}`
   }
   return (
     <div>
       <Head>
-        <title>News Archives - BKAI - The International Research Center for Artificial Intelligence</title>
+        <title>Seminar Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout data={layout}>
         <div className={styles.main}>
@@ -36,7 +35,7 @@ export default function News(props: any) {
               <Grid item sm={8} lg={9} style={{padding: "0 15px"}}>
                 <Grid container style={{margin: "0 -15px"}}>
                   {
-                    newsList && newsList.map((item: any, index: number) => {
+                    seminarList && seminarList.map((item: any, index: number) => {
                       return (
                         <Grid item key={index} sm={6} lg={4}>
                           <Card item={item} onClick={() => {handleClick(item)}}/>
@@ -47,7 +46,7 @@ export default function News(props: any) {
                 </Grid>
                 {numberPage > 1 && <div className={styles.pagination}>
                   <Stack spacing={2}>
-                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={1}/>
+                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={props.currentPage}/>
                   </Stack>
                 </div>}
               </Grid>
@@ -62,15 +61,44 @@ export default function News(props: any) {
   )
 }
 
-export async function getStaticProps() {
+export async function getStaticPaths(){
+  const seminarList = await getPaginatedSeminars()
+  let pageCount = seminarList.meta.pagination.pageCount
+  let paths = []
+  while(pageCount > 0){
+    paths.push({
+      params: {
+        pageNumber: pageCount.toString()
+      }
+    })
+    pageCount = pageCount - 1
+  }
+  return {
+    paths: paths,
+    fallback: true,
+  }
+}
+
+export async function getStaticProps({params}:any) {
+  const pageNumber = Number(params.pageNumber)
+
   const homePage = await getHomePage() 
-  const newsList = await getPaginatedSortedNews()
+
+  const seminarList = await getPaginatedSortedSeminars(pageNumber)
+  if(pageNumber === 1){
+    return {
+      redirect: {
+        destination: '/seminars',
+        permanent: false
+      },
+    };
+  }
   const latestList = await getLatestPost()
-  console.log("Latest list: ", latestList)
   return {
     props: {
       layout: homePage,
-      newsList: newsList,
+      currentPage: pageNumber,
+      seminarList: seminarList,
       latestList: latestList.data
     },
     revalidate: 20

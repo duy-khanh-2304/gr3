@@ -51,7 +51,7 @@ export default function Layout(props: any) {
         {
           router.asPath !== "/" && <BreadCrumbs/>
         }
-        <div style={{minHeight: "1200px"}}>
+        <div style={{minHeight: "700px"}}>
           {props.children}
         </div>
         <Footer footerSection={props.data.footer} absoluteFooter={props.data.absolute_footer}/>

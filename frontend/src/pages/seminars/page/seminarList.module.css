@@ -1,3 +1,15 @@
+.main{
+background-color: #ffffff;
+}
+
+.container{
+  max-width: 1170px;
+  margin: auto;
+  padding: 30px 0;
+  display: flex;
+  align-items: center;
+}
+
 .item{
   margin: 0 15px 30px;
   object-fit:cover;
@@ -12,14 +24,14 @@
 }
 
 .text{
-  padding: 12px;
+  padding: 15px;
 }
 
 .title{
   height: 40px;
+  font-size: 1.2rem;
   overflow: hidden;
   line-height: 1.3rem;
-  font-size: 1.2rem;
 }
 
 .sub_title{
@@ -27,8 +39,6 @@
   overflow: hidden;
   margin-top: 15px;
   line-height: 1.3rem;
-  font-size: 0.9rem;
-  font-weight: 300 !important;
 }
 
 .post_image{
@@ -50,8 +60,9 @@
   align-items: center;
   font-size: 24px;
   padding: 10px;
-  width: 4rem;
-  height: 4rem;
+  width: 4.2rem;
+  height: 4.2rem;
+  font-family: 'Nunito, san-serif !important';
 }
 
 .date_day{
@@ -74,4 +85,10 @@
   color: #ffffff;
   background-color: #7a9c59;
   transition: color .3s
+}
+
+.pagination{
+  margin: 30px auto;
+  display: flex;
+  justify-content: center;
 }

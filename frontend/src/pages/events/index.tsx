@@ -6,17 +6,22 @@ import styles from './eventList.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
-import { getHomePage, getPaginatedEvents } from '@/clientApi'
+import { getHomePage, getLatestPost, getPaginatedEvents, getPaginatedSortedEvents } from '@/clientApi'
+import { useRouter } from 'next/router'
 
 export default function Events(props: any) {
   const eventList = props.eventList.data
-  console.log("EventList: ", eventList)
   const numberPage = props.eventList.meta.pagination.pageCount
   const layout = props.layout.data.attributes
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/news/page/${value}`
-  };
+    window.location.href = `http://localhost:3000/events/page/${value}`
+  }
+
+  const router = useRouter()
+  const handleClick = (item: any) => {
+    window.location.href = `http://localhost:3000/events/${item.attributes.slug}`
+  }
   return (
     <div>
       <Head>
@@ -32,7 +37,7 @@ export default function Events(props: any) {
                     eventList && eventList.map((item: any, index: number) => {
                       return (
                         <Grid item key={index} sm={6} lg={4}>
-                          <Card item={item}/>
+                          <Card item={item} onClick={() => {handleClick(item)}}/>
                         </Grid>
                       )
                     })
@@ -40,12 +45,12 @@ export default function Events(props: any) {
                 </Grid>
                 {numberPage > 1 && <div className={styles.pagination}>
                   <Stack spacing={2}>
-                    <Pagination count={numberPage} variant='outlined' onChange={handleChangePage} page={1}/>
+                    <Pagination count={numberPage} size='large' variant='outlined' onChange={handleChangePage} page={1}/>
                   </Stack>
                 </div>}
               </Grid>
               <Grid item sm={4} lg={3} style={{padding: "0 15px"}}>
-                <PostSidebar recentPostList={[]}/>
+                <PostSidebar recentPostList={props.latestList}/>
               </Grid>
             </Grid>
           </div>
@@ -57,12 +62,14 @@ export default function Events(props: any) {
 
 export async function getStaticProps() {
   const homePage = await getHomePage() 
-  const eventList = await getPaginatedEvents()
+  const eventList = await getPaginatedSortedEvents()
+  const latestList = await getLatestPost()
   return {
     props: {
       layout: homePage,
-      eventList: eventList
+      eventList: eventList,
+      latestList: latestList.data
     },
-    revalidate: 10
+    revalidate: 20
   }
 }

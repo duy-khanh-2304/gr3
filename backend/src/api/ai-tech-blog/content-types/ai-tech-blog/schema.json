@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "events",
+  "collectionName": "ai_tech_blogs",
   "info": {
-    "singularName": "event",
-    "pluralName": "events",
-    "displayName": "Event",
+    "singularName": "ai-tech-blog",
+    "pluralName": "ai-tech-blogs",
+    "displayName": "AI Tech Blog",
     "description": ""
   },
   "options": {
@@ -21,48 +21,39 @@
       "targetField": "title",
       "required": true
     },
-    "post_image": {
-      "type": "media",
-      "multiple": false,
-      "required": true,
-      "allowedTypes": [
-        "images"
-      ]
+    "publishAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "post_subtitle": {
+      "type": "richtext",
+      "required": true
     },
     "showCommunicationLink": {
       "type": "boolean",
-      "required": true,
-      "default": true
+      "default": true,
+      "required": true
     },
     "showCommentBox": {
       "type": "boolean",
       "default": true,
       "required": true
     },
-    "publishAt": {
-      "required": true,
-      "type": "datetime"
-    },
-    "tag": {
-      "type": "customField",
-      "options": [
-        "news ",
-        "event",
-        "seminar"
-      ],
-      "customField": "plugin::multi-select.multi-select"
-    },
     "content": {
       "type": "dynamiczone",
       "components": [
-        "content.paragraph",
+        "content.paragraph-with-title",
         "content.intro-team",
+        "content.paragraph",
         "content.pre-formatted-paragraph"
-      ],
-      "required": true
+      ]
     },
-    "post_subtitle": {
-      "type": "richtext",
+    "post_image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
       "required": true
     }
   }

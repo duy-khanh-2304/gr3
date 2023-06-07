@@ -9,10 +9,10 @@ import parse from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import { getAllNews, getHomePage, getLatestPost, getOneNewsBySlug } from "@/clientApi";
+import {  getAllSeminars, getHomePage, getLatestPost, getOneSeminarBySlug } from "@/clientApi";
 
 export default function DetailPage(props: any) {
-  const item = props.newsItem
+  const item = props.seminarItem
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -101,8 +101,8 @@ export default function DetailPage(props: any) {
 }
 
 export async function getStaticPaths() {
-  const newsList = await getAllNews()
-  const paths = newsList.map((_: any) => {
+  const seminarList = await getAllSeminars()
+  const paths = seminarList.map((_: any) => {
     return ({
       params: {
         slug: _.attributes.slug
@@ -117,13 +117,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: any) {
   const response = await getHomePage()
-  const newsItem = await getOneNewsBySlug(params.slug) 
+  const seminarItem = await getOneSeminarBySlug(params.slug) 
   const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
   const latestList = await getLatestPost()
   return {
     props: {
       layout: response.data.attributes,
-      newsItem: newsItem.data[0],
+      seminarItem: seminarItem.data[0],
       commentBox: commentBox.data,
       latestList: latestList.data
     },

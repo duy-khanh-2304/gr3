@@ -22,6 +22,7 @@ export default function PostSidebar(props: any){
           <div className={styles.recent_post_list}>
             {
               recentPostList && recentPostList.map((item: any, index: number) => {
+                let tag = item.attributes.tag[0]
                 return(
                   <div className={styles.recent_post_item} key={index}>
                     <div className={styles.post_time}>
@@ -30,7 +31,7 @@ export default function PostSidebar(props: any){
                     </div>
                     <div className={styles.right_content}>
                       <div className={styles.title}>
-                        <Link href={`/news/${item.attributes.slug}`}>
+                        <Link href={`/${tag}/${item.attributes.slug}`}>
                           {item.attributes.title}
                         </Link>
                       </div>

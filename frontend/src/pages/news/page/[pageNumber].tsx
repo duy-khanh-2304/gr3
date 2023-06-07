@@ -7,7 +7,7 @@ import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
 import parse from 'html-react-parser'
-import { getPaginatedSortedNews, getHomePage, getPaginatedNews } from '@/clientApi'
+import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost } from '@/clientApi'
 import { useRouter } from 'next/router'
 import { redirect } from 'next/navigation'
 
@@ -18,7 +18,11 @@ export default function PageNews(props: any) {
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     window.location.href = `http://localhost:3000/news/page/${value}`
-  };
+  }
+
+  const handleClick = (item: any) => {
+    window.location.href = `http://localhost:3000/news/${item.attributes.slug}`
+  }
   return (
     <div>
       <Head>
@@ -34,7 +38,7 @@ export default function PageNews(props: any) {
                     newsList && newsList.map((item: any, index: number) => {
                       return (
                         <Grid item key={index} sm={6} lg={4}>
-                          <Card item={item}/>
+                          <Card item={item} onClick={() => {handleClick(item)}}/>
                         </Grid>
                       )
                     })
@@ -42,12 +46,12 @@ export default function PageNews(props: any) {
                 </Grid>
                 {numberPage > 1 && <div className={styles.pagination}>
                   <Stack spacing={2}>
-                    <Pagination count={numberPage} variant='outlined' onChange={handleChangePage} page={props.currentPage}/>
+                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={props.currentPage}/>
                   </Stack>
                 </div>}
               </Grid>
               <Grid item sm={4} lg={3} style={{padding: "0 15px"}}>
-                <PostSidebar recentPostList={newsList}/>
+                <PostSidebar recentPostList={props.latestList}/>
               </Grid>
             </Grid>
           </div>
@@ -71,7 +75,7 @@ export async function getStaticPaths(){
   }
   return {
     paths: paths,
-    fallback: true
+    fallback: true,
   }
 }
 
@@ -89,12 +93,14 @@ export async function getStaticProps({params}:any) {
       },
     };
   }
+  const latestList = await getLatestPost()
   return {
     props: {
       layout: homePage,
       currentPage: pageNumber,
-      newsList: newsList
+      newsList: newsList,
+      latestList: latestList.data
     },
-    revalidate: 60
+    revalidate: 20
   }
 }

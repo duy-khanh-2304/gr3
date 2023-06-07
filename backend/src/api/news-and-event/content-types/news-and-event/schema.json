@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "events",
+  "collectionName": "news_and_events",
   "info": {
-    "singularName": "event",
-    "pluralName": "events",
-    "displayName": "Event",
+    "singularName": "news-and-event",
+    "pluralName": "news-and-events",
+    "displayName": "News and Event",
     "description": ""
   },
   "options": {
@@ -21,6 +21,9 @@
       "targetField": "title",
       "required": true
     },
+    "publishAt": {
+      "type": "datetime"
+    },
     "post_image": {
       "type": "media",
       "multiple": false,
@@ -29,40 +32,37 @@
         "images"
       ]
     },
+    "post_subtitle": {
+      "type": "richtext",
+      "required": true
+    },
+    "tag": {
+      "type": "customField",
+      "options": [
+        "news",
+        "events",
+        "seminars"
+      ],
+      "required": true,
+      "customField": "plugin::multi-select.multi-select"
+    },
     "showCommunicationLink": {
       "type": "boolean",
-      "required": true,
-      "default": true
+      "default": true,
+      "required": true
     },
     "showCommentBox": {
       "type": "boolean",
       "default": true,
       "required": true
     },
-    "publishAt": {
-      "required": true,
-      "type": "datetime"
-    },
-    "tag": {
-      "type": "customField",
-      "options": [
-        "news ",
-        "event",
-        "seminar"
-      ],
-      "customField": "plugin::multi-select.multi-select"
-    },
     "content": {
       "type": "dynamiczone",
       "components": [
-        "content.paragraph",
         "content.intro-team",
+        "content.paragraph",
         "content.pre-formatted-paragraph"
       ],
-      "required": true
-    },
-    "post_subtitle": {
-      "type": "richtext",
       "required": true
     }
   }

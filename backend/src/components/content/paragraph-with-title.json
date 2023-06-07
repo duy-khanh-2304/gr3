@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_content_paragraph_with_titles",
+  "info": {
+    "displayName": "ParagraphWithTitle"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "richtext",
+      "required": true
+    },
+    "content": {
+      "type": "customField",
+      "options": {
+        "output": "HTML",
+        "preset": "rich"
+      },
+      "required": true,
+      "customField": "plugin::ckeditor.CKEditor"
+    }
+  }
+}

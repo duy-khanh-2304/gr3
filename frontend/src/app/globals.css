@@ -91,7 +91,7 @@ body {
   font-weight: 300;
   box-sizing: border-box;
   position: relative;
-  font-weight: 400 !important;
+  font-weight: 370;
 }
 
 body {
@@ -119,6 +119,11 @@ a:hover{
 
 .image-style-block-align-right{
   margin-left: auto;
+}
+
+.image-style-side{
+  float: right;
+  margin:0 60px 0 40px;
 }
 
 @media (prefers-color-scheme: dark) {

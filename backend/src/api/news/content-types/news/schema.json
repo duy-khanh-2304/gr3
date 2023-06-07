@@ -58,6 +58,10 @@
         "seminar"
       ],
       "customField": "plugin::multi-select.multi-select"
+    },
+    "post_subtitle": {
+      "type": "richtext",
+      "required": true
     }
   }
 }

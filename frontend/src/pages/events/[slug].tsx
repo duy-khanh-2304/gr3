@@ -10,12 +10,10 @@ import parse, { domToReact } from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import { getAllNews, getHomePage, getOneNewsBySlug } from "@/clientApi";
+import { getAllEvents, getAllNews, getHomePage, getLatestPost, getOneEventBySlug, getOneNewsBySlug } from "@/clientApi";
 
 export default function DetailPage(props: any) {
-  const router = useRouter()
   const item = props.newsItem
-  console.log("Item: ", item)
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -58,7 +56,31 @@ export default function DetailPage(props: any) {
                     </h1>
                   </div>
                   <div className={styles.entry_content}>
-                    {parse(item.attributes.content, optionParse)}
+                    {
+                      item.attributes.content.map((component: any, index: number) => {
+                        if(component.__component === "content.paragraph"){
+                          return (
+                            <div key={index}>
+                              {parse(component.content, optionParse)}
+                            </div>
+                          )
+                        }else if(component.__component === "content.intro-team"){
+                          return(
+                            <div key={index}>
+                              {parse(component.content, optionParse)}
+                            </div>
+                          )
+                        }else if(component.__component === "content.pre-formatted-paragraph"){
+                          return(
+                            <div key={index}>
+                              <pre className={styles.preformatted}>
+                                {parse(component.content, optionParse)}
+                              </pre>
+                            </div>
+                          )
+                        }
+                      })
+                    }
                   </div>
                   <div>
                     {item.attributes.showCommunicationLink && <CommunicationLinks />}
@@ -68,7 +90,7 @@ export default function DetailPage(props: any) {
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>
-                  <PostSidebar recentPostList={props.newsList} />
+                  <PostSidebar recentPostList={props.latestList} />
                 </Grid>
               </Grid>
             </div>
@@ -80,8 +102,8 @@ export default function DetailPage(props: any) {
 }
 
 export async function getStaticPaths() {
-  const newsList = await getAllNews()
-  const paths = newsList.map((_: any) => {
+  const eventList = await getAllEvents()
+  const paths = eventList.map((_: any) => {
     return ({
       params: {
         slug: _.attributes.slug
@@ -90,21 +112,22 @@ export async function getStaticPaths() {
   })
   return {
     paths: paths,
-    fallback: true
+    fallback: true,
   }
 }
 
 export async function getStaticProps({ params }: any) {
   const response = await getHomePage()
-  const newsItem = await getOneNewsBySlug(params.slug) 
-  console.log("Props: ", newsItem)
-
+  const eventItem = await getOneEventBySlug(params.slug) 
   const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
+  const latestList = await getLatestPost()
   return {
     props: {
       layout: response.data.attributes,
-      newsItem: newsItem.data[0],
-      commentBox: commentBox.data
-    }
+      newsItem: eventItem.data[0],
+      commentBox: commentBox.data,
+      latestList: latestList.data
+    },
+    revalidate: 20
   }
 }

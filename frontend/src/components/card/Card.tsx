@@ -1,23 +1,15 @@
-import parse, { domToReact } from 'html-react-parser'
+import parse from 'html-react-parser'
 import React from 'react'
 import styles from './card.module.css'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 export default function Card(props: any){
-  const router = useRouter()
-
   const item = props.item
-  const onClick = () => {
-    // router.push(`/news/${item.attributes.slug}`)
-    window.location.href = `http://localhost:3000/news/${item.attributes.slug}`
-  }
   const sub_title = parse(item.attributes.post_subtitle)
   return (
     <div>
       <div 
         className={`${styles.item} ${styles.card}`}
-        onClick={onClick}
+        onClick={props.onClick}
       >
         <div className={styles.content}>
           <img 

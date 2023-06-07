@@ -6,7 +6,6 @@ import { Grid } from '@mui/material'
 
 export default function CommentBox(props: any){
   const data = props.data.attributes
-  console.log("Data: ",data)
   return (
     <div className={styles.container}>
       <div className={styles.title}>
