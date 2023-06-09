@@ -10,6 +10,7 @@ import CommunicationLinks from "@/components/communicationLinks/CommunicationLin
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
 import { getAllNews, getHomePage, getLatestPost, getOneNewsBySlug } from "@/clientApi";
+import { useRouter } from "next/router";
 
 export default function DetailPage(props: any) {
   const item = props.newsItem
@@ -26,7 +27,14 @@ export default function DetailPage(props: any) {
         )
       }
     }
-  };
+  }
+
+  const router = useRouter()
+  if(router.isFallback){
+    return (
+      <div>Loading information...</div>
+    )
+  }
   return (
     <Suspense fallback={<p>Loading information...</p>}>
       <div>

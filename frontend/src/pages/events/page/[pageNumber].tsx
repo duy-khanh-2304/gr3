@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './eventList.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
@@ -8,8 +8,21 @@ import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
 import parse from 'html-react-parser'
 import {getHomePage, getLatestPost, getPaginatedEvents, getPaginatedSortedEvents } from '@/clientApi'
+import { useRouter } from 'next/router'
 
 export default function PageNews(props: any) {
+  const router = useRouter()
+  useEffect(() => {
+    if(Number(router.query.pageNumber) === 1){
+      router.push("/events")
+    }
+  }, [])
+
+  if(router.isFallback){
+    return (
+      <div>Loading information...</div>
+    )
+  }
   const eventList = props.eventList.data
   const numberPage = props.eventList.meta.pagination.pageCount
   const layout = props.layout.data.attributes
@@ -83,14 +96,7 @@ export async function getStaticProps({params}:any) {
   const homePage = await getHomePage() 
 
   const eventList = await getPaginatedSortedEvents(pageNumber)
-  if(pageNumber === 1){
-    return {
-      redirect: {
-        destination: '/events',
-        permanent: false
-      },
-    };
-  }
+  console.log("Event list: ", eventList)
   const latestList = await getLatestPost()
   return {
     props: {

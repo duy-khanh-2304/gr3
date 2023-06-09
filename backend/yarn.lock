@@ -1149,7 +1149,7 @@
   dependencies:
     "ckeditor5" "^36.0.1"
 
-"@ckeditor/ckeditor5-core@^36.0.1":
+"@ckeditor/ckeditor5-core@^36.0.1", "@ckeditor/ckeditor5-core@>=23.0.0":
   "integrity" "sha512-50O+DYXtaf4dMOn+3mGUvfYiE2qsCgVn114WQj7Tj3pZl5w+pAIv/2P+9cBB2Kb7QxgPZqZ7bvsi9wHqIJ6KCw=="
   "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-core/-/ckeditor5-core-36.0.1.tgz"
   "version" "36.0.1"
@@ -1173,7 +1173,7 @@
     "ckeditor5" "^36.0.1"
     "lodash-es" "^4.17.15"
 
-"@ckeditor/ckeditor5-engine@^36.0.1":
+"@ckeditor/ckeditor5-engine@^36.0.1", "@ckeditor/ckeditor5-engine@>=23.0.0":
   "integrity" "sha512-Ze2omTguUggwiL9vvLvPk+QpjEBbIOPS1Hi/ROYlsW8QSdnPbSTv+6rCIYThqJMFeonxLZWV5XwbcqpgSAs0MA=="
   "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-engine/-/ckeditor5-engine-36.0.1.tgz"
   "version" "36.0.1"
@@ -1408,7 +1408,7 @@
     "@ckeditor/ckeditor5-utils" "^36.0.1"
     "lodash-es" "^4.17.15"
 
-"@ckeditor/ckeditor5-ui@^36.0.1":
+"@ckeditor/ckeditor5-ui@^36.0.1", "@ckeditor/ckeditor5-ui@>=23.0.0":
   "integrity" "sha512-wPqAdXUZnEAD3XPvS5vEGU2kxzTQah3wne3B1esdlbJ7dSLZDdx8r1dyKyp3/WCpCT8G+PqGvSUrlnqcy7WI5A=="
   "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-ui/-/ckeditor5-ui-36.0.1.tgz"
   "version" "36.0.1"
@@ -1442,7 +1442,7 @@
   dependencies:
     "lodash-es" "^4.17.15"
 
-"@ckeditor/ckeditor5-widget@^36.0.1":
+"@ckeditor/ckeditor5-widget@^36.0.1", "@ckeditor/ckeditor5-widget@>=23.0.0":
   "integrity" "sha512-on92cCRYLWTfwrpnFi5z4FY7NDhY+X+p6yuYStnB9d9jM3FJi3/7y2q9ojr8fSMot4pQsXCiFXzaF6yez+77wA=="
   "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-widget/-/ckeditor5-widget-36.0.1.tgz"
   "version" "36.0.1"
@@ -3815,6 +3815,26 @@
   "resolved" "https://registry.npmjs.org/@webpack-cli/serve/-/serve-2.0.4.tgz"
   "version" "2.0.4"
 
+"@wiris/mathtype-ckeditor5@^8.3.1":
+  "integrity" "sha512-1dfE/yj8PK2VpCIAPDRFYdOmc+/B8GJWieEcMYM/iWAfQdo00+GG/b7d3dNI5knpnA1k+w9H3C6u9JrdjrQP8A=="
+  "resolved" "https://registry.npmjs.org/@wiris/mathtype-ckeditor5/-/mathtype-ckeditor5-8.3.1.tgz"
+  "version" "8.3.1"
+  dependencies:
+    "@ckeditor/ckeditor5-core" ">=23.0.0"
+    "@ckeditor/ckeditor5-engine" ">=23.0.0"
+    "@ckeditor/ckeditor5-ui" ">=23.0.0"
+    "@ckeditor/ckeditor5-widget" ">=23.0.0"
+    "@wiris/mathtype-html-integration-devkit" "1.12.1"
+
+"@wiris/mathtype-html-integration-devkit@1.12.1":
+  "integrity" "sha512-2GhY8i1bZWeTXSwwX71/f3VnucmLmB80woA0NAj4Pm1RNW9h8v5Or8TValu65IcU5oNHKKjSMRrP9QlmBVjE9g=="
+  "resolved" "https://registry.npmjs.org/@wiris/mathtype-html-integration-devkit/-/mathtype-html-integration-devkit-1.12.1.tgz"
+  "version" "1.12.1"
+  dependencies:
+    "dompurify" "^2.3.9"
+    "raw-loader" "^4.0.2"
+    "uuid" "^8.3.2"
+
 "@xtuc/ieee754@^1.2.0":
   "integrity" "sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA=="
   "resolved" "https://registry.npmjs.org/@xtuc/ieee754/-/ieee754-1.2.0.tgz"
@@ -5552,6 +5572,11 @@
   "version" "5.0.3"
   dependencies:
     "domelementtype" "^2.3.0"
+
+"dompurify@^2.3.9":
+  "integrity" "sha512-jggCCd+8Iqp4Tsz0nIvpcb22InKEBrGz5dw3EQJMs8HPJDsKbFIO3STYtAvCfDx26Muevn1MHVI0XxjgFfmiSA=="
+  "resolved" "https://registry.npmjs.org/dompurify/-/dompurify-2.4.5.tgz"
+  "version" "2.4.5"
 
 "domutils@^2.5.2", "domutils@^2.8.0":
   "integrity" "sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A=="
@@ -9641,6 +9666,14 @@
     "http-errors" "2.0.0"
     "iconv-lite" "0.4.24"
     "unpipe" "1.0.0"
+
+"raw-loader@^4.0.2":
+  "integrity" "sha512-ZnScIV3ag9A4wPX/ZayxL/jZH+euYb6FcUinPcgiQW0+UBtEv0O6Q3lGd3cqJ+GHH+rksEv3Pj99oxJ3u3VIKA=="
+  "resolved" "https://registry.npmjs.org/raw-loader/-/raw-loader-4.0.2.tgz"
+  "version" "4.0.2"
+  dependencies:
+    "loader-utils" "^2.0.0"
+    "schema-utils" "^3.0.0"
 
 "rc@^1.2.7", "rc@^1.2.8", "rc@1.2.8":
   "integrity" "sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw=="

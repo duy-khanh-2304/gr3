@@ -3615,6 +3615,11 @@
     "has-symbols" "^1.0.3"
     "which-boxed-primitive" "^1.0.2"
 
+"unorm@^1.6.0":
+  "integrity" "sha512-b2/KCUlYZUeA7JFUuRJZPUtr4gZvBh7tavtv4fvk4+KV9pfGiR6CQAQAWl49ZpR3ts2dk4FYkP7EIgDJoiOLDA=="
+  "resolved" "https://registry.npmjs.org/unorm/-/unorm-1.6.0.tgz"
+  "version" "1.6.0"
+
 "untildify@^4.0.0":
   "integrity" "sha512-KK8xQ1mkzZeg9inewmFVDNkg3l5LUhoq9kN6iWYB/CC9YMG8HA+c1Q8HwDe6dEX7kErrEVNVBO3fWsVq5iDgtw=="
   "resolved" "https://registry.npmjs.org/untildify/-/untildify-4.0.0.tgz"

@@ -1,0 +1,17 @@
+.main{
+  background-color: #ffffff;
+}
+
+.container{
+  max-width: 1170px;
+  margin: auto;
+  padding: 30px 0;
+  display: flex;
+  align-items: center;
+}
+
+.pagination{
+  margin: 30px auto;
+  display: flex;
+  justify-content: center;
+}

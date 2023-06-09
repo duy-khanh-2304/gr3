@@ -103,3 +103,34 @@ export async function getLatestPost(postNumber: number = 5){
   const response = (await axiosInstance.get(`/api/news-and-events?sort[0]=publishAt:desc&populate=deep&pagination[page]=1&pagination[pageSize]=${postNumber}`)).data
   return response
 }
+
+export async function getAllAiTechBlogs(){
+  let currentPage = 1
+  let response
+  let allSeminars = []
+  response = (await axiosInstance.get("/api/ai-tech-blogs?populate=deep")).data
+  allSeminars.push(...response.data)
+
+  while(currentPage < response.meta.pagination.pageCount){
+    currentPage  = currentPage + 1
+    response = (await axiosInstance.get(`/api/ai-tech-blogs?populate=deep&pagination[page]=${currentPage}`)).data
+    allSeminars.push(...response.data)
+  }
+  return allSeminars
+}
+
+export async function getPaginatedAiTechBlogs(page: number = 1){
+  const response = (await axiosInstance.get(`/api/ai-tech-blogs?populate=deep&pagination[page]=${page}`)).data
+  return response
+}
+
+export async function getPaginatedSortedAiTechBlogs(page: number = 1){
+  const response = (await axiosInstance.get(`/api/ai-tech-blogs?populate=deep&sort[0]=publishAt:desc&pagination[page]=${page}`)).data
+  const sortedEventsList = sortByPublishedDate(response)
+  return sortedEventsList
+}
+
+export async function getOneAiTechBlogBySlug(slug: string){
+  const response = (await axiosInstance.get(`/api/ai-tech-blogs?filters[slug][$eq]=${slug}&populate=deep`)).data
+  return response
+}

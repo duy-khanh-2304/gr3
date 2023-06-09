@@ -1,13 +1,13 @@
 {
   "collectionName": "components_content_paragraph_with_titles",
   "info": {
-    "displayName": "ParagraphWithTitle"
+    "displayName": "ParagraphWithTitle",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "title": {
-      "type": "richtext",
-      "required": true
+      "type": "string"
     },
     "content": {
       "type": "customField",
@@ -15,8 +15,13 @@
         "output": "HTML",
         "preset": "rich"
       },
-      "required": true,
       "customField": "plugin::ckeditor.CKEditor"
+    },
+    "sub_section": {
+      "displayName": "Sub Section",
+      "type": "component",
+      "repeatable": true,
+      "component": "content.sub-section"
     }
   }
 }

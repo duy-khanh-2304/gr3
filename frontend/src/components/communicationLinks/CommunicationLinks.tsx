@@ -7,34 +7,35 @@ import {AiOutlineTwitter} from '@react-icons/all-files/ai/AiOutlineTwitter'
 import {BsEnvelope} from '@react-icons/all-files/bs/BsEnvelope'
 import {FaPinterest} from '@react-icons/all-files/fa/FaPinterest'
 import {FaLinkedin} from '@react-icons/all-files/fa/FaLinkedin'
+import Link from "next/link";
 
 export default function CommunicationLinks (props: any){
   return(
     <div className={styles.container}>
       <Tooltip placement="top" title="Share on Facebook">
-        <a href="/" className={styles.item}>
+        <Link href="/" className={styles.item}>
           <TiSocialFacebook/>
-        </a>
+        </Link>
       </Tooltip>
       <Tooltip placement="top" title="Share on Facebook">
-        <a href="/" className={styles.item}>
+        <Link href="/" className={styles.item}>
           <AiOutlineTwitter/>
-        </a>
+        </Link>
       </Tooltip>
       <Tooltip placement="top" title="Share on Facebook">
-        <a href="/" className={styles.item}>
+        <Link href="/" className={styles.item}>
           <BsEnvelope />
-        </a>
+        </Link>
       </Tooltip>
       <Tooltip placement="top" title="Share on Facebook">
-        <a href="/" className={styles.item}>
+        <Link href="/" className={styles.item}>
           <FaPinterest/>
-        </a>
+        </Link>
       </Tooltip>
       <Tooltip placement="top" title="Share on Facebook">
-        <a href="/" className={styles.item}>
+        <Link href="/" className={styles.item}>
           <FaLinkedin/>
-        </a>
+        </Link>
       </Tooltip>
     </div>
   )

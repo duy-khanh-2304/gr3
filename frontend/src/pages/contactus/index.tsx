@@ -132,7 +132,7 @@ function Map(props: any){
   }
   return (
     <div>
-      <GoogleMap
+      {/* <GoogleMap
         options={mapOptions}
         zoom={15}
         center={mapCenter}
@@ -141,7 +141,7 @@ function Map(props: any){
         onLoad={() => console.log('Map Component Loaded...')}
       >
         <MarkerF position={mapCenter} onLoad={() => console.log('Marker Loaded')} />
-      </GoogleMap>
+      </GoogleMap> */}
     </div>
   )
 }

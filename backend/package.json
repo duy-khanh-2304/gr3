@@ -22,6 +22,7 @@
     "@strapi/plugin-users-permissions": "4.10.6",
     "@strapi/provider-upload-cloudinary": "^4.10.6",
     "@strapi/strapi": "4.10.6",
+    "@wiris/mathtype-ckeditor5": "^8.3.1",
     "knex": "^2.4.2",
     "pg": "8.8.0",
     "strapi-location-field-plugin": "^1.2.0",

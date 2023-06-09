@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './newsList.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
@@ -12,6 +12,17 @@ import { useRouter } from 'next/router'
 import { redirect } from 'next/navigation'
 
 export default function PageNews(props: any) {
+  const router = useRouter()
+  useEffect(() => {
+    if(Number(router.query.pageNumber) === 1){
+      router.push("/news")
+    }
+  }, [])
+  if(router.isFallback){
+    return (
+      <div>Loading information...</div>
+    )
+  }
   const newsList = props.newsList.data
   const numberPage = props.newsList.meta.pagination.pageCount
   const layout = props.layout.data.attributes
@@ -23,6 +34,7 @@ export default function PageNews(props: any) {
   const handleClick = (item: any) => {
     window.location.href = `http://localhost:3000/news/${item.attributes.slug}`
   }
+
   return (
     <div>
       <Head>
@@ -85,14 +97,6 @@ export async function getStaticProps({params}:any) {
   const homePage = await getHomePage() 
 
   const newsList = await getPaginatedSortedNews(pageNumber)
-  if(pageNumber === 1){
-    return {
-      redirect: {
-        destination: '/news',
-        permanent: false
-      },
-    };
-  }
   const latestList = await getLatestPost()
   return {
     props: {

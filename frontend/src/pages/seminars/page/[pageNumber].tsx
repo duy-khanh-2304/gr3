@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './seminarList.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
@@ -12,6 +12,17 @@ import { useRouter } from 'next/router'
 import { redirect } from 'next/navigation'
 
 export default function PageSeminar(props: any) {
+  const router = useRouter()
+  useEffect(() => {
+    if(Number(router.query.pageNumber) === 1){
+      router.push("/seminars")
+    }
+  }, [])
+  if(router.isFallback){
+    return (
+      <div>Loading information...</div>
+    )
+  }
   const seminarList = props.seminarList.data
   const numberPage = props.seminarList.meta.pagination.pageCount
   const layout = props.layout.data.attributes
@@ -23,6 +34,7 @@ export default function PageSeminar(props: any) {
   const handleClick = (item: any) => {
     window.location.href = `http://localhost:3000/seminars/${item.attributes.slug}`
   }
+
   return (
     <div>
       <Head>
@@ -85,14 +97,6 @@ export async function getStaticProps({params}:any) {
   const homePage = await getHomePage() 
 
   const seminarList = await getPaginatedSortedSeminars(pageNumber)
-  if(pageNumber === 1){
-    return {
-      redirect: {
-        destination: '/seminars',
-        permanent: false
-      },
-    };
-  }
   const latestList = await getLatestPost()
   return {
     props: {

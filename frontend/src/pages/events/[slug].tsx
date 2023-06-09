@@ -13,7 +13,7 @@ import Link from 'next/link'
 import { getAllEvents, getAllNews, getHomePage, getLatestPost, getOneEventBySlug, getOneNewsBySlug } from "@/clientApi";
 
 export default function DetailPage(props: any) {
-  const item = props.newsItem
+  const item = props.eventItem
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -27,7 +27,15 @@ export default function DetailPage(props: any) {
         )
       }
     }
-  };
+  }
+
+  const router = useRouter()
+  if(router.isFallback){
+    return (
+      <div>Loading information...</div>
+    )
+  }
+
   return (
     <Suspense fallback={<p>Loading information...</p>}>
       <div>
@@ -124,7 +132,7 @@ export async function getStaticProps({ params }: any) {
   return {
     props: {
       layout: response.data.attributes,
-      newsItem: eventItem.data[0],
+      eventItem: eventItem.data[0],
       commentBox: commentBox.data,
       latestList: latestList.data
     },
