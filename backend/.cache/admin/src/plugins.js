@@ -3,8 +3,8 @@ import contentTypeBuilder from '../../../node_modules/@strapi/plugin-content-typ
 import email from '../../../node_modules/@strapi/plugin-email/strapi-admin.js';
 import upload from '../../../node_modules/@strapi/plugin-upload/strapi-admin.js';
 import locationField from '../../../node_modules/strapi-location-field-plugin/strapi-admin.js';
+import ckeditor from '../../../src/plugins/strapi-plugin-ckeditor/strapi-admin.js';
 import ckeditor5 from '../../../node_modules/@_sh/strapi-plugin-ckeditor/strapi-admin.js';
-import ckeditor from '../../../node_modules/@ckeditor/strapi-plugin-ckeditor/strapi-admin.js';
 import colorPicker from '../../../node_modules/@strapi/plugin-color-picker/strapi-admin.js';
 import i18N from '../../../node_modules/@strapi/plugin-i18n/strapi-admin.js';
 import usersPermissions from '../../../node_modules/@strapi/plugin-users-permissions/strapi-admin.js';
@@ -17,8 +17,8 @@ const plugins = {
   'email': email,
   'upload': upload,
   'location-field': locationField,
-  'ckeditor5': ckeditor5,
   'ckeditor': ckeditor,
+  'ckeditor5': ckeditor5,
   'color-picker': colorPicker,
   'i18n': i18N,
   'users-permissions': usersPermissions,
