@@ -93,7 +93,7 @@ export default function DetailPage(props: any) {
                     {item.attributes.showCommunicationLink && <CommunicationLinks />}
                   </div>
                   <div>
-                    {!item.attributes.showCommentBox && <CommentBox data={props.commentBox} />}
+                    {item.attributes.showCommentBox && <CommentBox data={props.commentBox} />}
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>

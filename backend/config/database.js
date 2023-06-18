@@ -68,16 +68,18 @@ module.exports = ({ env }) => {
         },
         schema: env('DATABASE_SCHEMA', 'public'),
       },
+      debug: false,
       acquireConnectionTimeout: 1000000,
       pool: {
         min: 2,
-        max: 30,
+        max: 100,
         acquireTimeoutMillis: 300000,
         createTimeoutMillis: 300000,
-        destroyTimeoutMillis: 300000,
-        idleTimeoutMillis: 30000,
-        reapIntervalMillis:1000,
-        createRetryIntervalMillis: 2000
+        destroyTimeoutMillis: 50000,
+        idleTimeoutMillis: 300000,
+        reapIntervalMillis: 10000,
+        createRetryIntervalMillis: 2000,
+        propagateCreateError: false,
       },
     },
     sqlite: {
@@ -96,7 +98,7 @@ module.exports = ({ env }) => {
     connection: {
       client,
       ...connections[client],
-      acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
+      acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 600000),
     },
   };
 };

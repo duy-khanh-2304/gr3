@@ -58,7 +58,34 @@ const HomePage = () => {
   }
 
   return (
-    <div>Duy Khanh</div>
+    <Layout>
+      <FormattedMessage id="HomePage.helmet.title" defaultMessage="Homepage">
+        {(title) => <Helmet title={title[0]} />}
+      </FormattedMessage>
+      <Main>
+        <LogoContainer>
+          <img alt="" aria-hidden src={cornerOrnamentPath} />
+        </LogoContainer>
+        <Box padding={10}>
+          <Grid>
+            <GridItem col={8} s={12}>
+              <HomeHeader
+                onCreateCT={handleClick}
+                hasCreatedContentType={hasAlreadyCreatedContentTypes}
+              />
+            </GridItem>
+          </Grid>
+          <Grid gap={6}>
+            <GridItem col={8} s={12}>
+              {showGuidedTour ? <GuidedTourHomepage /> : <ContentBlocks />}
+            </GridItem>
+            <GridItem col={4} s={12}>
+              <SocialLinks />
+            </GridItem>
+          </Grid>
+        </Box>
+      </Main>
+    </Layout>
   );
 };
 

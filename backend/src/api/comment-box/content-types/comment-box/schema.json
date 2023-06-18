@@ -4,10 +4,11 @@
   "info": {
     "singularName": "comment-box",
     "pluralName": "comment-boxes",
-    "displayName": "Comment Box"
+    "displayName": "Comment Box",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
