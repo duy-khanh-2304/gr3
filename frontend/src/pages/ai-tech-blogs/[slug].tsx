@@ -1,7 +1,7 @@
 import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import PostSidebar from "@/components/postSidebar/PostSidebar";
@@ -15,8 +15,8 @@ import { useRouter } from "next/router";
 export default function DetailPage(props: any) {
   const item = props.aiTechBlog
   const sections = item.attributes.content
-    .filter((component: any, index: number) => component.__component === "content.paragraph-with-title")
-    .map((component: any, index: number) => {
+    .filter((component: any) => component.__component === "content.paragraph-with-title")
+    .map((component: any) => {
       if(component.sub_section){
         return {
           title: component.title,

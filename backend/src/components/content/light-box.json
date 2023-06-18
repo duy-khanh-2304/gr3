@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_content_light_boxes",
+  "info": {
+    "displayName": "LightBox",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "images": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "required": true
+    }
+  }
+}

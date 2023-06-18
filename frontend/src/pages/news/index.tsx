@@ -2,7 +2,7 @@ import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
-import styles from './newsList.module.css'
+import styles from './index.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
@@ -17,12 +17,12 @@ export default function News(props: any) {
   const layout = props.layout.data.attributes
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/news/page/${value}`
+    router.push(`/news/page/${value}`)
   }
 
   const router = useRouter()
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/news/${item.attributes.slug}`
+    router.push(`/news/${item.attributes.slug}`)
   }
   return (
     <div>
@@ -66,7 +66,6 @@ export async function getStaticProps() {
   const homePage = await getHomePage() 
   const newsList = await getPaginatedSortedNews()
   const latestList = await getLatestPost()
-  console.log("Latest list: ", latestList)
   return {
     props: {
       layout: homePage,

@@ -1,7 +1,7 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React, { useEffect } from 'react'
-import styles from './newsList.module.css'
+import styles from './page.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
@@ -11,13 +11,9 @@ import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost } 
 import { useRouter } from 'next/router'
 import { redirect } from 'next/navigation'
 
-export default function PageNews(props: any) {
+export default function NewsPage(props: any) {
   const router = useRouter()
-  useEffect(() => {
-    if(Number(router.query.pageNumber) === 1){
-      router.push("/news")
-    }
-  }, [])
+
   if(router.isFallback){
     return (
       <div>Loading information...</div>
@@ -28,17 +24,21 @@ export default function PageNews(props: any) {
   const layout = props.layout.data.attributes
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/news/page/${value}`
+    if(value === 1){
+      router.replace(`/news`)
+    }else{
+      router.push(`/news/page/${value}`)
+    }
   }
 
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/news/${item.attributes.slug}`
+    router.push(`/news/${item.attributes.slug}`)
   }
-
+  const headTitle = `News Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (
     <div>
       <Head>
-        <title>News Archives - BKAI - The International Research Center for Artificial Intelligence</title>
+        <title>{headTitle}</title>
       </Head>
       <Layout data={layout}>
         <div className={styles.main}>

@@ -15,10 +15,17 @@ const _defaultGetTextGenerator = (param: any, query: any) => {
   return null
 };
 const _defaultGetDefaultTextGenerator = (path: string) => {
-  if(path === 'contactus'){
-    return 'Contact Us'
-  }else{
-    return path.replace(/\b\w/g, letter => letter.toUpperCase())
+  switch(path){
+    case 'contactus':
+      return 'Contact Us'
+    case 'researches':
+      return 'AI Researches'
+    case 'solutions':
+      return 'AI Solutions'
+    default: 
+      const clearText = path.split("-").filter(_ => _.length > 0).join(" ")
+      const capitalText = clearText.replace(/\b\w/g, letter => letter.toUpperCase())
+      return capitalText
   }
 };
 

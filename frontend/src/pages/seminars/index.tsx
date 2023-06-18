@@ -2,7 +2,7 @@ import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
-import styles from './seminarList.module.css'
+import styles from './index.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
@@ -15,14 +15,14 @@ export default function Seminars(props: any) {
   const seminarList = props.seminarList.data
   const numberPage = props.seminarList.meta.pagination.pageCount
   const layout = props.layout.data.attributes
+  const router = useRouter()
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/seminars/page/${value}`
+    router.push(`/seminars/page/${value}`)
   }
 
-  const router = useRouter()
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/seminars/${item.attributes.slug}`
+    router.push(`/seminars/${item.attributes.slug}`)
   }
   return (
     <div>

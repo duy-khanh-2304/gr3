@@ -1,0 +1,42 @@
+.latest_projects{
+  display: flex;
+  flex-direction: column;
+}
+
+.latest_projects_title{
+  font-size: 16px;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+}
+
+.small_divider{
+  margin-top: 10px;
+  margin-bottom: 16px;
+  width: 200px;
+  border-bottom: 3px solid #dfdbdb;
+}
+
+.latest_projects_list{
+  display: flex;
+  flex-direction: column;
+}
+
+.latest_projects_item{
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  height: 60px;
+}
+
+.latest_projects_item:hover{
+  cursor: pointer;
+  transform: translate3d(0px, -6px, 0px);
+  transition: color .3s,opacity .3s,transform .4s;
+  box-shadow: 0 0 15px #818181;
+}
+
+.right_content{
+  padding: 4px;
+  height: 60px;
+  overflow: hidden;
+}

@@ -29,6 +29,7 @@
     "axios": "^1.4.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
+    "fslightbox-react": "^1.7.4",
     "html-react-parser": "^3.0.16",
     "lodash": "^4.17.21",
     "next": "13.4.2",

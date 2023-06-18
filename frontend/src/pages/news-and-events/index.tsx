@@ -2,7 +2,7 @@ import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
-import styles from './news-and-events.module.css'
+import styles from './index.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
@@ -14,14 +14,10 @@ import { useRouter } from 'next/router'
 export default function NewsAndEvents(props: any) {
   const postList = props.postList.data
   const layout = props.layout.data.attributes
-
-  const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/seminars/page/${value}`
-  }
-
   const router = useRouter()
+
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/${item.attributes.tag}/${item.attributes.slug}`
+    router.push(`/${item.attributes.tag[0]}/${item.attributes.slug}`)
   }
   return (
     <div>

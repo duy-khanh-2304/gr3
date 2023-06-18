@@ -130,6 +130,18 @@ figcaption{
   margin-left: auto;
 }
 
+.image-style-align-right{
+  float: right;
+  margin-left: 1rem 0 1rem 1rem;
+  clear: both;
+}
+
+.image-style-align-left{
+  float: left;
+  margin: 1rem 1rem 1rem 0;
+  clear: both;
+}
+
 .image-style-side{
   float: right;
   margin:0 60px 0 40px;

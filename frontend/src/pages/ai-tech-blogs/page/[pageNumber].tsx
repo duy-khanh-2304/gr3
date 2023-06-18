@@ -1,44 +1,44 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React, { useEffect } from 'react'
-import styles from './newsList.module.css'
+import styles from './page.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
-import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
-import parse from 'html-react-parser'
-import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getPaginatedAiTechBlogs, getPaginatedSortedAiTechBlogs } from '@/clientApi'
+import { getHomePage, getLatestPost, getPaginatedAiTechBlogs, getPaginatedSortedAiTechBlogs } from '@/clientApi'
 import { useRouter } from 'next/router'
 import { redirect } from 'next/navigation'
 
-export default function PageAiTechBlogs(props: any) {
+export default function AiTechBlogsPage(props: any) {
+  const aiTechBlogs = props.aiTechBlogs.data
+  const numberPage = props.aiTechBlogs.meta.pagination.pageCount
+  const layout = props.layout.data.attributes
+
   const router = useRouter()
-  useEffect(() => {
-    if(Number(router.query.pageNumber) === 1){
-      router.push("/ai-tech-blogs")
+
+
+  const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+    if(value === 1){
+      router.replace(`/ai-tech-blogs`)
+    }else{
+      router.push(`/ai-tech-blogs/page/${value}`)
     }
-  }, [])
+  }
+
+  const handleClick = (item: any) => {
+    router.push(`/ai-tech-blogs/${item.attributes.slug}`)
+  }
+
   if(router.isFallback){
     return (
       <div>Loading information...</div>
     )
   }
-  const aiTechBlogs = props.aiTechBlogs.data
-  const numberPage = props.aiTechBlogs.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
-
-  const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/ai-tech-blogs/page/${value}`
-  }
-
-  const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/ai-tech-blogs/${item.attributes.slug}`
-  }
-
+  const headTitle = `AI Tech Blogs Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (
     <div>
       <Head>
-        <title>AI Tech Blogs Archives - BKAI - The International Research Center for Artificial Intelligence</title>
+        <title>{headTitle}</title>
       </Head>
       <Layout data={layout}>
         <div className={styles.main}>
@@ -97,6 +97,7 @@ export async function getStaticProps({params}:any) {
   const homePage = await getHomePage() 
 
   const aiTechBlogs = await getPaginatedSortedAiTechBlogs(pageNumber)
+
   const latestList = await getLatestPost()
   return {
     props: {

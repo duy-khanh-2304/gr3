@@ -4,7 +4,7 @@ import styles from './card.module.css'
 
 export default function Card(props: any){
   const item = props.item
-  const sub_title = parse(item.attributes.post_subtitle)
+  const sub_title = item.attributes.post_subtitle ? parse(item.attributes.post_subtitle) : '...'
   return (
     <div>
       <div 
@@ -25,10 +25,14 @@ export default function Card(props: any){
               <div className={styles.sub_title} style={{fontFamily: 'Nunito, sans-serif !important'}}>{sub_title}</div>
             </div>
           </div>
-          <div className={styles.post_time}>
-            <div className={styles.date_day}>{(new Date(item.attributes.publishAt)).getDate()}</div>
-            <div className={styles.date_month}>{(new Date(item.attributes.publishAt)).toLocaleString('default', { month: 'short' })}</div>
-          </div>
+          {
+            item.attributes.publishAt && (
+              <div className={styles.post_time}>
+                <div className={styles.date_day}>{(new Date(item.attributes.publishAt)).getDate()}</div>
+                <div className={styles.date_month}>{(new Date(item.attributes.publishAt)).toLocaleString('default', { month: 'short' })}</div>
+              </div>
+            )
+          }
         </div>
       </div>
     </div>

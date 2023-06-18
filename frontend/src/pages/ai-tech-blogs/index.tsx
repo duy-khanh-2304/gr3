@@ -1,14 +1,11 @@
-import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
-import styles from './ai-tech-blogs.module.css'
+import styles from './index.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
-import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
-import parse from 'html-react-parser'
-import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getPaginatedAiTechBlogs } from '@/clientApi'
+import { getHomePage, getLatestPost, getPaginatedSortedAiTechBlogs } from '@/clientApi'
 import { useRouter } from 'next/router'
 
 export default function AiTechBlog(props: any) {
@@ -16,13 +13,14 @@ export default function AiTechBlog(props: any) {
   const numberPage = props.aiTechBlogs.meta.pagination.pageCount
   const layout = props.layout.data.attributes
 
+  const router = useRouter()
+
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/ai-tech-blogs/page/${value}`
+    router.push(`/ai-tech-blogs/page/${value}`)
   }
 
-  const router = useRouter()
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/ai-tech-blogs/${item.attributes.slug}`
+    router.push(`/ai-tech-blogs/${item.attributes.slug}`)
   }
   return (
     <div>
@@ -64,7 +62,7 @@ export default function AiTechBlog(props: any) {
 
 export async function getStaticProps() {
   const homePage = await getHomePage() 
-  const aiTechBlogs = await getPaginatedAiTechBlogs()
+  const aiTechBlogs = await getPaginatedSortedAiTechBlogs()
   const latestList = await getLatestPost()
   return {
     props: {

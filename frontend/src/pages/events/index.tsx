@@ -1,12 +1,11 @@
-import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
-import styles from './eventList.module.css'
+import styles from './index.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
-import { getHomePage, getLatestPost, getPaginatedEvents, getPaginatedSortedEvents } from '@/clientApi'
+import { getHomePage, getLatestPost, getPaginatedSortedEvents } from '@/clientApi'
 import { useRouter } from 'next/router'
 
 export default function Events(props: any) {
@@ -14,13 +13,14 @@ export default function Events(props: any) {
   const numberPage = props.eventList.meta.pagination.pageCount
   const layout = props.layout.data.attributes
 
+  const router = useRouter()
+
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/events/page/${value}`
+    router.push(`/events/page/${value}`)
   }
 
-  const router = useRouter()
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/events/${item.attributes.slug}`
+    router.push(`/events/${item.attributes.slug}`)
   }
   return (
     <div>

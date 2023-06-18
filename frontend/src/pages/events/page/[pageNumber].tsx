@@ -1,7 +1,7 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React, { useEffect } from 'react'
-import styles from './eventList.module.css'
+import styles from './page.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
@@ -10,13 +10,8 @@ import parse from 'html-react-parser'
 import {getHomePage, getLatestPost, getPaginatedEvents, getPaginatedSortedEvents } from '@/clientApi'
 import { useRouter } from 'next/router'
 
-export default function PageNews(props: any) {
+export default function EventsPage(props: any) {
   const router = useRouter()
-  useEffect(() => {
-    if(Number(router.query.pageNumber) === 1){
-      router.push("/events")
-    }
-  }, [])
 
   if(router.isFallback){
     return (
@@ -28,16 +23,22 @@ export default function PageNews(props: any) {
   const layout = props.layout.data.attributes
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/events/page/${value}`
+    if(value === 1){
+      router.replace(`/events`)
+    }else{
+      router.push(`/events/page/${value}`)
+    }
   }
 
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/events/${item.attributes.slug}`
+    router.push(`/events/${item.attributes.slug}`)
   }
+
+  const headTitle = `Events Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (
     <div>
       <Head>
-        <title>Events Archives - BKAI - The International Research Center for Artificial Intelligence</title>
+        <title>{headTitle}</title>
       </Head>
       <Layout data={layout}>
         <div className={styles.main}>
@@ -94,9 +95,7 @@ export async function getStaticProps({params}:any) {
   const pageNumber = Number(params.pageNumber)
 
   const homePage = await getHomePage() 
-
   const eventList = await getPaginatedSortedEvents(pageNumber)
-  console.log("Event list: ", eventList)
   const latestList = await getLatestPost()
   return {
     props: {

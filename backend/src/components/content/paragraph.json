@@ -1,17 +1,18 @@
 {
   "collectionName": "components_content_paragraphs",
   "info": {
-    "displayName": "Paragraph"
+    "displayName": "Paragraph",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "content": {
       "type": "customField",
       "options": {
-        "output": "HTML",
-        "preset": "rich"
+        "preset": "toolbar"
       },
-      "customField": "plugin::ckeditor.CKEditor"
+      "required": true,
+      "customField": "plugin::ckeditor5.CKEditor"
     }
   }
 }

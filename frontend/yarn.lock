@@ -1846,6 +1846,11 @@
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
+"fslightbox-react@^1.7.4":
+  "integrity" "sha512-dmHoxfdvf2TP78jv7qPLvd/cbQOIl2P8CBapLYpcoIigDV0bAcNkx3Tav6Isjruv2bXwWoXZY1C9+A5xTd3ZFQ=="
+  "resolved" "https://registry.npmjs.org/fslightbox-react/-/fslightbox-react-1.7.4.tgz"
+  "version" "1.7.4"
+
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
   "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
@@ -2751,7 +2756,7 @@
   "resolved" "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz"
   "version" "1.2.1"
 
-"prop-types@^15.6.2", "prop-types@^15.8.1":
+"prop-types@^15.6.2", "prop-types@^15.8.1", "prop-types@>=15.6.2":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -3148,7 +3153,7 @@
     "rc-resize-observer" "^1.0.0"
     "rc-util" "^5.15.0"
 
-"react-dom@*", "react-dom@^16.8 || ^17 || ^18", "react-dom@^17.0.0 || ^18.0.0", "react-dom@^18.2.0", "react-dom@>= 16.8.0", "react-dom@>=16.0.0", "react-dom@>=16.11.0", "react-dom@>=16.6.0", "react-dom@>=16.9.0", "react-dom@18.2.0":
+"react-dom@*", "react-dom@^16.8 || ^17 || ^18", "react-dom@^17.0.0 || ^18.0.0", "react-dom@^18.2.0", "react-dom@>= 16.8.0", "react-dom@>=16.0.0", "react-dom@>=16.11.0", "react-dom@>=16.6.0", "react-dom@>=16.8.0", "react-dom@>=16.9.0", "react-dom@18.2.0":
   "integrity" "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   "version" "18.2.0"

@@ -73,6 +73,7 @@ export const style = css`
       color: revert;
       font-family: revert;
       margin-left: 2rem;
+      font-weight: 370
     }
 
     ul,
