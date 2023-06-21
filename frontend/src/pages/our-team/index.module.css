@@ -26,56 +26,52 @@
   justify-content: center;
 }
 
-.directorItem{
-  padding: 20px;
-  background-color: #ffffff;
+.entry_content{
+  margin: 16px 0 30px;
+  width: 100%;
+  line-height: 1.6rem;
+  color: #333333;
+}
+
+.entry_content a{
+  color: #1E73BE;
 }
 
 .item{
-  padding: 15px;
   margin: 0 15px 30px;
   object-fit:cover;
   height: auto;
-  background-color: #ffffff;
 }
 
 .content{
+  outline: 1px solid #d5d1d1;
   display: flex;
   flex-direction: column;
 }
 
 .text{
-  display: flex;
-  flex-direction: column;
+  padding: 6px;
+  text-align: center;
 }
 
-.name{
-  margin-top: 15px;
-  height: 30px;
+.title{
+  height: 40px;
   overflow: hidden;
   line-height: 1.3rem;
-  font-size: 1.1rem;
-  text-align: center;
+  font-size: 1.2rem;
 }
 
-.position{
-  height: 30px;
-  line-height: 1.3rem;
-  font-size: 0.85rem;
-  font-weight: 300 !important;
-  color: #2a354e;
-  text-align: center;
-}
-
-.avatar_image{
+.post_image{
   width: 100%;
-  height: 210px;
+  height: 148px;
   object-fit: cover;
 }
 
 .card:hover{
+  cursor: pointer;
   transform: translate3d(0px, -10px, 0px);
   transition: color .3s,opacity .3s,transform .4s;
+  box-shadow: 0 0 15px #818181;
 }
 
 .card:hover .post_time{

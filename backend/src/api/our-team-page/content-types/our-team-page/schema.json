@@ -1,0 +1,27 @@
+{
+  "kind": "singleType",
+  "collectionName": "our_team_pages",
+  "info": {
+    "singularName": "our-team-page",
+    "pluralName": "our-team-pages",
+    "displayName": "Our Team Page",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "researchTeam": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.intro-team",
+      "required": true
+    },
+    "boardOfDirectors": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::member.member"
+    }
+  }
+}

@@ -190,6 +190,11 @@ export async function getOneToolAndResourceBySlug(slug: string){
   return response
 }
 
+export async function getLatestToolAndResources(itemNumber: number = 8){
+  const response = (await axiosInstance.get(`/api/tool-and-resources?sort[0]=publishedAt:desc&populate=deep&pagination[page]=1&pagination[pageSize]=${itemNumber}`)).data
+  return response
+}
+
 export async function getAllSolutions(){
   let currentPage = 1
   let response
@@ -215,17 +220,47 @@ export async function getOneSolutionBySlug(slug: string){
   return response
 }
 
-export async function getAllDirectors(){
+export async function getAllMembers(){
   let currentPage = 1
   let response
-  let allDirectors = []
-  response = (await axiosInstance.get("/api/board-of-directors?populate=deep")).data
-  allDirectors.push(...response.data)
+  let allMembers = []
+  response = (await axiosInstance.get("/api/members?populate=deep")).data
+  allMembers.push(...response.data)
 
   while(currentPage < response.meta.pagination.pageCount){
     currentPage  = currentPage + 1
-    response = (await axiosInstance.get(`/api/board-of-directors?populate=deep&pagination[page]=${currentPage}`)).data
-    allDirectors.push(...response.data)
+    response = (await axiosInstance.get(`/api/members?populate=deep&pagination[page]=${currentPage}`)).data
+    allMembers.push(...response.data)
   }
-  return allDirectors
+  return allMembers
+}
+
+export async function getAllTeams(){
+  let currentPage = 1
+  let response
+  let allTeams = []
+  response = (await axiosInstance.get("/api/research-teams?populate=deep")).data
+  allTeams.push(...response.data)
+
+  while(currentPage < response.meta.pagination.pageCount){
+    currentPage  = currentPage + 1
+    response = (await axiosInstance.get(`/api/research-teams?populate=deep&pagination[page]=${currentPage}`)).data
+    allTeams.push(...response.data)
+  }
+  return allTeams
+}
+
+export async function getPaginatedTeams(page: number = 1){
+  const response = (await axiosInstance.get(`/api/research-teams?populate=deep&pagination[page]=${page}`)).data
+  return response
+}
+
+export async function getOneTeamBySlug(slug: string){
+  const response = (await axiosInstance.get(`/api/research-teams?filters[slug][$eq]=${slug}&populate=deep`)).data
+  return response
+}
+
+export async function getOurTeamPage(){
+  const response = (await axiosInstance.get(`/api/our-team-page?populate=deep`)).data
+  return response
 }

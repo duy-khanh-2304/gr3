@@ -8,11 +8,14 @@ import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
 import parse from 'html-react-parser'
-import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getAllDirectors } from '@/clientApi'
+import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getOurTeamPage, getAllTeams } from '@/clientApi'
 import { useRouter } from 'next/router'
+import MemberCard from '@/components/memberCard/MemberCard'
 
 export default function OurTeam(props: any) {
-  const directorList = props.directorList
+  const ourTeamPage = props.ourTeamPage
+  const boardOfDirectors = ourTeamPage.data.attributes.boardOfDirectors
+  const teams = props.teams
   const layout = props.layout.data.attributes
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -34,39 +37,53 @@ export default function OurTeam(props: any) {
             <div className={styles.container}>
               <h2 className={styles.directorTitle}>Board of Directors</h2>
               <Grid container>
-              {
-                directorList.map((item: any, index: number) => {
-                  return (
-                    <Grid item lg={3} key={index}>
-                      <div 
-                        className={`${styles.item} ${styles.card}`}
-                      >
-                        <div className={styles.content}>
-                          <a href={item.attributes.pi_link ? item.attributes.pi_link : '#'}>
-                            <img 
-                              src={item.attributes.avatar.data.attributes.url} 
-                              alt={item.attributes.avatar.data.attributes.name}
-                              className={styles.avatar_image} 
-                            />
-                          </a>
-                          <div className={styles.text}>
-                            <div className={styles.name}>
-                              <h4>{item.attributes.name}</h4>
-                            </div>
-                            <div>
-                              <div className={styles.position}>{item.attributes.position}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Grid>
-                  )
-                })
-              }
+                {
+                  boardOfDirectors.data.map((item: any, index: number) => {
+                    return (
+                      <Grid item lg={3} key={index}>
+                        <MemberCard member={item}/>
+                      </Grid>
+                    )
+                  })
+                }
               </Grid>
             </div>
           </div>
+        </div>
+        <div className={styles.teamSection}>
           <div className={styles.container}>
+            <div style={{padding: "0 15px"}}>
+              <div className={styles.entry_content}>
+                {parse(ourTeamPage.data.attributes.researchTeam.content)}
+              </div>
+              <Grid container spacing={2}>
+                {
+                  teams.map((team: any, index: number) => {
+                    return (
+                      <Grid item lg={3} md={4} key={index}>
+                        <div 
+                          className={`${styles.item} ${styles.card}`}
+                          onClick={props.onClick}
+                        >
+                          <div className={styles.content}>
+                            <img 
+                              src={team.attributes.post_image.data.attributes.url} 
+                              alt={team.attributes.post_image.data.attributes.name}
+                              className={styles.post_image} 
+                            />
+                            <div className={styles.text}>
+                              <div className={styles.title}>
+                                <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{team.attributes.Name}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Grid>
+                    )
+                  })
+                }
+              </Grid>
+            </div>
           </div>
         </div>
       </Layout>
@@ -76,11 +93,13 @@ export default function OurTeam(props: any) {
 
 export async function getStaticProps() {
   const homePage = await getHomePage() 
-  const directorList = await getAllDirectors()
+  const ourTeamPage = await getOurTeamPage()
+  const teams = await getAllTeams()
   return {
     props: {
       layout: homePage,
-      directorList: directorList,
+      ourTeamPage: ourTeamPage,
+      teams: teams
     },
     revalidate: 20
   }

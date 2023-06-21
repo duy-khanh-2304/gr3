@@ -1,0 +1,91 @@
+{
+  "kind": "collectionType",
+  "collectionName": "research_teams",
+  "info": {
+    "singularName": "research-team",
+    "pluralName": "research-teams",
+    "displayName": "Research Team",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "post_image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Introduction": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "ResearchDirections": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "ResearchProblems": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "Members": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::member.member"
+    },
+    "Projects": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::project.project"
+    },
+    "ToolAndResources": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tool-and-resource.tool-and-resource"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "Name"
+    },
+    "post_subtitle": {
+      "type": "string",
+      "required": true
+    },
+    "Collaborations": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "required": false,
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "Publications": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::publication-list.publication-list"
+    },
+    "Solutions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::solution.solution",
+      "mappedBy": "research_team"
+    }
+  }
+}

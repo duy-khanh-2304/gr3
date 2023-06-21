@@ -19,7 +19,7 @@ export default function Card(props: any){
           />
           <div className={styles.text}>
             <div className={styles.title}>
-              <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.attributes.title}</h5>
+              <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.attributes.title || item.attributes.Name}</h5>
             </div>
             <div>
               <div className={styles.sub_title} style={{fontFamily: 'Nunito, sans-serif !important'}}>{sub_title}</div>

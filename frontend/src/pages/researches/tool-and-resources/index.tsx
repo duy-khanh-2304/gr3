@@ -15,14 +15,14 @@ export default function ToolAndResources(props: any) {
   const toolAndResourceList = props.toolAndResourceList.data
   const numberPage = props.toolAndResourceList.meta.pagination.pageCount
   const layout = props.layout.data.attributes
+  const router = useRouter()
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/researches/tool-and-resources/page/${value}`
+    router.push(`/researches/tool-and-resources/page/${value}`)
   }
 
-  const router = useRouter()
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/researches/tool-and-resources/${item.attributes.slug}`
+    router.push(`/researches/tool-and-resources/${item.attributes.slug}`)
   }
   return (
     <div>
