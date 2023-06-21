@@ -1,0 +1,325 @@
+{
+  "key": "plugin_content_manager_configuration_content_types::api::research-team.research-team",
+  "value": {
+    "uid": "api::research-team.research-team",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "Name",
+      "defaultSortBy": "id",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "Name": {
+        "edit": {
+          "label": "Name",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Name",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "post_image": {
+        "edit": {
+          "label": "post_image",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Image",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "Introduction": {
+        "edit": {
+          "label": "Introduction",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Introduction",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "ResearchDirections": {
+        "edit": {
+          "label": "ResearchDirections",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "ResearchDirections",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "ResearchProblems": {
+        "edit": {
+          "label": "ResearchProblems",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "ResearchProblems",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "Members": {
+        "edit": {
+          "label": "Members",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "name"
+        },
+        "list": {
+          "label": "Members",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "Projects": {
+        "edit": {
+          "label": "Projects",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "title"
+        },
+        "list": {
+          "label": "Projects",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "ToolAndResources": {
+        "edit": {
+          "label": "ToolAndResources",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "title"
+        },
+        "list": {
+          "label": "ToolAndResources",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "slug": {
+        "edit": {
+          "label": "slug",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "slug",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "post_subtitle": {
+        "edit": {
+          "label": "post_subtitle",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "post_subtitle",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "Collaborations": {
+        "edit": {
+          "label": "Collaborations",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Collaborations",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "Publications": {
+        "edit": {
+          "label": "Publications",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "title"
+        },
+        "list": {
+          "label": "Publications",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "Solutions": {
+        "edit": {
+          "label": "Solutions",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "title"
+        },
+        "list": {
+          "label": "Solutions",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "createdAt": {
+        "edit": {
+          "label": "createdAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "createdAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "updatedAt": {
+        "edit": {
+          "label": "updatedAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "Update at",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "Name",
+        "post_image",
+        "updatedAt"
+      ],
+      "edit": [
+        [
+          {
+            "name": "Name",
+            "size": 6
+          },
+          {
+            "name": "slug",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "post_image",
+            "size": 6
+          },
+          {
+            "name": "post_subtitle",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "Introduction",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "ResearchDirections",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "ResearchProblems",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "Collaborations",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "Members",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "Projects",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "ToolAndResources",
+            "size": 6
+          },
+          {
+            "name": "Publications",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "Solutions",
+            "size": 6
+          }
+        ]
+      ]
+    }
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

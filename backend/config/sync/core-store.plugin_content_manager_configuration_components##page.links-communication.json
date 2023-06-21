@@ -1,0 +1,97 @@
+{
+  "key": "plugin_content_manager_configuration_components::page.links-communication",
+  "value": {
+    "uid": "page.links-communication",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "text",
+      "defaultSortBy": "text",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "text": {
+        "edit": {
+          "label": "text",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "text",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "icon_name": {
+        "edit": {
+          "label": "icon_name",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "icon_name",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "background_color": {
+        "edit": {
+          "label": "background_color",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "background_color",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "text",
+        "icon_name",
+        "background_color"
+      ],
+      "edit": [
+        [
+          {
+            "name": "text",
+            "size": 6
+          },
+          {
+            "name": "icon_name",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "background_color",
+            "size": 6
+          }
+        ]
+      ]
+    },
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

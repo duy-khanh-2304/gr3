@@ -1,0 +1,153 @@
+{
+  "key": "plugin_content_manager_configuration_components::content.information",
+  "value": {
+    "uid": "content.information",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "persional_information",
+      "defaultSortBy": "persional_information",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "persional_information": {
+        "edit": {
+          "label": "personal_information",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "persional_information",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "start_time": {
+        "edit": {
+          "label": "start_time",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "start_time",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "end_time": {
+        "edit": {
+          "label": "end_time",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "end_time",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "funding": {
+        "edit": {
+          "label": "funding",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "funding",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "main_areas": {
+        "edit": {
+          "label": "main_areas",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "main_areas",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "code": {
+        "edit": {
+          "label": "code",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "code",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "persional_information",
+        "start_time",
+        "end_time"
+      ],
+      "edit": [
+        [
+          {
+            "name": "persional_information",
+            "size": 6
+          },
+          {
+            "name": "code",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "start_time",
+            "size": 4
+          },
+          {
+            "name": "end_time",
+            "size": 4
+          }
+        ],
+        [
+          {
+            "name": "funding",
+            "size": 6
+          },
+          {
+            "name": "main_areas",
+            "size": 6
+          }
+        ]
+      ]
+    },
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

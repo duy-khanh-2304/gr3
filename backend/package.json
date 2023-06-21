@@ -6,6 +6,7 @@
   "scripts": {
     "develop": "strapi develop",
     "dev:admin": "strapi develop --watch-admin",
+    "cs": "config-sync",
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi",
@@ -17,7 +18,9 @@
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^2.0.4",
     "@ckeditor/strapi-plugin-ckeditor": "^0.0.7",
+    "@notum-cz/strapi-plugin-content-versioning": "^0.4.7",
     "@strapi/plugin-color-picker": "^4.10.6",
+    "@strapi/plugin-documentation": "^4.11.1",
     "@strapi/plugin-i18n": "4.10.6",
     "@strapi/plugin-users-permissions": "4.10.6",
     "@strapi/provider-upload-cloudinary": "^4.10.6",
@@ -26,6 +29,9 @@
     "knex": "^2.4.2",
     "pg": "8.8.0",
     "strapi-location-field-plugin": "^1.2.0",
+    "strapi-plugin-config-sync": "^1.1.2",
+    "strapi-plugin-entity-relationship-chart": "^4.1.0",
+    "strapi-plugin-import-export-entries": "^1.21.0",
     "strapi-plugin-multi-select": "^1.1.0",
     "strapi-plugin-populate-deep": "^2.0.0",
     "strapi-plugin-slugify": "^2.3.2",
@@ -42,5 +48,7 @@
     "npm": ">=6.0.0"
   },
   "license": "MIT",
-  "workspaces": ["./src/plugins/strapi-plugin-ckeditor"]
+  "workspaces": [
+    "./src/plugins/strapi-plugin-ckeditor"
+  ]
 }

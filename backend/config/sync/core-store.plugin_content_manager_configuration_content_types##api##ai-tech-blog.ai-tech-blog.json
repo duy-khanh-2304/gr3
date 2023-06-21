@@ -1,0 +1,220 @@
+{
+  "key": "plugin_content_manager_configuration_content_types::api::ai-tech-blog.ai-tech-blog",
+  "value": {
+    "uid": "api::ai-tech-blog.ai-tech-blog",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "title",
+      "defaultSortBy": "title",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "title": {
+        "edit": {
+          "label": "title",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "title",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "slug": {
+        "edit": {
+          "label": "slug",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "slug",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "publishAt": {
+        "edit": {
+          "label": "publishAt",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "publishAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "post_subtitle": {
+        "edit": {
+          "label": "post_subtitle",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "post_subtitle",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "showCommunicationLink": {
+        "edit": {
+          "label": "showCommunicationLink",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "showCommunicationLink",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "showCommentBox": {
+        "edit": {
+          "label": "showCommentBox",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "showCommentBox",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "content": {
+        "edit": {
+          "label": "content",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "content",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "post_image": {
+        "edit": {
+          "label": "post_image",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "post_image",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "createdAt": {
+        "edit": {
+          "label": "createdAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "createdAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "updatedAt": {
+        "edit": {
+          "label": "updatedAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "updatedAt",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "edit": [
+        [
+          {
+            "name": "title",
+            "size": 6
+          },
+          {
+            "name": "slug",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "publishAt",
+            "size": 6
+          },
+          {
+            "name": "post_image",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "post_subtitle",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "showCommunicationLink",
+            "size": 4
+          },
+          {
+            "name": "showCommentBox",
+            "size": 4
+          }
+        ],
+        [
+          {
+            "name": "content",
+            "size": 12
+          }
+        ]
+      ],
+      "list": [
+        "id",
+        "title",
+        "publishAt",
+        "post_image"
+      ]
+    }
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

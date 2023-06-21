@@ -1,0 +1,97 @@
+{
+  "name": "Public",
+  "description": "Default role given to unauthenticated user.",
+  "type": "public",
+  "permissions": [
+    {
+      "action": "api::ai-tech-blog.ai-tech-blog.find"
+    },
+    {
+      "action": "api::ai-tech-blog.ai-tech-blog.findOne"
+    },
+    {
+      "action": "api::comment-box.comment-box.find"
+    },
+    {
+      "action": "api::communication.communication.find"
+    },
+    {
+      "action": "api::contact-us-page.contact-us-page.find"
+    },
+    {
+      "action": "api::home-page.home-page.find"
+    },
+    {
+      "action": "api::member.member.find"
+    },
+    {
+      "action": "api::member.member.findOne"
+    },
+    {
+      "action": "api::news-and-event.news-and-event.find"
+    },
+    {
+      "action": "api::news-and-event.news-and-event.findOne"
+    },
+    {
+      "action": "api::our-team-page.our-team-page.find"
+    },
+    {
+      "action": "api::project.project.find"
+    },
+    {
+      "action": "api::project.project.findOne"
+    },
+    {
+      "action": "api::research-team.research-team.find"
+    },
+    {
+      "action": "api::research-team.research-team.findOne"
+    },
+    {
+      "action": "api::solution.solution.find"
+    },
+    {
+      "action": "api::solution.solution.findOne"
+    },
+    {
+      "action": "api::tool-and-resource.tool-and-resource.find"
+    },
+    {
+      "action": "api::tool-and-resource.tool-and-resource.findOne"
+    },
+    {
+      "action": "plugin::content-type-builder.components.getComponent"
+    },
+    {
+      "action": "plugin::content-type-builder.components.getComponents"
+    },
+    {
+      "action": "plugin::content-type-builder.content-types.getContentType"
+    },
+    {
+      "action": "plugin::content-type-builder.content-types.getContentTypes"
+    },
+    {
+      "action": "plugin::users-permissions.auth.callback"
+    },
+    {
+      "action": "plugin::users-permissions.auth.connect"
+    },
+    {
+      "action": "plugin::users-permissions.auth.emailConfirmation"
+    },
+    {
+      "action": "plugin::users-permissions.auth.forgotPassword"
+    },
+    {
+      "action": "plugin::users-permissions.auth.register"
+    },
+    {
+      "action": "plugin::users-permissions.auth.resetPassword"
+    },
+    {
+      "action": "plugin::users-permissions.auth.sendEmailConfirmation"
+    }
+  ]
+}

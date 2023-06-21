@@ -1,0 +1,115 @@
+{
+  "key": "plugin_content_manager_configuration_components::page.header",
+  "value": {
+    "uid": "page.header",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "email",
+      "defaultSortBy": "email",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "email": {
+        "edit": {
+          "label": "email",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "email",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "start_time": {
+        "edit": {
+          "label": "start_time",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "start_time",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "end_time": {
+        "edit": {
+          "label": "end_time",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "end_time",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "phone_number": {
+        "edit": {
+          "label": "phone_number",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "phone_number",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "email",
+        "start_time",
+        "end_time"
+      ],
+      "edit": [
+        [
+          {
+            "name": "email",
+            "size": 6
+          },
+          {
+            "name": "phone_number",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "start_time",
+            "size": 4
+          },
+          {
+            "name": "end_time",
+            "size": 4
+          }
+        ]
+      ]
+    },
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

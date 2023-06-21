@@ -10,11 +10,16 @@
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
+  "pluginOptions": {
+    "versions": {
+      "versioned": true
+    }
+  },
   "attributes": {
     "title": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "slug": {
       "type": "uid",
@@ -22,7 +27,8 @@
       "required": true
     },
     "publishAt": {
-      "type": "datetime"
+      "type": "datetime",
+      "pluginOptions": {}
     },
     "post_image": {
       "type": "media",
@@ -30,11 +36,13 @@
       "required": true,
       "allowedTypes": [
         "images"
-      ]
+      ],
+      "pluginOptions": {}
     },
     "post_subtitle": {
       "type": "richtext",
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "tag": {
       "type": "customField",
@@ -49,12 +57,14 @@
     "showCommunicationLink": {
       "type": "boolean",
       "default": true,
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "showCommentBox": {
       "type": "boolean",
       "default": true,
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "content": {
       "type": "dynamiczone",
@@ -63,7 +73,8 @@
         "content.paragraph",
         "content.pre-formatted-paragraph"
       ],
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     }
   }
 }

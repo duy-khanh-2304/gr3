@@ -1,0 +1,78 @@
+{
+  "key": "plugin_content_manager_configuration_components::page.section-news-and-event",
+  "value": {
+    "uid": "page.section-news-and-event",
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "id",
+      "defaultSortBy": "id",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "section": {
+        "edit": {
+          "label": "section",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "section",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "flickity": {
+        "edit": {
+          "label": "flickity",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "flickity",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "section",
+        "flickity"
+      ],
+      "edit": [
+        [
+          {
+            "name": "section",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "flickity",
+            "size": 4
+          }
+        ]
+      ]
+    },
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

@@ -1,0 +1,36 @@
+"use strict";(self.webpackChunklab_nckh=self.webpackChunklab_nckh||[]).push([[3770],{6710:(O,f,t)=>{t.r(f),t.d(f,{default:()=>U});var n=t(69307),e=t(67294),x=t(16550),j=t(77575),B=t.n(j),g=t(41580),m=t(24674),l=t(11047),E=t(49066),h=t(85893),F=t(91393),C=t(73727),a=t(1565),o=t(15585),s=t(75515);const i=a.ZP.a`
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  pointer-events: ${({disabled:r})=>r?"none":void 0};
+  color: ${({disabled:r,theme:p})=>r?p.colors.neutral600:p.colors.primary600};
+
+  svg path {
+    transition: fill 150ms ease-out;
+    fill: currentColor;
+  }
+
+  svg {
+    font-size: ${10/16}rem;
+  }
+
+  ${s.Z} {
+    transition: color 150ms ease-out;
+    color: currentColor;
+  }
+
+  &:hover {
+    color: ${({theme:r})=>r.colors.primary500};
+  }
+
+  &:active {
+    color: ${({theme:r})=>r.colors.primary700};
+  }
+
+  ${o.BF};
+`,d=(0,a.ZP)(g.x)`
+  display: flex;
+`,c=e.forwardRef(({children:r,href:p,to:L,disabled:v=!1,startIcon:P,endIcon:I,...u},$)=>(0,h.jsxs)(i,{as:L&&!v?C.OL:"a",target:p?"_blank":void 0,rel:p?"noreferrer noopener":void 0,to:v?void 0:L,href:v?"#":p,disabled:v,ref:$,...u,children:[P&&(0,h.jsx)(d,{as:"span","aria-hidden":!0,paddingRight:2,children:P}),(0,h.jsx)(s.Z,{children:r}),I&&!p&&(0,h.jsx)(d,{as:"span","aria-hidden":!0,paddingLeft:2,children:I}),p&&(0,h.jsx)(d,{as:"span","aria-hidden":!0,paddingLeft:2,children:(0,h.jsx)(F.Z,{})})]}));var y=t(40619),R=t(82562),Z=t(96026),A=t.n(Z),D=t(57290),b=t(53979),S=t(51744);const H=()=>{const{i18n:r}=(0,S.Q)();return e.createElement(g.x,{background:"neutral100"},e.createElement(b.A,{title:r("plugin.name","Import Export"),subtitle:r("plugin.description","Import/Export data from and to your database in just few clicks"),as:"h2"}))};var T=t(37461),W=t(98674),k=t(36462),z=t(42896),M=t(74837);const N=()=>{const{i18n:r}=(0,S.Q)(),{getPreferences:p,updatePreferences:L}=(0,k._)(),[v,P]=(0,e.useState)(p()),I=(u,$)=>{L({[u]:$}),P(p())};return e.createElement(n.O4,{permissions:z.I.main},e.createElement(H,null),e.createElement(E.D,null,e.createElement(l.k,{direction:"column",alignItems:"start",gap:8},e.createElement(g.x,{style:{alignSelf:"stretch"},background:"neutral0",padding:"32px",hasRadius:!0},e.createElement(l.k,{direction:"column",alignItems:"start",gap:6},e.createElement(s.Z,{variant:"alpha"},r("plugin.page.homepage.section.quick-actions.title","Quick Actions")),e.createElement(g.x,null,e.createElement(l.k,{direction:"column",alignItems:"start",gap:4},e.createElement(l.k,{gap:4},e.createElement(T.r,null),e.createElement(D.j,{availableExportFormats:[M.g.JSON_V2]})))))),e.createElement(g.x,{style:{alignSelf:"stretch"},background:"neutral0",padding:"32px",hasRadius:!0},e.createElement(l.k,{direction:"column",alignItems:"start",gap:6},e.createElement(s.Z,{variant:"alpha"},r("plugin.page.homepage.section.preferences.title","Preferences")),e.createElement(g.x,null,e.createElement(l.k,{direction:"column",alignItems:"start",gap:4},e.createElement(l.k,{justifyContent:"space-between"},e.createElement(m.X,{value:v.applyFilters,onValueChange:u=>I("applyFilters",u)},e.createElement(s.Z,null,r("plugin.export.apply-filters-and-sort","Apply filters and sort to exported data")))),e.createElement(l.k,{justifyContent:"space-between"},e.createElement(y.P,{label:r("plugin.export.deepness","Deepness"),placeholder:r("plugin.export.deepness","Deepness"),value:v.deepness,onChange:u=>I("deepness",u)},A()(1,21).map(u=>e.createElement(R.W,{key:u,value:u},u)))))))),e.createElement(g.x,{style:{alignSelf:"stretch"},background:"neutral0",padding:"32px",hasRadius:!0},e.createElement(l.k,{direction:"column",alignItems:"start",gap:6},e.createElement(s.Z,{variant:"alpha"},r("plugin.page.homepage.section.need-help.title","Feature Request / Bug Report")),e.createElement(g.x,null,e.createElement(l.k,{direction:"column",alignItems:"start",gap:4},e.createElement(s.Z,null,r("plugin.page.homepage.section.need-help.description","Feel free to reach out on the product roadmap, discord or github \u270C\uFE0F")),e.createElement(l.k,{gap:4},e.createElement(c,{href:"https://strapi-import-export-entries.canny.io",isExternal:!0},r("plugin.page.homepage.section.need-help.product-roadmap","Product Roadmap")),e.createElement(c,{href:"https://discord.gg/dcqCAFFdP8",isExternal:!0},r("plugin.page.homepage.section.need-help.discord","Discord")),e.createElement(c,{href:"https://github.com/Baboo7/strapi-plugin-import-export-entries/issues",isExternal:!0},r("plugin.page.homepage.section.need-help.github","GitHub"))))))))),e.createElement(W.p,null))},Q=(0,e.memo)(N),U=()=>e.createElement("div",null,e.createElement(x.rs,null,e.createElement(x.AW,{path:`/plugins/${B()}`,component:Q,exact:!0}),e.createElement(x.AW,{component:n.NotFound})))},49066:(O,f,t)=>{t.d(f,{D:()=>x});var n=t(85893),e=t(41580);const x=({children:j})=>(0,n.jsx)(e.x,{paddingLeft:10,paddingRight:10,children:j})},53979:(O,f,t)=>{t.d(f,{A:()=>C,T:()=>h});var n=t(85893),e=t(67294),x=t(1565);const j=a=>{const o=(0,e.useRef)(null),[s,i]=(0,e.useState)(!0),d=([c])=>{i(c.isIntersecting)};return(0,e.useEffect)(()=>{const c=o.current,y=new IntersectionObserver(d,a);return c&&y.observe(o.current),()=>{c&&y.disconnect()}},[o,a]),[o,s]};var B=t(79698);const g=(a,o)=>{const s=(0,B.W)(o);(0,e.useLayoutEffect)(()=>{const i=new ResizeObserver(s);return Array.isArray(a)?a.forEach(d=>{d.current&&i.observe(d.current)}):a.current&&i.observe(a.current),()=>{i.disconnect()}},[a,s])};var m=t(41580),l=t(11047),E=t(75515);const h=a=>{const o=(0,e.useRef)(null),[s,i]=(0,e.useState)(null),[d,c]=j({root:null,rootMargin:"0px",threshold:0});return g(d,()=>{d.current&&i(d.current.getBoundingClientRect())}),(0,e.useEffect)(()=>{o.current&&i(o.current.getBoundingClientRect())},[o]),(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)("div",{style:{height:s?.height},ref:d,children:c&&(0,n.jsx)(C,{ref:o,...a})}),!c&&(0,n.jsx)(C,{...a,sticky:!0,width:s?.width})]})};h.displayName="HeaderLayout";const F=(0,x.ZP)(m.x)`
+  width: ${({width:a})=>a?`${a/16}rem`:void 0};
+  z-index: ${({theme:a})=>a.zIndices[1]};
+`,C=e.forwardRef(({navigationAction:a,primaryAction:o,secondaryAction:s,subtitle:i,title:d,sticky:c,width:y,...R},Z)=>{const A=typeof i=="string";return c?(0,n.jsx)(F,{paddingLeft:6,paddingRight:6,paddingTop:3,paddingBottom:3,position:"fixed",top:0,right:0,background:"neutral0",shadow:"tableShadow",width:y,"data-strapi-header-sticky":!0,children:(0,n.jsxs)(l.k,{justifyContent:"space-between",children:[(0,n.jsxs)(l.k,{children:[a&&(0,n.jsx)(m.x,{paddingRight:3,children:a}),(0,n.jsxs)(m.x,{children:[(0,n.jsx)(E.Z,{variant:"beta",as:"h1",...R,children:d}),A?(0,n.jsx)(E.Z,{variant:"pi",textColor:"neutral600",children:i}):i]}),s?(0,n.jsx)(m.x,{paddingLeft:4,children:s}):null]}),(0,n.jsx)(l.k,{children:o?(0,n.jsx)(m.x,{paddingLeft:2,children:o}):void 0})]})}):(0,n.jsxs)(m.x,{ref:Z,paddingLeft:10,paddingRight:10,paddingBottom:8,paddingTop:a?6:8,background:"neutral100","data-strapi-header":!0,children:[a?(0,n.jsx)(m.x,{paddingBottom:2,children:a}):null,(0,n.jsxs)(l.k,{justifyContent:"space-between",children:[(0,n.jsxs)(l.k,{minWidth:0,children:[(0,n.jsx)(E.Z,{as:"h1",variant:"alpha",...R,children:d}),s?(0,n.jsx)(m.x,{paddingLeft:4,children:s}):null]}),o]}),A?(0,n.jsx)(E.Z,{variant:"epsilon",textColor:"neutral600",as:"p",children:i}):i]})})}}]);
