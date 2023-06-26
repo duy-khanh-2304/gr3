@@ -11,10 +11,12 @@ import { createTheme, ThemeProvider } from "@mui/material";
 
 export default function Layout(props: any) {
   const [showButton, setShowButton] = useState(false)
+  const [stickyNavbar, setStickyNavbar] = useState(false)
   const router = useRouter()
 
   const onScroll = useCallback(() => {
     if(document.body.scrollTop > 350){
+      setStickyNavbar(true)
       setShowButton(true)
     }else{
       setShowButton(false)
@@ -51,7 +53,7 @@ export default function Layout(props: any) {
         {
           router.asPath !== "/" && <BreadCrumbs/>
         }
-        <div style={{minHeight: "700px"}}>
+        <div>
           {props.children}
         </div>
         <Footer footerSection={props.data.footer} absoluteFooter={props.data.absolute_footer}/>

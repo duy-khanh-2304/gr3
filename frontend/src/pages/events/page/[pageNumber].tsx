@@ -20,7 +20,7 @@ export default function EventsPage(props: any) {
   }
   const eventList = props.eventList.data
   const numberPage = props.eventList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
@@ -31,7 +31,7 @@ export default function EventsPage(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/events/${item.attributes.slug}`)
+    router.push(`/events/${item.slug}`)
   }
 
   const headTitle = `Events Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`

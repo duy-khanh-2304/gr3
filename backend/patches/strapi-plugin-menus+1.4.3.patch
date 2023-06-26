@@ -1,0 +1,42 @@
+diff --git a/node_modules/strapi-plugin-menus/server/content-types/menu-item.js b/node_modules/strapi-plugin-menus/server/content-types/menu-item.js
+index c384c7a..c6f7740 100644
+--- a/node_modules/strapi-plugin-menus/server/content-types/menu-item.js
++++ b/node_modules/strapi-plugin-menus/server/content-types/menu-item.js
+@@ -14,10 +14,10 @@ module.exports = {
+   },
+   pluginOptions: {
+     'content-manager': {
+-      visible: false,
++      visible: true,
+     },
+     'content-type-builder': {
+-      visible: false,
++      visible: true,
+     },
+   },
+   attributes: {
+@@ -30,6 +30,7 @@ module.exports = {
+     },
+     url: {
+       type: 'string',
++      require: true
+     },
+     target: {
+       type: 'enumeration',
+diff --git a/node_modules/strapi-plugin-menus/server/content-types/menu.js b/node_modules/strapi-plugin-menus/server/content-types/menu.js
+index cabd02f..1cc1480 100644
+--- a/node_modules/strapi-plugin-menus/server/content-types/menu.js
++++ b/node_modules/strapi-plugin-menus/server/content-types/menu.js
+@@ -14,10 +14,10 @@ module.exports = {
+   },
+   pluginOptions: {
+     'content-manager': {
+-      visible: false,
++      visible: true,
+     },
+     'content-type-builder': {
+-      visible: false,
++      visible: true,
+     },
+   },
+   attributes: {

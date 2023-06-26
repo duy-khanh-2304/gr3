@@ -45,8 +45,8 @@ export default function NavBar(props: any){
           <div className={styles.logo}>
             <Link href={logo.url}>
               <img 
-                src={logo.image.data.attributes.url} 
-                alt={logo.image.data.attributes.name}
+                src={logo.image.url} 
+                alt={logo.image.name}
                 width="140p"
                 height="auto"
               />

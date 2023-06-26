@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 export default function Events(props: any) {
   const eventList = props.eventList.data
   const numberPage = props.eventList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const router = useRouter()
 
@@ -20,7 +20,7 @@ export default function Events(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/events/${item.attributes.slug}`)
+    router.push(`/events/${item.slug}`)
   }
   return (
     <div>

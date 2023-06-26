@@ -15,3 +15,8 @@
   background-color: #7a9c59;
   border: #7a9c59 2px solid;
 }
+
+.fixed {
+  position: sticky;
+  top: 0;
+}

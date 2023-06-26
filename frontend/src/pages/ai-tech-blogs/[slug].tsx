@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 
 export default function DetailPage(props: any) {
   const item = props.aiTechBlog
-  const sections = item.attributes.content
+  const sections = item.content
     .filter((component: any) => component.__component === "content.paragraph-with-title")
     .map((component: any) => {
       if(component.sub_section){
@@ -75,7 +75,7 @@ export default function DetailPage(props: any) {
     <Suspense fallback={<p>Loading information...</p>}>
       <div>
         <Head>
-          <title>{item.attributes.title}</title>
+          <title>{item.title}</title>
         </Head>
         <Layout data={props.layout}>
           <div className={styles.main}>
@@ -91,7 +91,7 @@ export default function DetailPage(props: any) {
                       </div>
                     </div>
                     <h1 style={{ fontSize: "1.7rem" }}>
-                      {item.attributes.title}
+                      {item.title}
                     </h1>
                     {
                       sections.length > 0 && 
@@ -143,7 +143,7 @@ export default function DetailPage(props: any) {
                   </div>
                   <div className={styles.entry_content}>
                     {
-                      item.attributes.content.map((component: any, index: number) => {
+                      item.content.map((component: any, index: number) => {
                         if(component.__component === "content.paragraph"){
                           return (
                             <div key={index}>
@@ -195,10 +195,10 @@ export default function DetailPage(props: any) {
                     }
                   </div>
                   <div>
-                    {item.attributes.showCommunicationLink && <CommunicationLinks />}
+                    {item.showCommunicationLink && <CommunicationLinks />}
                   </div>
                   <div>
-                    {!item.attributes.showCommentBox && <CommentBox data={props.commentBox} />}
+                    {!item.showCommentBox && <CommentBox data={props.commentBox} />}
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>
@@ -218,7 +218,7 @@ export async function getStaticPaths() {
   const paths = aiTechBlogs.map((_: any) => {
     return ({
       params: {
-        slug: _.attributes.slug
+        slug: _.slug
       }
     })
   })
@@ -235,7 +235,7 @@ export async function getStaticProps({ params }: any) {
   const latestList = await getLatestPost()
   return {
     props: {
-      layout: response.data.attributes,
+      layout: response.data,
       aiTechBlog: aiTechBlog.data[0],
       commentBox: commentBox.data,
       latestList: latestList.data,

@@ -148,3 +148,12 @@
 .lightbox_exitButton:hover{
   cursor: pointer;
 }
+
+.title_link{
+  color: #1E73BE;
+}
+
+.title_link:hover{
+  color: #333333;
+  cursor: pointer;
+}

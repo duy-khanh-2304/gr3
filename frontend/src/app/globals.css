@@ -144,7 +144,12 @@ figcaption{
 
 .image-style-side{
   float: right;
-  margin:0 60px 0 40px;
+  margin:0 40px 0 40px;
+}
+
+.image_resized img {
+  width: 100%;
+  height: auto;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -160,3 +165,18 @@ figcaption{
   color: #fff;
   background-color: #7a9c59 !important;
 }
+
+.flickity-viewport{
+  padding-top: 20px;
+}
+
+.carousel {
+  padding: 10px 0;
+}
+
+.carousel-cell {
+  width: 25%;
+  height: auto;
+}
+
+/* cell number */

@@ -21,7 +21,7 @@ export default function ProjectPage(props: any) {
   }
   const teamList = props.teamList.data
   const numberPage = props.teamList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
@@ -32,7 +32,7 @@ export default function ProjectPage(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/researches/research-teams/${item.attributes.slug}`)
+    router.push(`/researches/research-teams/${item.slug}`)
   }
 
   const headTitle = `Research Teams Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`

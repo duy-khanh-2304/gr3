@@ -41,11 +41,8 @@
       ],
       "required": true
     },
-    "research_team": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::research-team.research-team",
-      "inversedBy": "Solutions"
+    "url": {
+      "type": "string"
     }
   }
 }

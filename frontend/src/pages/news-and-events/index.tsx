@@ -13,11 +13,11 @@ import { useRouter } from 'next/router'
 
 export default function NewsAndEvents(props: any) {
   const postList = props.postList.data
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
   const router = useRouter()
 
   const handleClick = (item: any) => {
-    router.push(`/${item.attributes.tag[0]}/${item.attributes.slug}`)
+    router.push(`/${item.tag[0]}/${item.slug}`)
   }
   return (
     <div>

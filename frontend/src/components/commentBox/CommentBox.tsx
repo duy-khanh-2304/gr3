@@ -5,7 +5,7 @@ import parse from'html-react-parser'
 import { Grid } from '@mui/material'
 
 export default function CommentBox(props: any){
-  const data = props.data.attributes
+  const data = props.data
   return (
     <div className={styles.container}>
       <div className={styles.title}>

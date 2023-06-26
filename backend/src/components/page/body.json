@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_page_bodies",
+  "info": {
+    "displayName": "Body"
+  },
+  "options": {},
+  "attributes": {
+    "section": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.section"
+    }
+  }
+}

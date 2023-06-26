@@ -37,8 +37,8 @@ export default function Footer(props: any) {
             <div className={styles.logo_footerSection}>
               <Link href={logo.url}>
                 <img 
-                  src={logo.image.data.attributes.url} 
-                  alt={logo.image.data.attributes.name}
+                  src={logo.image.url} 
+                  alt={logo.image.name}
                   width="230p"
                   height="auto"
                 />

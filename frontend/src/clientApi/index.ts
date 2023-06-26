@@ -1,6 +1,12 @@
 import axiosInstance from "@/axiosConfig"
 import sortByPublishedDate from "@/utils/sortByPublishedDate"
 
+const selectorFieldNewsAndEvents = `fields[0]=title&fields[1]=slug&fields[2]=publishAt&fields[3]=post_image&fields[4]=post_subtitle&fields[5]=tag&populate[post_image]=*`
+const selectorFieldAiTechBlogs = `fields[0]=title&fields[1]=slug&fields[2]=publishAt&fields[3]=post_image&fields[4]=post_subtitle&fields[5]=tag&populate[post_image]=*`
+const selectorFieldProjects = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
+const selectorFieldToolAndResources = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
+const selectorFieldSolutions = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
+const selectorFieldResearchTeams = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
 export async function getHomePage(){
   const response = (await axiosInstance.get("/api/home-page?populate=deep")).data
   return response
@@ -10,26 +16,25 @@ export async function getAllNews(){
   let currentPage = 1
   let response
   let allNews = []
-  response = (await axiosInstance.get("/api/news-and-events?filters[tag][$containsi]=news&populate=deep")).data
+  response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&${selectorFieldNewsAndEvents}`)).data
   allNews.push(...response.data)
 
   while(currentPage < response.meta.pagination.pageCount){
     currentPage  = currentPage + 1
-    response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&populate=deep&pagination[page]=${currentPage}`)).data
+    response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&pagination[page]=${currentPage}&${selectorFieldNewsAndEvents}`)).data
     allNews.push(...response.data)
   }
   return allNews
 }
 
 export async function getPaginatedNews(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&populate=deep&pagination[page]=${page}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
 export async function getPaginatedSortedNews(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&populate=deep&sort[0]=publishAt:desc&pagination[page]=${page}`)).data
-  const sortedNewsList = sortByPublishedDate(response)
-  return sortedNewsList
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&sort[0]=publishAt:desc&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
+  return response
 }
 
 export async function getOneNewsBySlug(slug: string){
@@ -41,26 +46,25 @@ export async function getAllEvents(){
   let currentPage = 1
   let response
   let allEvents = []
-  response = (await axiosInstance.get("/api/news-and-events?filters[tag][$containsi]=events&populate=deep")).data
+  response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&${selectorFieldNewsAndEvents}`)).data
   allEvents.push(...response.data)
 
   while(currentPage < response.meta.pagination.pageCount){
     currentPage  = currentPage + 1
-    response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&populate=deep&pagination[page]=${currentPage}`)).data
+    response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&pagination[page]=${currentPage}&${selectorFieldNewsAndEvents}`)).data
     allEvents.push(...response.data)
   }
   return allEvents
 }
 
 export async function getPaginatedEvents(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&populate=deep&pagination[page]=${page}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
 export async function getPaginatedSortedEvents(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&populate=deep&sort[0]=publishAt:desc&pagination[page]=${page}`)).data
-  const sortedEventsList = sortByPublishedDate(response)
-  return sortedEventsList
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&sort[0]=publishAt:desc&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
+  return response
 }
 
 export async function getOneEventBySlug(slug: string){
@@ -72,26 +76,25 @@ export async function getAllSeminars(){
   let currentPage = 1
   let response
   let allSeminars = []
-  response = (await axiosInstance.get("/api/news-and-events?filters[tag][$containsi]=seminars&populate=deep")).data
+  response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&${selectorFieldNewsAndEvents}`)).data
   allSeminars.push(...response.data)
 
   while(currentPage < response.meta.pagination.pageCount){
     currentPage  = currentPage + 1
-    response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&populate=deep&pagination[page]=${currentPage}`)).data
+    response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&pagination[page]=${currentPage}&${selectorFieldNewsAndEvents}`)).data
     allSeminars.push(...response.data)
   }
   return allSeminars
 }
 
 export async function getPaginatedSeminars(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&populate=deep&pagination[page]=${page}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
 export async function getPaginatedSortedSeminars(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&populate=deep&sort[0]=publishAt:desc&pagination[page]=${page}`)).data
-  const sortedEventsList = sortByPublishedDate(response)
-  return sortedEventsList
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&sort[0]=publishAt:desc&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
+  return response
 }
 
 export async function getOneSeminarBySlug(slug: string){
@@ -100,7 +103,7 @@ export async function getOneSeminarBySlug(slug: string){
 }
 
 export async function getLatestPost(postNumber: number = 5){
-  const response = (await axiosInstance.get(`/api/news-and-events?sort[0]=publishAt:desc&populate=deep&pagination[page]=1&pagination[pageSize]=${postNumber}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?sort[0]=publishAt:desc&pagination[page]=1&pagination[pageSize]=${postNumber}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
@@ -108,26 +111,25 @@ export async function getAllAiTechBlogs(){
   let currentPage = 1
   let response
   let allAiTechBlogs = []
-  response = (await axiosInstance.get("/api/ai-tech-blogs?populate=deep")).data
+  response = (await axiosInstance.get(`/api/ai-tech-blogs?${selectorFieldAiTechBlogs}`)).data
   allAiTechBlogs.push(...response.data)
 
   while(currentPage < response.meta.pagination.pageCount){
     currentPage  = currentPage + 1
-    response = (await axiosInstance.get(`/api/ai-tech-blogs?populate=deep&pagination[page]=${currentPage}`)).data
+    response = (await axiosInstance.get(`/api/ai-tech-blogs?pagination[page]=${currentPage}&${selectorFieldAiTechBlogs}`)).data
     allAiTechBlogs.push(...response.data)
   }
   return allAiTechBlogs
 }
 
 export async function getPaginatedAiTechBlogs(page: number = 1){
-  const response = (await axiosInstance.get(`/api/ai-tech-blogs?populate=deep&pagination[page]=${page}`)).data
+  const response = (await axiosInstance.get(`/api/ai-tech-blogs?pagination[page]=${page}&${selectorFieldAiTechBlogs}`)).data
   return response
 }
 
 export async function getPaginatedSortedAiTechBlogs(page: number = 1){
-  const response = (await axiosInstance.get(`/api/ai-tech-blogs?populate=deep&sort[0]=publishAt:desc&pagination[page]=${page}`)).data
-  const sortedAiTechBlogs = sortByPublishedDate(response)
-  return sortedAiTechBlogs
+  const response = (await axiosInstance.get(`/api/ai-tech-blogs?sort[0]=publishAt:desc&pagination[page]=${page}&${selectorFieldAiTechBlogs}`)).data
+  return response
 }
 
 export async function getOneAiTechBlogBySlug(slug: string){
@@ -139,19 +141,19 @@ export async function getAllProjects(){
   let currentPage = 1
   let response
   let allProjects = []
-  response = (await axiosInstance.get("/api/projects?populate=deep")).data
+  response = (await axiosInstance.get(`/api/projects?${selectorFieldProjects}`)).data
   allProjects.push(...response.data)
 
   while(currentPage < response.meta.pagination.pageCount){
     currentPage  = currentPage + 1
-    response = (await axiosInstance.get(`/api/projects?populate=deep&pagination[page]=${currentPage}`)).data
+    response = (await axiosInstance.get(`/api/projects?pagination[page]=${currentPage}&${selectorFieldProjects}`)).data
     allProjects.push(...response.data)
   }
   return allProjects
 }
 
 export async function getPaginatedProjects(page: number = 1){
-  const response = (await axiosInstance.get(`/api/projects?populate=deep&pagination[page]=${page}`)).data
+  const response = (await axiosInstance.get(`/api/projects?pagination[page]=${page}&${selectorFieldProjects}`)).data
   return response
 }
 
@@ -161,7 +163,7 @@ export async function getOneProjectBySlug(slug: string){
 }
 
 export async function getLatestProjects(projectsNumber: number = 8){
-  const response = (await axiosInstance.get(`/api/projects?sort[0]=publishedAt:desc&populate=deep&pagination[page]=1&pagination[pageSize]=${projectsNumber}`)).data
+  const response = (await axiosInstance.get(`/api/projects?sort[0]=publishedAt:desc&pagination[page]=1&pagination[pageSize]=${projectsNumber}&${selectorFieldProjects}`)).data
   return response
 }
 
@@ -169,29 +171,29 @@ export async function getAllToolAndResources(){
   let currentPage = 1
   let response
   let allToolAndResources = []
-  response = (await axiosInstance.get("/api/tool-and-resources?populate=deep")).data
+  response = (await axiosInstance.get(`/api/tool-and-resources?${selectorFieldToolAndResources}`)).data
   allToolAndResources.push(...response.data)
 
   while(currentPage < response.meta.pagination.pageCount){
     currentPage  = currentPage + 1
-    response = (await axiosInstance.get(`/api/tool-and-resources?populate=deep&pagination[page]=${currentPage}`)).data
+    response = (await axiosInstance.get(`/api/tool-and-resources?pagination[page]=${currentPage}&${selectorFieldToolAndResources}`)).data
     allToolAndResources.push(...response.data)
   }
   return allToolAndResources
 }
 
 export async function getPaginatedToolAndResources(page: number = 1){
-  const response = (await axiosInstance.get(`/api/tool-and-resources?populate=deep&pagination[page]=${page}`)).data
+  const response = (await axiosInstance.get(`/api/tool-and-resources?pagination[page]=${page}&${selectorFieldToolAndResources}`)).data
   return response
 }
 
 export async function getOneToolAndResourceBySlug(slug: string){
-  const response = (await axiosInstance.get(`/api/tool-and-resources?filters[slug][$eq]=${slug}&populate=deep`)).data
+  const response = (await axiosInstance.get(`/api/tool-and-resources?filters[slug][$eq]=${slug}&populate=deep,3`)).data
   return response
 }
 
 export async function getLatestToolAndResources(itemNumber: number = 8){
-  const response = (await axiosInstance.get(`/api/tool-and-resources?sort[0]=publishedAt:desc&populate=deep&pagination[page]=1&pagination[pageSize]=${itemNumber}`)).data
+  const response = (await axiosInstance.get(`/api/tool-and-resources?sort[0]=publishedAt:desc&pagination[page]=1&pagination[pageSize]=${itemNumber}&${selectorFieldToolAndResources}`)).data
   return response
 }
 
@@ -199,19 +201,19 @@ export async function getAllSolutions(){
   let currentPage = 1
   let response
   let allSolutions = []
-  response = (await axiosInstance.get("/api/solutions?populate=deep")).data
+  response = (await axiosInstance.get(`/api/solutions?${selectorFieldSolutions}`)).data
   allSolutions.push(...response.data)
 
   while(currentPage < response.meta.pagination.pageCount){
     currentPage  = currentPage + 1
-    response = (await axiosInstance.get(`/api/solutions?populate=deep&pagination[page]=${currentPage}`)).data
+    response = (await axiosInstance.get(`/api/solutions?pagination[page]=${currentPage}&${selectorFieldSolutions}`)).data
     allSolutions.push(...response.data)
   }
   return allSolutions
 }
 
 export async function getPaginatedSolutions(page: number = 1){
-  const response = (await axiosInstance.get(`/api/solutions?populate=deep&pagination[page]=${page}`)).data
+  const response = (await axiosInstance.get(`/api/solutions?pagination[page]=${page}&${selectorFieldSolutions}`)).data
   return response
 }
 
@@ -239,19 +241,19 @@ export async function getAllTeams(){
   let currentPage = 1
   let response
   let allTeams = []
-  response = (await axiosInstance.get("/api/research-teams?populate=deep")).data
+  response = (await axiosInstance.get(`/api/research-teams?${selectorFieldResearchTeams}`)).data
   allTeams.push(...response.data)
 
   while(currentPage < response.meta.pagination.pageCount){
     currentPage  = currentPage + 1
-    response = (await axiosInstance.get(`/api/research-teams?populate=deep&pagination[page]=${currentPage}`)).data
+    response = (await axiosInstance.get(`/api/research-teams?pagination[page]=${currentPage}&${selectorFieldResearchTeams}`)).data
     allTeams.push(...response.data)
   }
   return allTeams
 }
 
 export async function getPaginatedTeams(page: number = 1){
-  const response = (await axiosInstance.get(`/api/research-teams?populate=deep&pagination[page]=${page}`)).data
+  const response = (await axiosInstance.get(`/api/research-teams?pagination[page]=${page}&${selectorFieldResearchTeams}`)).data
   return response
 }
 
@@ -262,5 +264,10 @@ export async function getOneTeamBySlug(slug: string){
 
 export async function getOurTeamPage(){
   const response = (await axiosInstance.get(`/api/our-team-page?populate=deep`)).data
+  return response
+}
+
+export async function getAllPartners(){
+  const response = (await axiosInstance.get(`/api/partners?populate=deep`)).data
   return response
 }

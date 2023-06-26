@@ -7,18 +7,18 @@ export default function MemberCard(props: any){
       className={`${styles.item} ${styles.card}`}
     >
       <div className={styles.content}>
-        <a href={item.attributes.PI_link ? item.attributes.PI_link : '#'}>
+        <a href={item.PI_link ? item.PI_link : '#'}>
           <img 
-            src={item.attributes.avatar.data.attributes.url} 
-            alt={item.attributes.avatar.data.attributes.name}
+            src={item.avatar.url} 
+            alt={item.avatar.name}
             className={styles.avatar_image} 
           />
         </a>
         <div className={styles.text}>
           <div>
-            <h4 className={styles.name}>{item.attributes.name}</h4>
+            <h4 className={styles.name}>{item.name}</h4>
           </div>
-          <div className={styles.position}><span>{item.attributes.position}</span></div>
+          <div className={styles.position}><span>{item.position}</span></div>
         </div>
       </div>
     </div>

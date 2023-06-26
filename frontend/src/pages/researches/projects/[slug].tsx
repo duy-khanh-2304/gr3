@@ -15,9 +15,9 @@ import LatestProject from "@/components/latestProjects/LatestProject";
 
 export default function DetailPage(props: any) {
   const item = props.projectItem
-  const information = item.attributes.content.find((_: any) => _.__component === "content.information")
-  const imageHeader = item.attributes.content.find((_: any) => _.__component === "content.image-header").image.data
-  const paragraph = item.attributes.content.find((_: any) => _.__component === "content.paragraph")
+  const information = item.content.find((_: any) => _.__component === "content.information")
+  const imageHeader = item.content.find((_: any) => _.__component === "content.image-header").image
+  const paragraph = item.content.find((_: any) => _.__component === "content.paragraph")
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -52,7 +52,7 @@ export default function DetailPage(props: any) {
     <Suspense fallback={<p>Loading information...</p>}>
       <div>
         <Head>
-          <title>{item.attributes.title}</title>
+          <title>{item.title}</title>
         </Head>
         <Layout data={props.layout}>
           <div className={styles.main}>
@@ -63,11 +63,11 @@ export default function DetailPage(props: any) {
                     <Grid item lg={9} sm={8}>
                       <div className={styles.entry_header}>
                         {
-                          item.attributes.url ? (
-                            <a href={item.attributes.url} className={styles.title_link}>
-                              <h1 style={{ fontSize: "1.7rem" }}>{item.attributes.title}</h1>
+                          item.url ? (
+                            <a href={item.url} className={styles.title_link}>
+                              <h1 style={{ fontSize: "1.7rem" }}>{item.title}</h1>
                             </a>
-                          ) : <h1 style={{ fontSize: "1.7rem" }}>{item.attributes.title}</h1>
+                          ) : <h1 style={{ fontSize: "1.7rem" }}>{item.title}</h1>
                         }
                       </div>
                     </Grid>
@@ -92,8 +92,8 @@ export default function DetailPage(props: any) {
                         <Grid item lg={8}>
                           <div className={styles.entry_image_header}>
                             <img 
-                              src={imageHeader.attributes.url} 
-                              alt={imageHeader.attributes.name}
+                              src={imageHeader.url} 
+                              alt={imageHeader.name}
                               style={{width: "100%", height: "inherit"}}
                             />
                           </div>
@@ -103,8 +103,8 @@ export default function DetailPage(props: any) {
                         </div>
                       </Grid>
                       {
-                        item.attributes.url && <div className={styles.button}>
-                          <a href={item.attributes.url}>MORE DETAIL</a>
+                        item.url && <div className={styles.button}>
+                          <a href={item.url}>MORE DETAIL</a>
                         </div>
                       }
                     </Grid>
@@ -127,7 +127,7 @@ export async function getStaticPaths() {
   const paths = projectList.map((_: any) => {
     return ({
       params: {
-        slug: _.attributes.slug
+        slug: _.slug
       }
     })
   })
@@ -143,7 +143,7 @@ export async function getStaticProps({ params }: any) {
   const latestProjects = await getLatestProjects(10)
   return {
     props: {
-      layout: response.data.attributes,
+      layout: response.data,
       projectItem: projectItem.data[0],
       latestProjects: latestProjects.data
     },

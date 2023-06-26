@@ -6,21 +6,16 @@
   },
   "options": {},
   "attributes": {
-    "description": {
-      "type": "richtext"
-    },
     "background": {
-      "type": "media",
-      "multiple": false,
-      "required": true,
-      "allowedTypes": [
-        "videos",
-        "images",
-        "audios"
-      ]
+      "type": "customField",
+      "customField": "plugin::oembed.oembed"
     },
-    "button_text": {
-      "type": "string"
+    "description": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
     }
   }
 }

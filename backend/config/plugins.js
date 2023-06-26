@@ -71,4 +71,43 @@ module.exports = ({ env }) => ({
       // See `Config` section.
     },
   },
+  menus: {
+    config: {
+      layouts: {
+        menuItem: { // This is the menu item edit panel.
+          link: [ // This is the "link" tab in the menu item edit panel.
+            {
+              input: {
+                label: 'Image (optional)',
+                name: 'media',
+                type: 'media',
+                description: 'link in navbar menu',
+                placeholder: ''
+              },
+              grid: {
+                col: 12,
+              },
+            },
+          ],
+        },
+      },
+    },
+  },
+  seo: {
+    enabled: true,
+  },
+  transformer: {
+    enabled: true,
+    config: {
+      responseTransforms: {
+        removeAttributesKey: true,
+        removeDataKey: true,
+      },
+      plugins: {
+        ids: {
+          'slugify': true,
+        }
+      }
+    }
+  },
 });

@@ -40,3 +40,8 @@
   height: 60px;
   overflow: hidden;
 }
+
+.leftImage{
+  object-fit: cover !important;
+  width: 100%;
+}

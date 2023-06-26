@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Name": {
+    "title": {
       "type": "string",
       "required": true
     },
@@ -61,8 +61,7 @@
       "target": "api::tool-and-resource.tool-and-resource"
     },
     "slug": {
-      "type": "uid",
-      "targetField": "Name"
+      "type": "uid"
     },
     "post_subtitle": {
       "type": "string",
@@ -84,8 +83,7 @@
     "Solutions": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::solution.solution",
-      "mappedBy": "research_team"
+      "target": "api::solution.solution"
     }
   }
 }

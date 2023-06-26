@@ -26,22 +26,6 @@
         "page.dropdown-navigation"
       ]
     },
-    "banner": {
-      "displayName": "Banner",
-      "type": "component",
-      "repeatable": false,
-      "component": "page.banner"
-    },
-    "body": {
-      "type": "dynamiczone",
-      "components": [
-        "page.section-news-and-event",
-        "page.section-solution",
-        "page.section-ai-tech-blogs",
-        "page.section-project",
-        "page.section-partner"
-      ]
-    },
     "footer": {
       "type": "dynamiczone",
       "components": [
@@ -56,6 +40,18 @@
       "type": "component",
       "repeatable": false,
       "component": "page.absolute-footer"
+    },
+    "body": {
+      "type": "dynamiczone",
+      "components": [
+        "page.section",
+        "page.banner"
+      ]
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
     }
   }
 }

@@ -22,21 +22,21 @@ export default function PostSidebar(props: any){
           <div className={styles.recent_post_list}>
             {
               recentPostList && recentPostList.map((item: any, index: number) => {
-                let tag = item.attributes.tag[0]
+                let tag = item.tag[0]
                 return(
                   <div className={styles.recent_post_item} key={index}>
                     <div className={styles.post_time}>
-                      <div className={styles.date_day}>{(new Date(item.attributes.publishAt)).getDate()}</div>
-                      <div className={styles.date_month}>{(new Date(item.attributes.publishAt)).toLocaleString('default', { month: 'short' })}</div>
+                      <div className={styles.date_day}>{(new Date(item.publishAt)).getDate()}</div>
+                      <div className={styles.date_month}>{(new Date(item.publishAt)).toLocaleString('default', { month: 'short' })}</div>
                     </div>
                     <div className={styles.right_content}>
                       <div className={styles.title}>
-                        <Link href={`/${tag}/${item.attributes.slug}`}>
-                          {item.attributes.title}
+                        <Link href={`/${tag}/${item.slug}`}>
+                          {item.title}
                         </Link>
                       </div>
                       <div style={{marginTop: "10px", fontSize: "12px", color: "#666666D9"}}>
-                        Comments {item.attributes.showCommentBox ? 'on' : 'off'}
+                        Comments {item.showCommentBox ? 'on' : 'off'}
                       </div>
                     </div>
                   </div>

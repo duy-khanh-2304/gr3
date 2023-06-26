@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 export default function ToolAndResources(props: any) {
   const toolAndResourceList = props.toolAndResourceList.data
   const numberPage = props.toolAndResourceList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
   const router = useRouter()
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -22,7 +22,7 @@ export default function ToolAndResources(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/researches/tool-and-resources/${item.attributes.slug}`)
+    router.push(`/researches/tool-and-resources/${item.slug}`)
   }
   return (
     <div>

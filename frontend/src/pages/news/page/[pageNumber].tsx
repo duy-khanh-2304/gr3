@@ -21,7 +21,7 @@ export default function NewsPage(props: any) {
   }
   const newsList = props.newsList.data
   const numberPage = props.newsList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
@@ -32,7 +32,7 @@ export default function NewsPage(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/news/${item.attributes.slug}`)
+    router.push(`/news/${item.slug}`)
   }
   const headTitle = `News Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (

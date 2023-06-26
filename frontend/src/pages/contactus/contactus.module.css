@@ -49,6 +49,7 @@
 }
 
 .input, .textarea{
+  padding: 10px;
   border: 1px solid #d9d5d5;
 }
 

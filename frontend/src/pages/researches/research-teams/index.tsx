@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 export default function ResearchTeams(props: any) {
   const teamList = props.teamList.data
   const numberPage = props.teamList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
   const router = useRouter()
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -22,7 +22,7 @@ export default function ResearchTeams(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/researches/research-teams/${item.attributes.slug}`)
+    router.push(`/researches/research-teams/${item.slug}`)
   }
   return (
     <div>

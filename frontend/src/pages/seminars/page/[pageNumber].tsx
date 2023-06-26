@@ -20,7 +20,7 @@ export default function SeminarsPage(props: any) {
   }
   const seminarList = props.seminarList.data
   const numberPage = props.seminarList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
@@ -31,7 +31,7 @@ export default function SeminarsPage(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/seminars/${item.attributes.slug}`)
+    router.push(`/seminars/${item.slug}`)
   }
   const headTitle = `Seminars Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (

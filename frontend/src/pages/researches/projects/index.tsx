@@ -14,15 +14,15 @@ import { useRouter } from 'next/router'
 export default function Projects(props: any) {
   const projectList = props.projectList.data
   const numberPage = props.projectList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
+  const router = useRouter()
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    window.location.href = `http://localhost:3000/researches/projects/page/${value}`
+    router.push(`/researches/projects/page/${value}`)
   }
 
-  const router = useRouter()
   const handleClick = (item: any) => {
-    window.location.href = `http://localhost:3000/researches/projects/${item.attributes.slug}`
+    router.push(`/researches/projects/${item.slug}`)
   }
   return (
     <div>

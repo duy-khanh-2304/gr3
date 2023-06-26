@@ -20,7 +20,7 @@ export default function SolutionsPage(props: any) {
   }
   const solutionList = props.solutionList.data
   const numberPage = props.solutionList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
@@ -31,7 +31,7 @@ export default function SolutionsPage(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/solutions/${item.attributes.slug}`)
+    router.push(`/solutions/${item.slug}`)
   }
   const headTitle = `Solutions Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (

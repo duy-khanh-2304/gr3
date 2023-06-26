@@ -18,10 +18,10 @@ export default function DetailPage(props: any) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const item = props.solutionItem
-  const imageUrls = item.attributes.content
-    .find((component: any) => component.__component === "content.light-box")?.images.data
+  const imageUrls = item.content
+    .find((component: any) => component.__component === "content.light-box")?.images
     .map((image: any) => {
-      return image.attributes.url
+      return image.url
     })
 
   const openLightbox = (index: any) => {
@@ -67,7 +67,7 @@ export default function DetailPage(props: any) {
     <Suspense fallback={<p>Loading information...</p>}>
       <div>
         <Head>
-          <title>{item.attributes.title}</title>
+          <title>{item.title}</title>
         </Head>
         <Layout data={props.layout}>
           <div className={styles.main}>
@@ -75,13 +75,17 @@ export default function DetailPage(props: any) {
               <Grid container>
                 <Grid item  lg={12} style={{ padding: "0 15px" }}>
                   <div className={styles.entry_header}>
-                    <h1 style={{ fontSize: "1.7rem" }}>
-                      {item.attributes.title}
-                    </h1>
+                  {
+                    item.url ? (
+                      <a href={item.url} className={styles.title_link}>
+                        <h1 style={{ fontSize: "1.7rem" }}>{item.title}</h1>
+                      </a>
+                    ) : <h1 style={{ fontSize: "1.7rem" }}>{item.title}</h1>
+                  }
                   </div>
                   <div className={styles.entry_content}>
                     {
-                      item.attributes.content.map((component: any, index: number) => {
+                      item.content.map((component: any, index: number) => {
                         if(component.__component === "content.paragraph"){
                           return (
                             <div key={index}>
@@ -150,7 +154,7 @@ export async function getStaticPaths() {
   const paths = solutionList.map((_: any) => {
     return ({
       params: {
-        slug: _.attributes.slug
+        slug: _.slug
       }
     })
   })
@@ -165,7 +169,7 @@ export async function getStaticProps({ params }: any) {
   const solutionItem = await getOneSolutionBySlug(params.slug)  
   return {
     props: {
-      layout: response.data.attributes,
+      layout: response.data,
       solutionItem: solutionItem.data[0],
     },
     revalidate: 20

@@ -8,14 +8,19 @@
     "cloudinary",
     "contactus",
     "containsi",
+    "enablejsapi",
+    "flickity",
     "fontawesome",
     "fortawesome",
     "Illo",
     "jsdelivr",
     "lightbox",
+    "modestbranding",
     "navbrand",
     "Pinterest",
+    "showinfo",
     "SOICT",
-    "strapi"
+    "strapi",
+    "widgetid"
   ]
 }

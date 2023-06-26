@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 export default function Seminars(props: any) {
   const seminarList = props.seminarList.data
   const numberPage = props.seminarList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
   const router = useRouter()
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -22,7 +22,7 @@ export default function Seminars(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/seminars/${item.attributes.slug}`)
+    router.push(`/seminars/${item.slug}`)
   }
   return (
     <div>

@@ -29,6 +29,7 @@
     "axios": "^1.4.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
+    "flickity": "^2.3.0",
     "fslightbox-react": "^1.7.4",
     "html-react-parser": "^3.0.16",
     "lodash": "^4.17.21",
@@ -42,6 +43,7 @@
     "use-places-autocomplete": "^4.0.0"
   },
   "devDependencies": {
+    "@types/flickity": "^2.2.7",
     "@types/google.maps": "^3.53.2"
   }
 }

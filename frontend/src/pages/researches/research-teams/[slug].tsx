@@ -17,7 +17,6 @@ import MemberCard from "@/components/memberCard/MemberCard";
 export default function DetailPage(props: any) {
   const item = props.teamItem
   const allTeams = props.allTeams
-  console.log('Props: ', props)
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -34,19 +33,19 @@ export default function DetailPage(props: any) {
   }
   
   const handleClickTeam = (item: any) => {
-    router.push(`/researches/research-teams/${item.attributes.slug}`)
+    router.push(`/researches/research-teams/${item.slug}`)
   }
 
   const handleClickProject = (item: any) => {
-    router.push(`/researches/projects/${item.attributes.slug}`)
+    router.push(`/researches/projects/${item.slug}`)
   }
 
   const handleClickToolAndResource = (item: any) => {
-    router.push(`/researches/tool-and-resources/${item.attributes.slug}`)
+    router.push(`/researches/tool-and-resources/${item.slug}`)
   }
 
   const handleClickSolution = (item: any) => {
-    router.push(`/researches/solutions/${item.attributes.slug}`)
+    router.push(`/researches/solutions/${item.slug}`)
   }
 
   const router = useRouter()
@@ -58,7 +57,7 @@ export default function DetailPage(props: any) {
   return (
     <div>
       <Head>
-        <title>{item.attributes.Name}</title>
+        <title>{item.title}</title>
       </Head>
       <Layout data={props.layout}>
         <div className={styles.main}>
@@ -67,44 +66,44 @@ export default function DetailPage(props: any) {
               <Grid container>
                 <Grid item lg={9} sm={8} style={{ padding: "0 15px" }}>
                   {
-                    item.attributes.Introduction && (
+                    item.Introduction && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Introduction</h2>
-                        {parse(item.attributes.Introduction)}
+                        {parse(item.Introduction)}
                       </div>
                     )
                   }
                   {
-                    item.attributes.ResearchDirections && (
+                    item.ResearchDirections && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Research Directions</h2>
-                        {parse(item.attributes.ResearchDirections)}
+                        {parse(item.ResearchDirections)}
                       </div>
                     )
                   }
                   {
-                    item.attributes.ResearchProblems && (
+                    item.ResearchProblems && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Research Problems</h2>
-                        {parse(item.attributes.ResearchProblems)}
+                        {parse(item.ResearchProblems)}
                       </div>
                     )
                   }
                   {
-                    item.attributes.Collaborations && (
+                    item.Collaborations && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Collaborations</h2>
-                        {parse(item.attributes.Collaborations)}
+                        {parse(item.Collaborations)}
                       </div>
                     )
                   }
                   {
-                    item.attributes.Members.data.length > 0 && (
+                    item.Members.length > 0 && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Members</h2>
                         <Grid container>
                           {
-                            item.attributes.Members.data.map((item: any, index: number) => {
+                            item.Members.map((item: any, index: number) => {
                               return (
                                 <Grid key={index} lg={4} md={6} sm={12}>
                                   <MemberCard member={item}/>
@@ -117,12 +116,12 @@ export default function DetailPage(props: any) {
                     )
                   }
                   {
-                    (item.attributes.Projects.data.length > 0 || item.attributes.Solutions.data.length > 0) && (
+                    (item.Projects.length > 0 || item.Solutions.length > 0) && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Projects and Solutions</h2>
                         <Grid container>
                           {
-                            item.attributes.Projects.data.map((item: any, index: number) => {
+                            item.Projects.map((item: any, index: number) => {
                               return (
                                 <Grid key={index} lg={6} sm={12}>
                                   <div 
@@ -131,13 +130,13 @@ export default function DetailPage(props: any) {
                                   >
                                     <div className={styles.content}>
                                       <img 
-                                        src={item.attributes.post_image.data.attributes.url} 
-                                        alt={item.attributes.post_image.data.attributes.name}
+                                        src={item.post_image.url} 
+                                        alt={item.post_image.name}
                                         className={styles.post_image} 
                                       />
                                       <div className={styles.text}>
                                         <div className={styles.title}>
-                                          <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.attributes.title}</h5>
+                                          <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.title}</h5>
                                         </div>
                                       </div>
                                     </div>
@@ -147,7 +146,7 @@ export default function DetailPage(props: any) {
                             })
                           }
                           {
-                            item.attributes.Solutions.data.map((item: any, index: number) => {
+                            item.Solutions.map((item: any, index: number) => {
                               return (
                                 <Grid key={index} lg={6} sm={12}>
                                   <div 
@@ -156,13 +155,13 @@ export default function DetailPage(props: any) {
                                   >
                                     <div className={styles.content}>
                                       <img 
-                                        src={item.attributes.post_image.data.attributes.url} 
-                                        alt={item.attributes.post_image.data.attributes.name}
+                                        src={item.post_image.url} 
+                                        alt={item.post_image.name}
                                         className={styles.post_image} 
                                       />
                                       <div className={styles.text}>
                                         <div className={styles.title}>
-                                          <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.attributes.title}</h5>
+                                          <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.title}</h5>
                                         </div>
                                       </div>
                                     </div>
@@ -176,12 +175,12 @@ export default function DetailPage(props: any) {
                     )
                   }
                   {
-                    item.attributes.ToolAndResources.data.length > 0 && (
+                    item.ToolAndResources.length > 0 && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Tool And Resources</h2>
                         <Grid container>
                           {
-                            item.attributes.ToolAndResources.data.map((item: any, index: number) => {
+                            item.ToolAndResources.map((item: any, index: number) => {
                               return (
                                 <Grid key={index} lg={6} sm={12}>
                                   <div 
@@ -190,13 +189,13 @@ export default function DetailPage(props: any) {
                                   >
                                     <div className={styles.content}>
                                       <img 
-                                        src={item.attributes.post_image.data.attributes.url} 
-                                        alt={item.attributes.post_image.data.attributes.name}
+                                        src={item.post_image.url} 
+                                        alt={item.post_image.name}
                                         className={styles.post_image} 
                                       />
                                       <div className={styles.text}>
                                         <div className={styles.title}>
-                                          <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.attributes.title}</h5>
+                                          <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.title}</h5>
                                         </div>
                                       </div>
                                     </div>
@@ -219,20 +218,20 @@ export default function DetailPage(props: any) {
                         {
                           allTeams && allTeams.map((item: any, index: number) => {
                             return(
-                              <div onClick={() => {handleClickTeam(item)}}>
-                                <Grid container key={index} 
+                              <div key={index} onClick={() => {handleClickTeam(item)}}>
+                                <Grid container
                                   className={styles.latest_projects_item}
                                 >
                                   <Grid item lg={3} style={{display: "flex", justifyContent: "center"}}>
                                     <img 
-                                      src={item.attributes.post_image.data.attributes.url} 
-                                      alt={item.attributes.post_image.data.attributes.name} 
+                                      src={item.post_image.url} 
+                                      alt={item.post_image.name} 
                                       className={styles.image_item}
                                     />
                                   </Grid>
                                   <Grid item lg={9}>
                                     <div className={styles.right_content}>
-                                      <span>{item.attributes.Name}</span>
+                                      <span>{item.title}</span>
                                     </div>
                                   </Grid>
                                 </Grid>
@@ -258,7 +257,7 @@ export async function getStaticPaths() {
   const paths = teamList.map((_: any) => {
     return ({
       params: {
-        slug: _.attributes.slug
+        slug: _.slug
       }
     })
   })
@@ -274,7 +273,7 @@ export async function getStaticProps({ params }: any) {
   const allTeams = await getAllTeams()
   return {
     props: {
-      layout: response.data.attributes,
+      layout: response.data,
       teamItem: teamItem.data[0],
       allTeams: allTeams
     },

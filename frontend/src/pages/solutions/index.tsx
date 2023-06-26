@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 export default function Solutions(props: any) {
   const solutionList = props.solutionList.data
   const numberPage = props.solutionList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
   const router = useRouter()
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -22,7 +22,7 @@ export default function Solutions(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/solutions/${item.attributes.slug}`)
+    router.push(`/solutions/${item.slug}`)
   }
   return (
     <div>

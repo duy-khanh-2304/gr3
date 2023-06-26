@@ -12,7 +12,7 @@ import { redirect } from 'next/navigation'
 export default function AiTechBlogsPage(props: any) {
   const aiTechBlogs = props.aiTechBlogs.data
   const numberPage = props.aiTechBlogs.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const router = useRouter()
 
@@ -26,7 +26,7 @@ export default function AiTechBlogsPage(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/ai-tech-blogs/${item.attributes.slug}`)
+    router.push(`/ai-tech-blogs/${item.slug}`)
   }
 
   if(router.isFallback){

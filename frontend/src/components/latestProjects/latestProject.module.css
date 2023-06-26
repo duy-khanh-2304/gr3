@@ -42,6 +42,5 @@
 }
 
 .leftImage{
-  padding: 4px;
-  width: 60px;
+  object-fit: cover !important;
 }

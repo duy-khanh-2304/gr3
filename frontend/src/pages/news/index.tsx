@@ -1,20 +1,17 @@
-import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
 import styles from './index.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
-import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
-import parse from 'html-react-parser'
-import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost } from '@/clientApi'
+import { getPaginatedSortedNews, getHomePage, getLatestPost } from '@/clientApi'
 import { useRouter } from 'next/router'
 
 export default function News(props: any) {
   const newsList = props.newsList.data
   const numberPage = props.newsList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     router.push(`/news/page/${value}`)
@@ -22,7 +19,7 @@ export default function News(props: any) {
 
   const router = useRouter()
   const handleClick = (item: any) => {
-    router.push(`/news/${item.attributes.slug}`)
+    router.push(`/news/${item.slug}`)
   }
   return (
     <div>
@@ -52,7 +49,7 @@ export default function News(props: any) {
                 </div>}
               </Grid>
               <Grid item sm={4} lg={3} style={{padding: "0 15px"}}>
-                <PostSidebar recentPostList={props.latestList}/>
+                <PostSidebar recentPostList={props.latestList.data}/>
               </Grid>
             </Grid>
           </div>
@@ -70,7 +67,7 @@ export async function getStaticProps() {
     props: {
       layout: homePage,
       newsList: newsList,
-      latestList: latestList.data
+      latestList: latestList
     },
     revalidate: 20
   }

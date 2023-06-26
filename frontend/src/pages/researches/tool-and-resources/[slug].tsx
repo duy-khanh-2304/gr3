@@ -13,10 +13,11 @@ import RelatedToolAndResource from "@/components/relatedToolAndResources/Related
 
 export default function DetailPage(props: any) {
   const item = props.toolAndResourceItem
-  const relatedToolAndResources = item.attributes.related.data.map((item: any) => {
+  const relatedToolAndResources = item.related.map((item: any) => {
     return {
-      post_image: item.attributes.post_image,
-      title: item.attributes.title
+      post_image: item.post_image,
+      title: item.title,
+      slug: item.slug
     }
   })
   const optionParse = {
@@ -44,7 +45,7 @@ export default function DetailPage(props: any) {
     <Suspense fallback={<p>Loading information...</p>}>
       <div>
         <Head>
-          <title>{item.attributes.title}</title>
+          <title>{item.title}</title>
         </Head>
         <Layout data={props.layout}>
           <div className={styles.main}>
@@ -55,11 +56,11 @@ export default function DetailPage(props: any) {
                     <Grid item lg={9} sm={8}>
                       <div className={styles.entry_header}>
                         {
-                          item.attributes.url ? (
+                          item.url ? (
                             <a href={item.attributes.url} className={styles.title_link}>
-                              <h1 style={{ fontSize: "1.7rem" }}>{item.attributes.title}</h1>
+                              <h1 style={{ fontSize: "1.7rem" }}>{item.title}</h1>
                             </a>
-                          ) : <h1 style={{ fontSize: "1.7rem" }}>{item.attributes.title}</h1>
+                          ) : <h1 style={{ fontSize: "1.7rem" }}>{item.title}</h1>
                         }
                       </div>
                     </Grid>
@@ -68,7 +69,7 @@ export default function DetailPage(props: any) {
                     <Grid item lg={9} sm={8} style={{ padding: "0 15px" }}>
                     <div className={styles.entry_content}>
                     {
-                      item.attributes.content.map((component: any, index: number) => {
+                      item.content.map((component: any, index: number) => {
                         if(component.__component === "content.paragraph"){
                           return (
                             <div key={index}>
@@ -113,7 +114,7 @@ export async function getStaticPaths() {
   const paths = toolAndResourceList.map((_: any) => {
     return ({
       params: {
-        slug: _.attributes.slug
+        slug: _.slug
       }
     })
   })
@@ -128,7 +129,7 @@ export async function getStaticProps({ params }: any) {
   const toolAndResourceItem = await getOneToolAndResourceBySlug(params.slug) 
   return {
     props: {
-      layout: response.data.attributes,
+      layout: response.data,
       toolAndResourceItem: toolAndResourceItem.data[0],
     },
     revalidate: 20

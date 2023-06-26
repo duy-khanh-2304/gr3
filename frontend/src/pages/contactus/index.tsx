@@ -36,8 +36,8 @@ export default function ContactUs(props: any){
                   return (
                     <div key={index} className={styles.contact_info}>
                       <img 
-                        src={item.image.data.attributes.url} 
-                        alt={item.image.data.attributes.name} 
+                        src={item.image.url} 
+                        alt={item.image.name} 
                         width="80px"
                         height="auto"
                       />
@@ -56,8 +56,8 @@ export default function ContactUs(props: any){
             <div className={styles.form}>
               <div className={styles.img}>
                 <img 
-                  src={image.data.attributes.url} 
-                  alt={image.data.attributes.name} 
+                  src={image.url} 
+                  alt={image.name} 
                   width="100%"
                   height="auto"
                 />
@@ -151,8 +151,8 @@ export async function getStaticProps() {
   const contactUsResponse = (await axiosInstance.get("/api/contact-us-page?populate=deep")).data
   return {
     props: {
-      layout: layoutResponse.data.attributes,
-      contactUs: contactUsResponse.data.attributes
+      layout: layoutResponse.data,
+      contactUs: contactUsResponse.data
     },
     revalidate: 10
   }

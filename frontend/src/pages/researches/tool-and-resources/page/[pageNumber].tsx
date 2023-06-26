@@ -21,7 +21,7 @@ export default function ToolAndResourcePage(props: any) {
   }
   const toolAndResourceList = props.toolAndResourceList.data
   const numberPage = props.toolAndResourceList.meta.pagination.pageCount
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
@@ -32,7 +32,7 @@ export default function ToolAndResourcePage(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/researches/tool-and-resources/${item.attributes.slug}`)
+    router.push(`/researches/tool-and-resources/${item.slug}`)
   }
 
   const headTitle = `Tool and Resources Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`

@@ -1,10 +1,12 @@
 .main{
   background-color: #ffffff;
+  z-index: 999;
+  position: relative;
 }
 
 .container {
   max-width: 1170px;
-  min-height: 100px;
+  min-height: 80px;
   margin: auto;
   padding: 0 15px;
   font-weight: 600;

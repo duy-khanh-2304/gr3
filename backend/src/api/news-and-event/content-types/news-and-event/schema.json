@@ -75,6 +75,16 @@
       ],
       "required": true,
       "pluginOptions": {}
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "versions": {
+          "versioned": true
+        }
+      },
+      "component": "shared.seo"
     }
   }
 }

@@ -14,17 +14,13 @@ import MemberCard from '@/components/memberCard/MemberCard'
 
 export default function OurTeam(props: any) {
   const ourTeamPage = props.ourTeamPage
-  const boardOfDirectors = ourTeamPage.data.attributes.boardOfDirectors
+  const boardOfDirectors = ourTeamPage.data.boardOfDirectors
   const teams = props.teams
-  const layout = props.layout.data.attributes
-
-  const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    router.push(`/news/page/${value}`)
-  }
+  const layout = props.layout.data
 
   const router = useRouter()
   const handleClick = (item: any) => {
-    router.push(`/news/${item.attributes.slug}`)
+    router.push(`/researches/research-teams/${item.slug}`)
   }
   return (
     <div>
@@ -38,7 +34,7 @@ export default function OurTeam(props: any) {
               <h2 className={styles.directorTitle}>Board of Directors</h2>
               <Grid container>
                 {
-                  boardOfDirectors.data.map((item: any, index: number) => {
+                  boardOfDirectors.map((item: any, index: number) => {
                     return (
                       <Grid item lg={3} key={index}>
                         <MemberCard member={item}/>
@@ -54,7 +50,7 @@ export default function OurTeam(props: any) {
           <div className={styles.container}>
             <div style={{padding: "0 15px"}}>
               <div className={styles.entry_content}>
-                {parse(ourTeamPage.data.attributes.researchTeam.content)}
+                {parse(ourTeamPage.data.researchTeam.content)}
               </div>
               <Grid container spacing={2}>
                 {
@@ -63,17 +59,17 @@ export default function OurTeam(props: any) {
                       <Grid item lg={3} md={4} key={index}>
                         <div 
                           className={`${styles.item} ${styles.card}`}
-                          onClick={props.onClick}
+                          onClick={() => {handleClick(team)}}
                         >
                           <div className={styles.content}>
                             <img 
-                              src={team.attributes.post_image.data.attributes.url} 
-                              alt={team.attributes.post_image.data.attributes.name}
+                              src={team.post_image.url} 
+                              alt={team.post_image.name}
                               className={styles.post_image} 
                             />
                             <div className={styles.text}>
                               <div className={styles.title}>
-                                <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{team.attributes.Name}</h5>
+                                <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{team.title}</h5>
                               </div>
                             </div>
                           </div>

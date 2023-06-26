@@ -13,14 +13,14 @@ import { useRouter } from 'next/router'
 import MemberCard from '@/components/memberCard/MemberCard'
 
 export default function OurTeam(props: any) {
-  const layout = props.layout.data.attributes
+  const layout = props.layout.data
 
   const router = useRouter()
   const handleClickProject = (item: any) => {
-    router.push(`/researches/projects/${item.attributes.slug}`)
+    router.push(`/researches/projects/${item.slug}`)
   }
   const handleClickToolAndResource = (item: any) => {
-    router.push(`/researches/toolAndResources/${item.attributes.slug}`)
+    router.push(`/researches/toolAndResources/${item.slug}`)
   }
   return (
     <div>
@@ -40,20 +40,20 @@ export default function OurTeam(props: any) {
                         {
                           props.projects.data.map((item: any, index: number) => {
                             return (
-                              <Grid key={index} lg={3} md={4} sm={6}>
+                              <Grid item key={index} lg={3} md={4} sm={6}>
                                 <div 
                                   className={`${styles.item} ${styles.card}`}
                                   onClick={() => {handleClickProject(item)}}
                                 >
                                   <div className={styles.content}>
                                     <img 
-                                      src={item.attributes.post_image.data.attributes.url} 
-                                      alt={item.attributes.post_image.data.attributes.name}
+                                      src={item.post_image.url} 
+                                      alt={item.post_image.name}
                                       className={styles.post_image} 
                                     />
                                     <div className={styles.text}>
                                       <div className={styles.title}>
-                                        <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.attributes.title}</h5>
+                                        <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.title}</h5>
                                       </div>
                                     </div>
                                   </div>
@@ -72,20 +72,20 @@ export default function OurTeam(props: any) {
                         {
                           props.toolAndResources.data.map((item: any, index: number) => {
                             return (
-                              <Grid key={index} lg={3} md={4} sm={6}>
+                              <Grid item key={index} lg={3} md={4} sm={6}>
                                 <div 
                                   className={`${styles.item} ${styles.card}`}
                                   onClick={() => {handleClickToolAndResource(item)}}
                                 >
                                   <div className={styles.content}>
                                     <img 
-                                      src={item.attributes.post_image.data.attributes.url} 
-                                      alt={item.attributes.post_image.data.attributes.name}
+                                      src={item.post_image.url} 
+                                      alt={item.post_image.name}
                                       className={styles.post_image} 
                                     />
                                     <div className={styles.text}>
                                       <div className={styles.title}>
-                                        <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.attributes.title}</h5>
+                                        <h5 style={{fontFamily: 'Nunito, sans-serif !important'}}>{item.title}</h5>
                                       </div>
                                     </div>
                                   </div>

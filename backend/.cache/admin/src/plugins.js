@@ -7,6 +7,8 @@ import ckeditor from '../../../src/plugins/strapi-plugin-ckeditor/strapi-admin.j
 import entityRelationshipChart from '../../../node_modules/strapi-plugin-entity-relationship-chart/strapi-admin.js';
 import contentVersioning from '../../../node_modules/@notum-cz/strapi-plugin-content-versioning/strapi-admin.js';
 import importExportEntries from '../../../node_modules/strapi-plugin-import-export-entries/strapi-admin.js';
+import menus from '../../../node_modules/strapi-plugin-menus/strapi-admin.js';
+import seo from '../../../node_modules/@strapi/plugin-seo/strapi-admin.js';
 import ckeditor5 from '../../../node_modules/@_sh/strapi-plugin-ckeditor/strapi-admin.js';
 import colorPicker from '../../../node_modules/@strapi/plugin-color-picker/strapi-admin.js';
 import documentation from '../../../node_modules/@strapi/plugin-documentation/strapi-admin.js';
@@ -14,6 +16,9 @@ import i18N from '../../../node_modules/@strapi/plugin-i18n/strapi-admin.js';
 import usersPermissions from '../../../node_modules/@strapi/plugin-users-permissions/strapi-admin.js';
 import configSync from '../../../node_modules/strapi-plugin-config-sync/strapi-admin.js';
 import multiSelect from '../../../node_modules/strapi-plugin-multi-select/strapi-admin.js';
+import muxVideoUploader from '../../../node_modules/strapi-plugin-mux-video-uploader/strapi-admin.js';
+import oembed from '../../../node_modules/strapi-plugin-oembed/strapi-admin.js';
+import restCache from '../../../node_modules/strapi-plugin-rest-cache/strapi-admin.js';
 import strapiTiptapEditor from '../../../node_modules/strapi-tiptap-editor/strapi-admin.js';
 
 
@@ -26,6 +31,8 @@ const plugins = {
   'entity-relationship-chart': entityRelationshipChart,
   'content-versioning': contentVersioning,
   'import-export-entries': importExportEntries,
+  'menus': menus,
+  'seo': seo,
   'ckeditor5': ckeditor5,
   'color-picker': colorPicker,
   'documentation': documentation,
@@ -33,6 +40,9 @@ const plugins = {
   'users-permissions': usersPermissions,
   'config-sync': configSync,
   'multi-select': multiSelect,
+  'mux-video-uploader': muxVideoUploader,
+  'oembed': oembed,
+  'rest-cache': restCache,
   'strapi-tiptap-editor': strapiTiptapEditor,
 };
 
