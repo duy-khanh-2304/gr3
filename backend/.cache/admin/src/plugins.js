@@ -10,7 +10,6 @@ import menus from '../../../node_modules/strapi-plugin-menus/strapi-admin.js';
 import seo from '../../../node_modules/@strapi/plugin-seo/strapi-admin.js';
 import statistics from '../../../src/plugins/statistics/strapi-admin.js';
 import ckeditor5 from '../../../node_modules/@_sh/strapi-plugin-ckeditor/strapi-admin.js';
-import contentVersioning from '../../../node_modules/@notum-cz/strapi-plugin-content-versioning/strapi-admin.js';
 import colorPicker from '../../../node_modules/@strapi/plugin-color-picker/strapi-admin.js';
 import documentation from '../../../node_modules/@strapi/plugin-documentation/strapi-admin.js';
 import i18N from '../../../node_modules/@strapi/plugin-i18n/strapi-admin.js';
@@ -33,7 +32,6 @@ const plugins = {
   'seo': seo,
   'statistics': statistics,
   'ckeditor5': ckeditor5,
-  'content-versioning': contentVersioning,
   'color-picker': colorPicker,
   'documentation': documentation,
   'i18n': i18N,

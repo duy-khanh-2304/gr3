@@ -2205,15 +2205,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     "fastq" "^1.6.0"
 
-"@notum-cz/strapi-plugin-content-versioning@^0.4.7":
-  "integrity" "sha512-Hy5Uw/FWpdWJ1CmbLwCBfMZWB1wpZrhaIttT1yz8T7WNRaVpEgTXrv9xOT5XUTsTIA5kfKv1O1kWjfiBqKa4pg=="
-  "resolved" "https://registry.npmjs.org/@notum-cz/strapi-plugin-content-versioning/-/strapi-plugin-content-versioning-0.4.7.tgz"
-  "version" "0.4.7"
-  dependencies:
-    "@strapi/utils" "^4.0.0"
-    "lodash" "^4.17.21"
-    "uuid" "^8.3.2"
-
 "@pmmmwh/react-refresh-webpack-plugin@0.5.10":
   "integrity" "sha512-j0Ya0hCFZPd4x40qLzbhGsh9TMtdb+CJQiso+WxLOPNasohq9cc5SNUcwsZaRH6++Xh91Xkm/xHCkuIiIu0LUA=="
   "resolved" "https://registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.5.10.tgz"
@@ -3368,7 +3359,7 @@
     "aria-hidden" "^1.2.3"
     "react-remove-scroll" "^2.5.5"
 
-"@strapi/utils@^4.0.0", "@strapi/utils@^4.0.7", "@strapi/utils@^4.9.0", "@strapi/utils@4.10.6":
+"@strapi/utils@^4.0.7", "@strapi/utils@^4.9.0", "@strapi/utils@4.10.6":
   "integrity" "sha512-X9dNy31mhTvoeoLScGGw722N2r/bTaSp8wU8ryMvnooLYKcbw7GOcU6rSM7k5WNQToWziaditA2Vx34nZNdUsw=="
   "resolved" "https://registry.npmjs.org/@strapi/utils/-/utils-4.10.6.tgz"
   "version" "4.10.6"
