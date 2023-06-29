@@ -132,7 +132,7 @@ export async function getStaticProps({ params }: any) {
   return {
     props: {
       layout: response.data,
-      eventItem: eventItem.data[0],
+      eventItem: eventItem.data,
       commentBox: commentBox.data,
       latestList: latestList.data
     },

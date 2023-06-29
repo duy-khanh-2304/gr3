@@ -85,6 +85,16 @@
         }
       },
       "component": "shared.seo"
+    },
+    "seen_time_array": {
+      "type": "component",
+      "repeatable": true,
+      "pluginOptions": {
+        "versions": {
+          "versioned": true
+        }
+      },
+      "component": "content.seen-array-time"
     }
   }
 }

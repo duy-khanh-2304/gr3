@@ -38,7 +38,7 @@ export async function getPaginatedSortedNews(page: number = 1){
 }
 
 export async function getOneNewsBySlug(slug: string){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&filters[slug][$eq]=${slug}&populate=deep`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events/${slug}?populate=deep&filters[tag][$containsi]=news`)).data
   return response
 }
 
@@ -68,7 +68,7 @@ export async function getPaginatedSortedEvents(page: number = 1){
 }
 
 export async function getOneEventBySlug(slug: string){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&filters[slug][$eq]=${slug}&populate=deep`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events/${slug}?filters[tag][$containsi]=events&populate=deep`)).data
   return response
 }
 
@@ -98,7 +98,7 @@ export async function getPaginatedSortedSeminars(page: number = 1){
 }
 
 export async function getOneSeminarBySlug(slug: string){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&filters[slug][$eq]=${slug}&populate=deep`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events/${slug}?filters[tag][$containsi]=seminars&populate=deep`)).data
   return response
 }
 

@@ -62,9 +62,6 @@ module.exports = ({ env }) => ({
       ],
     },
   },
-  "content-versioning": {
-		enabled:  true,
-	},
   'import-export-entries': {
     enabled: true,
     config: {
@@ -109,5 +106,9 @@ module.exports = ({ env }) => ({
         }
       }
     }
+  },
+  'statistics': {
+    enabled: true,
+    resolve: './src/plugins/statistics'
   },
 });

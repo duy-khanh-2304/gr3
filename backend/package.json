@@ -35,13 +35,11 @@
     "strapi-plugin-import-export-entries": "^1.21.0",
     "strapi-plugin-menus": "^1.4.3",
     "strapi-plugin-multi-select": "^1.1.0",
-    "strapi-plugin-mux-video-uploader": "^2.6.0",
     "strapi-plugin-oembed": "^1.0.1",
     "strapi-plugin-populate-deep": "^2.0.0",
     "strapi-plugin-rest-cache": "^4.2.7",
     "strapi-plugin-slugify": "^2.3.2",
-    "strapi-plugin-transformer": "^3.1.0",
-    "strapi-tiptap-editor": "^0.9.12"
+    "strapi-plugin-transformer": "^3.1.0"
   },
   "author": {
     "name": "A Strapi developer"

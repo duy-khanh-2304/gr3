@@ -125,13 +125,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: any) {
   const homePage = await getHomePage()
-  const newsItem = await getOneNewsBySlug(params.slug) 
+  const newsItem = await getOneNewsBySlug(params.slug)
   const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
   const latestList = await getLatestPost()
   return {
     props: {
       layout: homePage,
-      newsItem: newsItem.data[0],
+      newsItem: newsItem.data,
       commentBox: commentBox.data,
       latestList: latestList.data
     },

@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_content_seen_array_times",
+  "info": {
+    "displayName": "Seen Time Array",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "time": {
+      "type": "datetime"
+    }
+  }
+}
