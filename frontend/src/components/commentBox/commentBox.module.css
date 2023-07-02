@@ -33,8 +33,11 @@
   color: #fff;
   background-color: #7a9c59;
   width: fit-content;
+  outline: none;
+  border: none;
 }
 
 .button_post_comment:hover{
+  cursor: pointer;
   background-color: #6a894a;
 }

@@ -1,7 +1,7 @@
 import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import PostSidebar from "@/components/postSidebar/PostSidebar";
@@ -9,11 +9,13 @@ import parse from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import { getAllNews, getHomePage, getLatestPost, getOneNewsBySlug } from "@/clientApi";
+import { addCommentNewsAndEvent, getAllNews, getHomePage, getLatestPost, getOneNewsBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
+import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
   const item = props.newsItem
+  const [commentList, setCommentList] = useState<Array<any>>(item.comment)
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -27,6 +29,22 @@ export default function DetailPage(props: any) {
         )
       }
     }
+  }
+
+  const handlePostComment = async (commentData: any) => {
+    const now = new Date()
+    await addCommentNewsAndEvent(item.slug, {
+      ...commentData,
+      commentedAt: now,
+      isModerated: false
+    })
+    setCommentList(prev => {
+      return [...prev, {
+        ...commentData,
+        commentedAt: now,
+        isModerated: false
+      }]
+    })
   }
 
   const router = useRouter()
@@ -92,8 +110,17 @@ export default function DetailPage(props: any) {
                   <div>
                     {item.showCommunicationLink && <CommunicationLinks />}
                   </div>
+                  {
+                    commentList.length && commentList.map((item: any, index: number) => {
+                      return (
+                        <div>
+                          <CommentEntry item={item}/>
+                        </div>
+                      )
+                    })
+                  }
                   <div>
-                    {item.showCommentBox && <CommentBox data={props.commentBox} />}
+                    {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment}/>}
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>

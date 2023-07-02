@@ -105,7 +105,7 @@ export default function DetailPage(props: any) {
                           {
                             item.Members.map((item: any, index: number) => {
                               return (
-                                <Grid key={index} lg={4} md={6} sm={12}>
+                                <Grid item key={index} lg={4} md={6} sm={12}>
                                   <MemberCard member={item}/>
                                 </Grid>
                               )
@@ -123,7 +123,7 @@ export default function DetailPage(props: any) {
                           {
                             item.Projects.map((item: any, index: number) => {
                               return (
-                                <Grid key={index} lg={6} sm={12}>
+                                <Grid item key={index} lg={6} sm={12}>
                                   <div 
                                     className={`${styles.item} ${styles.card}`}
                                     onClick={() => {handleClickProject(item)}}
@@ -148,7 +148,7 @@ export default function DetailPage(props: any) {
                           {
                             item.Solutions.map((item: any, index: number) => {
                               return (
-                                <Grid key={index} lg={6} sm={12}>
+                                <Grid item key={index} lg={6} sm={12}>
                                   <div 
                                     className={`${styles.item} ${styles.card}`}
                                     onClick={() => {handleClickSolution(item)}}
@@ -182,7 +182,7 @@ export default function DetailPage(props: any) {
                           {
                             item.ToolAndResources.map((item: any, index: number) => {
                               return (
-                                <Grid key={index} lg={6} sm={12}>
+                                <Grid item key={index} lg={6} sm={12}>
                                   <div 
                                     className={`${styles.item} ${styles.card}`}
                                     onClick={() => {handleClickToolAndResource(item)}}
@@ -274,7 +274,7 @@ export async function getStaticProps({ params }: any) {
   return {
     props: {
       layout: response.data,
-      teamItem: teamItem.data[0],
+      teamItem: teamItem.data,
       allTeams: allTeams
     },
     revalidate: 20

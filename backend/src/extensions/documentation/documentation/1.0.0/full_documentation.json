@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2023-06-29T13:52:23.618Z"
+    "x-generation-date": "2023-07-02T03:50:42.314Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -152,6 +152,12 @@
                   }
                 ],
                 "example": "string or id"
+              },
+              "seen_time_array": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
+                }
               }
             }
           }
@@ -874,6 +880,12 @@
               }
             }
           },
+          "seen_time_array": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -1013,6 +1025,18 @@
           },
           "content": {
             "type": "string"
+          }
+        }
+      },
+      "ContentSeenArrayTimeComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -4911,6 +4935,12 @@
                 "items": {
                   "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
                 }
+              },
+              "comment": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ContentCommentComponent"
+                }
               }
             }
           }
@@ -5641,6 +5671,12 @@
               "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
             }
           },
+          "comment": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentCommentComponent"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -5711,13 +5747,29 @@
           }
         }
       },
-      "ContentSeenArrayTimeComponent": {
+      "ContentCommentComponent": {
         "type": "object",
         "properties": {
           "id": {
             "type": "number"
           },
-          "time": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "website": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "isModerated": {
+            "type": "boolean"
+          },
+          "commentedAt": {
             "type": "string",
             "format": "date-time"
           }
@@ -7402,6 +7454,12 @@
                     }
                   ]
                 }
+              },
+              "seen_time_array": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
+                }
               }
             }
           }
@@ -8110,6 +8168,12 @@
                   "$ref": "#/components/schemas/ContentParagraphComponent"
                 }
               ]
+            }
+          },
+          "seen_time_array": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
             }
           },
           "createdAt": {
@@ -8858,6 +8922,12 @@
                     }
                   ],
                   "example": "string or id"
+                }
+              },
+              "seen_time_array": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
                 }
               }
             }
@@ -10129,6 +10199,21 @@
                             ]
                           }
                         },
+                        "seen_time_array": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "time": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          }
+                        },
                         "createdAt": {
                           "type": "string",
                           "format": "date-time"
@@ -10394,6 +10479,21 @@
                                     "properties": {}
                                   }
                                 }
+                              }
+                            }
+                          }
+                        },
+                        "seen_time_array": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "time": {
+                                "type": "string",
+                                "format": "date-time"
                               }
                             }
                           }
@@ -10878,6 +10978,21 @@
                         "url": {
                           "type": "string"
                         },
+                        "seen_time_array": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "time": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          }
+                        },
                         "createdAt": {
                           "type": "string",
                           "format": "date-time"
@@ -10925,6 +11040,12 @@
                   }
                 }
               }
+            }
+          },
+          "seen_time_array": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
             }
           },
           "createdAt": {
@@ -11046,6 +11167,12 @@
               },
               "url": {
                 "type": "string"
+              },
+              "seen_time_array": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
+                }
               }
             }
           }
@@ -11755,6 +11882,12 @@
           "url": {
             "type": "string"
           },
+          "seen_time_array": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -12050,6 +12183,12 @@
                     }
                   ],
                   "example": "string or id"
+                }
+              },
+              "seen_time_array": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
                 }
               }
             }
@@ -12973,6 +13112,21 @@
                             }
                           }
                         },
+                        "seen_time_array": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "time": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          }
+                        },
                         "createdAt": {
                           "type": "string",
                           "format": "date-time"
@@ -13020,6 +13174,12 @@
                   }
                 }
               }
+            }
+          },
+          "seen_time_array": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentSeenArrayTimeComponent"
             }
           },
           "createdAt": {

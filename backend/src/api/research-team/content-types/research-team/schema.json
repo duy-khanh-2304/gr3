@@ -84,6 +84,11 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::solution.solution"
+    },
+    "seen_time_array": {
+      "type": "component",
+      "repeatable": true,
+      "component": "content.seen-array-time"
     }
   }
 }

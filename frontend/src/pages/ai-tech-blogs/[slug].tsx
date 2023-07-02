@@ -236,7 +236,7 @@ export async function getStaticProps({ params }: any) {
   return {
     props: {
       layout: response.data,
-      aiTechBlog: aiTechBlog.data[0],
+      aiTechBlog: aiTechBlog.data,
       commentBox: commentBox.data,
       latestList: latestList.data,
     },

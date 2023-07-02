@@ -43,6 +43,11 @@
     },
     "url": {
       "type": "string"
+    },
+    "seen_time_array": {
+      "type": "component",
+      "repeatable": true,
+      "component": "content.seen-array-time"
     }
   }
 }

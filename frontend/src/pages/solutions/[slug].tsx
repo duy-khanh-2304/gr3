@@ -34,12 +34,18 @@ export default function DetailPage(props: any) {
   };
 
   const goToPrevious = () => {
-    if (currentImageIndex === 0) return;
+    if (currentImageIndex === 0) {
+      setCurrentImageIndex(imageUrls.length - 1)
+      return
+    };
     setCurrentImageIndex(currentImageIndex - 1);
   };
 
   const goToNext = () => {
-    if (currentImageIndex === imageUrls.length - 1) return;
+    if (currentImageIndex === imageUrls.length - 1) {
+      setCurrentImageIndex(0)
+      return
+    };
     setCurrentImageIndex(currentImageIndex + 1);
   };
   const optionParse = {
@@ -170,7 +176,7 @@ export async function getStaticProps({ params }: any) {
   return {
     props: {
       layout: response.data,
-      solutionItem: solutionItem.data[0],
+      solutionItem: solutionItem.data,
     },
     revalidate: 20
   }

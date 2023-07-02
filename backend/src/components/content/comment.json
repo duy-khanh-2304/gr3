@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_content_comments",
+  "info": {
+    "displayName": "Comment",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "website": {
+      "type": "string"
+    },
+    "comment": {
+      "type": "richtext"
+    },
+    "isModerated": {
+      "type": "boolean",
+      "default": false
+    },
+    "commentedAt": {
+      "type": "datetime"
+    }
+  }
+}

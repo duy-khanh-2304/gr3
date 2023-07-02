@@ -144,7 +144,7 @@ export async function getStaticProps({ params }: any) {
   return {
     props: {
       layout: response.data,
-      projectItem: projectItem.data[0],
+      projectItem: projectItem.data,
       latestProjects: latestProjects.data
     },
     revalidate: 20

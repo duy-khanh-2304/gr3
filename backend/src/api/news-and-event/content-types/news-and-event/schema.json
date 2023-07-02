@@ -95,6 +95,12 @@
         }
       },
       "component": "content.seen-array-time"
+    },
+    "comment": {
+      "displayName": "Comment",
+      "type": "component",
+      "repeatable": true,
+      "component": "content.comment"
     }
   }
 }

@@ -133,7 +133,7 @@ export async function getPaginatedSortedAiTechBlogs(page: number = 1){
 }
 
 export async function getOneAiTechBlogBySlug(slug: string){
-  const response = (await axiosInstance.get(`/api/ai-tech-blogs?filters[slug][$eq]=${slug}&populate=deep`)).data
+  const response = (await axiosInstance.get(`/api/ai-tech-blogs/${slug}?populate=deep`)).data
   return response
 }
 
@@ -158,7 +158,7 @@ export async function getPaginatedProjects(page: number = 1){
 }
 
 export async function getOneProjectBySlug(slug: string){
-  const response = (await axiosInstance.get(`/api/projects?filters[slug][$eq]=${slug}&populate=deep`)).data
+  const response = (await axiosInstance.get(`/api/projects/${slug}?populate=deep`)).data
   return response
 }
 
@@ -188,7 +188,7 @@ export async function getPaginatedToolAndResources(page: number = 1){
 }
 
 export async function getOneToolAndResourceBySlug(slug: string){
-  const response = (await axiosInstance.get(`/api/tool-and-resources?filters[slug][$eq]=${slug}&populate=deep,3`)).data
+  const response = (await axiosInstance.get(`/api/tool-and-resources/${slug}?populate=deep,3`)).data
   return response
 }
 
@@ -218,7 +218,7 @@ export async function getPaginatedSolutions(page: number = 1){
 }
 
 export async function getOneSolutionBySlug(slug: string){
-  const response = (await axiosInstance.get(`/api/solutions?filters[slug][$eq]=${slug}&populate=deep`)).data
+  const response = (await axiosInstance.get(`/api/solutions/${slug}?populate=deep`)).data
   return response
 }
 
@@ -258,7 +258,7 @@ export async function getPaginatedTeams(page: number = 1){
 }
 
 export async function getOneTeamBySlug(slug: string){
-  const response = (await axiosInstance.get(`/api/research-teams?filters[slug][$eq]=${slug}&populate=deep`)).data
+  const response = (await axiosInstance.get(`/api/research-teams/${slug}?populate=deep`)).data
   return response
 }
 
@@ -270,4 +270,12 @@ export async function getOurTeamPage(){
 export async function getAllPartners(){
   const response = (await axiosInstance.get(`/api/partners?populate=deep`)).data
   return response
+}
+
+export async function addCommentNewsAndEvent(slug: string, data: any){
+  const response = (await axiosInstance.put(
+    `/api/news-and-events/${slug}/comment?populate=deep`,
+    data
+  ))
+  console.log("Response: ", response)
 }

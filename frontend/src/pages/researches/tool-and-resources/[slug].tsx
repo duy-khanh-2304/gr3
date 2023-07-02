@@ -130,7 +130,7 @@ export async function getStaticProps({ params }: any) {
   return {
     props: {
       layout: response.data,
-      toolAndResourceItem: toolAndResourceItem.data[0],
+      toolAndResourceItem: toolAndResourceItem.data,
     },
     revalidate: 20
   }
