@@ -24,6 +24,9 @@
     },
     "commentedAt": {
       "type": "datetime"
+    },
+    "uuid": {
+      "type": "string"
     }
   }
 }

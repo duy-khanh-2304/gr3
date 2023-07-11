@@ -1,10 +1,11 @@
 import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styles from './contactus.module.css'
 import { NextPage } from 'next'
 import { useLoadScript, GoogleMap, MarkerF } from '@react-google-maps/api'
+import { sendMessage } from '@/clientApi'
 
 export default function ContactUs(props: any){
   const {
@@ -14,12 +15,15 @@ export default function ContactUs(props: any){
 
   const {
     input,
-    image,
-    button
+    image
   } = props.contactUs.form
 
-  const handleSubmit = () => {
+  const [message, setMessage] = useState({})
 
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    (document.getElementById("form-contact") as any).reset()
+    await sendMessage(JSON.stringify(message))
   }
 
   return (
@@ -63,13 +67,13 @@ export default function ContactUs(props: any){
                 />
               </div>
               <div className={styles.form_input}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={(event) => handleSubmit(event)} id="form-contact">
                   {
                     input.map((item: any, index: number) => {
                       return(
                         <div key={index} className={styles.form_item}>
                           <label htmlFor={item.name}>
-                            <h3>{item.label}</h3>
+                            <h3>{item.label} {item.required ? (<span style={{color: 'red'}}>*</span>) : ''}</h3>
                           </label>
                           {
                             item.type === "textarea" &&
@@ -78,24 +82,39 @@ export default function ContactUs(props: any){
                               id={item.name} 
                               name={item.name} 
                               placeholder={item.placeholder ? item.placeholder : ''}
+                              required={item.required}
+                              onChange={(event) => {
+                                setMessage(prev => {
+                                  (prev as any)[item.name] = event.target.value
+                                  return prev
+                                })
+                              }}
                             ></textarea>
                           }
                           {
                             item.type !== "textarea" && 
                             <input 
                               className={styles.input}
+                              type={item.type}
                               name={item.name} 
                               id={item.name} 
                               placeholder={item.placeholder ? item.placeholder : ''}
+                              required={item.required}
+                              onChange={(event) => {
+                                setMessage(prev => {
+                                  (prev as any)[item.name] = event.target.value
+                                  return prev
+                                })
+                              }}
                             />
                           }
                         </div>
                       )
                     })
                   }
-                   <div onClick={handleSubmit} className={styles.button}>
-                      {button}
-                    </div>
+                    <button type='submit' className={styles.button}>
+                      SUBMIT
+                    </button>
                 </form>
               </div>
             </div>

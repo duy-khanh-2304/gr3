@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './commentEntry.module.css'
+
 export default function CommentEntry(props: any){
-  console.log('Props: ', props)
   const formatTime = (commentedAt: any) => {
     const time = new Date(commentedAt)
     const date = time.getDate().toString().padStart(2, '0')
@@ -11,6 +11,7 @@ export default function CommentEntry(props: any){
     const min = time.getMinutes().toString().padStart(2, '0')
     return `${date}/${month}/${year} ${hour}:${min}`
   }
+
   return (
     <div className={styles.container}>
       <div style={{display: "flex", justifyContent: "space-between", marginBottom: "8px"}}>

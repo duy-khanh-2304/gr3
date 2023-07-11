@@ -1,4 +1,5 @@
 .container{
+  margin-top: 40px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -12,7 +13,7 @@
   height: 32px;
   padding: 5px;
   background-color: #7a9c59;
-  color: #fff;
+  color: #fff !important;
   margin: 4px;
 }
 

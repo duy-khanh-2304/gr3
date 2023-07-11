@@ -5,6 +5,6 @@ module.exports = {
     withCount: true,
   },
   responses: {
-    privateAttributes: [],
+    privateAttributes: ['seen_time_array'],
   }
 };

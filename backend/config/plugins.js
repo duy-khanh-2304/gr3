@@ -111,8 +111,12 @@ module.exports = ({ env }) => ({
     enabled: true,
     resolve: './src/plugins/statistics'
   },
-  'comment': {
+  'comments': {
     enabled: true,
-    resolve: './src/plugins/comment'
+    resolve: './src/plugins/comments'
+  },
+  'contact': {
+    enabled: true,
+    resolve: './src/plugins/contact'
   },
 });

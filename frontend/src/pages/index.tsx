@@ -17,8 +17,7 @@ export default function Home(props: any) {
   const src = (parse(background.rawData.html) as any).props.src
 
   const sections = props.data.body.filter((component: any) => component.__component === "page.section")
-  console.log("Props: ", props.data.body)
-  console.log("Section data; ", props.sectionsData)
+  
   const openOverlay = () => {
     setIsShowOverlay(true)
   }

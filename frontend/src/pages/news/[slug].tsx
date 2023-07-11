@@ -9,13 +9,14 @@ import parse from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import { addCommentNewsAndEvent, getAllNews, getHomePage, getLatestPost, getOneNewsBySlug } from "@/clientApi";
+import { addComment, getAllNews, getHomePage, getLatestPost, getOneNewsBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
   const item = props.newsItem
   const [commentList, setCommentList] = useState<Array<any>>(item.comment)
+  const [isError, setIsError] = useState<boolean>(false)
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -32,19 +33,28 @@ export default function DetailPage(props: any) {
   }
 
   const handlePostComment = async (commentData: any) => {
+    setIsError(false)
     const now = new Date()
-    await addCommentNewsAndEvent(item.slug, {
-      ...commentData,
-      commentedAt: now,
-      isModerated: false
-    })
-    setCommentList(prev => {
-      return [...prev, {
-        ...commentData,
-        commentedAt: now,
-        isModerated: false
-      }]
-    })
+    try{
+      await addComment(
+        'news-and-events',
+        item.slug, 
+        {
+          ...commentData,
+          commentedAt: now,
+          isModerated: false
+        }
+      )
+      setCommentList(prev => {
+        return [...prev, {
+          ...commentData,
+          commentedAt: now,
+          isModerated: false
+        }]
+      })
+    }catch(error){
+      setIsError(true)
+    }
   }
 
   const router = useRouter()
@@ -111,16 +121,16 @@ export default function DetailPage(props: any) {
                     {item.showCommunicationLink && <CommunicationLinks />}
                   </div>
                   {
-                    commentList.length && commentList.map((item: any, index: number) => {
+                    commentList.length > 0 && commentList.map((item: any, index: number) => {
                       return (
-                        <div>
+                        <div key={index}>
                           <CommentEntry item={item}/>
                         </div>
                       )
                     })
                   }
                   <div>
-                    {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment}/>}
+                    {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment} isError={isError}/>}
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>

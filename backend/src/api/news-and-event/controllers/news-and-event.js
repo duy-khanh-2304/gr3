@@ -6,6 +6,8 @@
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
+const {v4: uuidv4} = require('uuid')
+
 module.exports = createCoreController('api::news-and-event.news-and-event', ({strapi}) => ({
   async findOne(ctx){
     const {id: slug} = ctx.params
@@ -38,6 +40,8 @@ module.exports = createCoreController('api::news-and-event.news-and-event', ({st
     }
     query.filters.slug = {'$eq': slug}
     const entity = await strapi.service('api::news-and-event.news-and-event').find(query)
+
+    ctx.request.body.uuid = uuidv4()
     await strapi.service('api::news-and-event.news-and-event').update(entity.results[0].id, {
       data: {
         comment: [
@@ -46,10 +50,14 @@ module.exports = createCoreController('api::news-and-event.news-and-event', ({st
         ]
       }
     })
-    await strapi.entityService.create('plugin::comment.comment', {
-      data: ctx.request.body
+    await strapi.entityService.create('plugin::comments.comment', {
+      data: {
+        ...ctx.request.body,
+        contentType: "news-and-event",
+        slug: entity.results[0].slug,
+        title: entity.results[0].title
+      }
     })
-    console.log("Passing .....")
     ctx.body = "post comment successfully !"
   }
 }));

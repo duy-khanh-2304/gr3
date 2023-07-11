@@ -1,20 +1,18 @@
 import axiosInstance from '@/axiosConfig'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './commentBox.module.css'
 import parse from'html-react-parser'
-import { Grid } from '@mui/material'
-import { addCommentNewsAndEvent } from '@/clientApi'
+import { CircularProgress, Grid } from '@mui/material'
 
 export default function CommentBox(props: any){
   const data = props.data
-
   const [commentData, setCommentData] = useState({
     name: null,
     email: null,
     website: null,
     comment: null
   })
-
+  const [isLoading, setIsLoading] = useState(false)
   const handleChange = async (event: any) => {
     const {name, value} = event.target
     setCommentData((prev) => {
@@ -24,14 +22,29 @@ export default function CommentBox(props: any){
       }
     })
   }
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault()
+    setIsLoading(true)
+    await props.onPostComment(commentData)
+    setCommentData({
+      name: null,
+      email: null,
+      website: null,
+      comment: null
+    });
+    (document.getElementById("form_comment") as any).reset()
+    setIsLoading(false)
+  }
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         {parse(data.text)}
       </div>
-      <form onSubmit={(event) => {
-        console.log("Event: ", event)
-      }}>
+      <form 
+        id="form_comment"
+        onSubmit={handleSubmit}
+      >
         <Grid container spacing={2}>
           {
             data.inputList.map((item: any, index: number) => {
@@ -71,15 +84,18 @@ export default function CommentBox(props: any){
             })
           }
         </Grid>
-      </form>
-      <button 
-        type='submit'
-        onClick={(event: any) => {
-          event.preventDefault()
-          props.onPostComment(commentData)
-        }}
-        className={styles.button_post_comment}
-      >POST COMMENT</button>
+        <div style={{color: '#b20400', marginBottom: "10px"}}>
+          {
+            props.isError ? "Post comment is fail. Can you check and post again" : " "
+          }
+        </div>
+        <button 
+          type='submit'
+          className={styles.button_post_comment}
+        >
+          {isLoading ? <CircularProgress style={{color: "#ffffff", fontWeight: "700"}} size={20}/> : 'POST COMMENT'}
+        </button>
+        </form>
     </div>
   )
 }

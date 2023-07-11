@@ -9,15 +9,20 @@ import parse from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import { getAllNews, getAllSolutions, getHomePage, getLatestPost, getOneNewsBySlug, getOneSolutionBySlug } from "@/clientApi";
+import { addComment, getAllNews, getAllSolutions, getHomePage, getLatestPost, getOneNewsBySlug, getOneSolutionBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
 import { ArrowLeftOutlined, ArrowRightOutlined, FullscreenExitOutlined } from "@ant-design/icons";
+import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+  
   const item = props.solutionItem
+
+  const [commentList, setCommentList] = useState<Array<any>>(item.comment)
+  const [isError, setIsError] = useState<boolean>(false)
+
   const imageUrls = item.content
     .find((component: any) => component.__component === "content.light-box")?.images
     .map((image: any) => {
@@ -60,6 +65,31 @@ export default function DetailPage(props: any) {
           ></iframe>
         )
       }
+    }
+  }
+
+  const handlePostComment = async (commentData: any) => {
+    setIsError(false)
+    const now = new Date()
+    try{
+      await addComment(
+        'solutions',
+        item.slug, 
+        {
+          ...commentData,
+          commentedAt: now,
+          isModerated: false
+        }
+      )
+      setCommentList(prev => {
+        return [...prev, {
+          ...commentData,
+          commentedAt: now,
+          isModerated: false
+        }]
+      })
+    }catch(error){
+      setIsError(true)
     }
   }
 
@@ -145,6 +175,25 @@ export default function DetailPage(props: any) {
                       })
                     }
                   </div>
+                  <Grid container>
+                    <Grid item sm={8} lg={9}>
+                      <div>
+                        {item.showCommunicationLink && <CommunicationLinks />}
+                      </div>
+                      {
+                        commentList.length > 0 && commentList.map((item: any, index: number) => {
+                          return (
+                            <div key={index}>
+                              <CommentEntry item={item}/>
+                            </div>
+                          )
+                        })
+                      }
+                      <div>
+                        {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment} isError={isError}/>}
+                      </div>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </div>
@@ -173,10 +222,12 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: any) {
   const response = await getHomePage()
   const solutionItem = await getOneSolutionBySlug(params.slug)  
+  const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
   return {
     props: {
       layout: response.data,
       solutionItem: solutionItem.data,
+      commentBox: commentBox.data,
     },
     revalidate: 20
   }

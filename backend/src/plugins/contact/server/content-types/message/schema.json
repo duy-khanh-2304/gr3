@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "messages",
+  "info": {
+    "singularName": "message",
+    "pluralName": "messages",
+    "displayName": "message"
+  },
+  "options": {
+    "draftAndPublish": false,
+    "comment": ""
+  },
+  "attributes": {
+    "uuid": {
+      "type": "string"
+    },
+    "isReplied": {
+      "type": "boolean"
+    },
+    "message": {
+      "type": "json"
+    }
+  }
+}

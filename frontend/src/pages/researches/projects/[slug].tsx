@@ -1,20 +1,24 @@
 import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
-import PostSidebar from "@/components/postSidebar/PostSidebar";
 import parse from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import { getAllNews, getAllProjects, getHomePage, getLatestPost, getLatestProjects, getOneNewsBySlug, getOneProjectBySlug } from "@/clientApi";
+import { addComment, getAllNews, getAllProjects, getHomePage, getLatestPost, getLatestProjects, getOneNewsBySlug, getOneProjectBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
 import LatestProject from "@/components/latestProjects/LatestProject";
+import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
   const item = props.projectItem
+
+  const [commentList, setCommentList] = useState<Array<any>>(item.comment)
+  const [isError, setIsError] = useState<boolean>(false)
+
   const information = item.content.find((_: any) => _.__component === "content.information")
   const imageHeader = item.content.find((_: any) => _.__component === "content.image-header").image
   const paragraph = item.content.find((_: any) => _.__component === "content.paragraph")
@@ -41,6 +45,30 @@ export default function DetailPage(props: any) {
     return formattedDate;
   };
   
+  const handlePostComment = async (commentData: any) => {
+    setIsError(false)
+    const now = new Date()
+    try{
+      await addComment(
+        'projects',
+        item.slug, 
+        {
+          ...commentData,
+          commentedAt: now,
+          isModerated: false
+        }
+      )
+      setCommentList(prev => {
+        return [...prev, {
+          ...commentData,
+          commentedAt: now,
+          isModerated: false
+        }]
+      })
+    }catch(error){
+      setIsError(true)
+    }
+  }
 
   const router = useRouter()
   if(router.isFallback){
@@ -107,6 +135,21 @@ export default function DetailPage(props: any) {
                           <a href={item.url}>MORE DETAIL</a>
                         </div>
                       }
+                      <div>
+                        {item.showCommunicationLink && <CommunicationLinks />}
+                      </div>
+                      {
+                        commentList.length > 0 && commentList.map((item: any, index: number) => {
+                          return (
+                            <div key={index}>
+                              <CommentEntry item={item}/>
+                            </div>
+                          )
+                        })
+                      }
+                      <div>
+                        {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment} isError={isError}/>}
+                      </div>
                     </Grid>
                     <Grid item lg={3} sm={4} style={{ padding: "0 15px" }}>
                       <LatestProject latestProjects={props.latestProjects}/>
@@ -140,11 +183,13 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: any) {
   const response = await getHomePage()
   const projectItem = await getOneProjectBySlug(params.slug) 
+  const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
   const latestProjects = await getLatestProjects(10)
   return {
     props: {
       layout: response.data,
       projectItem: projectItem.data,
+      commentBox: commentBox.data,
       latestProjects: latestProjects.data
     },
     revalidate: 20

@@ -272,10 +272,27 @@ export async function getAllPartners(){
   return response
 }
 
-export async function addCommentNewsAndEvent(slug: string, data: any){
+export async function addComment(
+  type: string,
+  slug: string, data: any
+){
   const response = (await axiosInstance.put(
-    `/api/news-and-events/${slug}/comment?populate=deep`,
+    `/api/${type}/${slug}/comment?populate=deep`,
     data
   ))
-  console.log("Response: ", response)
+}
+
+export async function sendMessage(
+  message: any
+){
+  const response = (await axiosInstance.post(
+    `/contact`,
+    message,
+    {
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      }
+    }
+  ))
 }

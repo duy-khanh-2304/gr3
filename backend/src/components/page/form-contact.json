@@ -18,9 +18,6 @@
       "allowedTypes": [
         "images"
       ]
-    },
-    "button": {
-      "type": "string"
     }
   }
 }

@@ -48,6 +48,18 @@
       "type": "component",
       "repeatable": true,
       "component": "content.seen-array-time"
+    },
+    "comment": {
+      "type": "component",
+      "repeatable": true,
+      "component": "content.comment"
+    },
+    "showCommunicationLink": {
+      "type": "boolean",
+      "default": true
+    },
+    "showCommentBox": {
+      "type": "boolean"
     }
   }
 }
