@@ -1,3 +1,5 @@
 'use strict';
-
-module.exports = {};
+const myMiddleware = require('./myMiddleware')
+module.exports = {
+  myMiddleware
+};

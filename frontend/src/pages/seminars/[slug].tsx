@@ -1,7 +1,7 @@
 import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import PostSidebar from "@/components/postSidebar/PostSidebar";
@@ -9,11 +9,14 @@ import parse from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import {  getAllSeminars, getHomePage, getLatestPost, getOneSeminarBySlug } from "@/clientApi";
+import {  addComment, getAllSeminars, getHomePage, getLatestPost, getOneSeminarBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
+import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
   const item = props.seminarItem
+  const [commentList, setCommentList] = useState<Array<any>>(item.comment)
+  const [isError, setIsError] = useState<boolean>(false)
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -28,6 +31,32 @@ export default function DetailPage(props: any) {
       }
     }
   }
+
+  const handlePostComment = async (commentData: any) => {
+    setIsError(false)
+    const now = new Date()
+    try{
+      await addComment(
+        'new-and-events',
+        item.slug, 
+        {
+          ...commentData,
+          commentedAt: now,
+          isModerated: false
+        }
+      )
+      setCommentList(prev => {
+        return [...prev, {
+          ...commentData,
+          commentedAt: now,
+          isModerated: false
+        }]
+      })
+    }catch(error){
+      setIsError(true)
+    }
+  }
+
   const router = useRouter()
   if(router.isFallback){
     return (
@@ -91,8 +120,17 @@ export default function DetailPage(props: any) {
                   <div>
                     {item.showCommunicationLink && <CommunicationLinks />}
                   </div>
+                  {
+                    commentList.length > 0 && commentList.map((item: any, index: number) => {
+                      return (
+                        <div key={index}>
+                          <CommentEntry item={item}/>
+                        </div>
+                      )
+                    })
+                  }
                   <div>
-                    {!item.showCommentBox && <CommentBox data={props.commentBox} />}
+                    {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment} isError={isError}/>}
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>

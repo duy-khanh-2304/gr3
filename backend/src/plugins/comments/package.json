@@ -12,7 +12,7 @@
     "@strapi/design-system": "^1.6.3",
     "@strapi/helper-plugin": "^4.6.0",
     "@strapi/icons": "^1.6.3",
-    "antd": "^5.6.4",
+    "antd": "^5.7.0",
     "prop-types": "^15.7.2",
     "react-icons": "^4.10.1",
     "uuid": "^9.0.0"

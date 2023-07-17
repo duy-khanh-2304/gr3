@@ -1,23 +1,28 @@
 import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import React, { Suspense, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import React, { Suspense, useState } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import PostSidebar from "@/components/postSidebar/PostSidebar";
-import parse from 'html-react-parser'
+import parse, { domToReact } from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import { addComment, getAllNews, getHomePage, getLatestPost, getOneNewsBySlug } from "@/clientApi";
-import { useRouter } from "next/router";
+import { addComment, getAllCourses, getAllEvents, getAllNews, getHomePage, getLatestPost, getOneCoursesBySlug, getOneEventBySlug } from "@/clientApi";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
-  const item = props.newsItem
+  const item = props.courseItem
+
+  console.log("Item: ", item)
+
+  console.log("Course list: ", props.courseList)
+
   const [commentList, setCommentList] = useState<Array<any>>(item.comment)
   const [isError, setIsError] = useState<boolean>(false)
-  const [isSuccess, setIsSuccess] = useState<boolean>(false)
+  
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -27,19 +32,22 @@ export default function DetailPage(props: any) {
             height="438px" 
             src={domNode.attribs.url}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          ></iframe>
+          >{domNode.children}</iframe>
         )
       }
     }
   }
 
+  const handleClick = (item: any) => {
+    router.push(`/courses/${item.slug}`)
+  }
+
   const handlePostComment = async (commentData: any) => {
     setIsError(false)
-    setIsSuccess(false)
     const now = new Date()
     try{
       await addComment(
-        'news-and-events',
+        'courses',
         item.slug, 
         {
           ...commentData,
@@ -54,7 +62,6 @@ export default function DetailPage(props: any) {
           isModerated: false
         }]
       })
-      setIsSuccess(true)
     }catch(error){
       setIsError(true)
     }
@@ -66,59 +73,25 @@ export default function DetailPage(props: any) {
       <div>Loading information...</div>
     )
   }
+
   return (
     <Suspense fallback={<p>Loading information...</p>}>
       <div>
         <Head>
           <title>{item.title}</title>
         </Head>
-        <Layout data={props.layout.data}>
+        <Layout data={props.layout}>
           <div className={styles.main}>
             <div className={styles.container}>
               <Grid container>
                 <Grid item sm={8} lg={9} style={{ padding: "0 15px" }}>
                   <div className={styles.entry_header}>
-                    <div style={{ display: "flex", marginBottom: "10px" }}>
-                      {
-                        item.tag.map((tag: any, index: number) => {
-                          return <div className={styles.entry_header_tag} key={index}>
-                            <Link href={`/${tag}`}>
-                              {tag.toUpperCase()}
-                            </Link>
-                          </div>
-                        })
-                      }
-                    </div>
                     <h1 style={{ fontSize: "1.7rem" }}>
                       {item.title}
                     </h1>
                   </div>
                   <div className={styles.entry_content}>
-                    {
-                      item.content.map((component: any, index: number) => {
-                        if(component.__component === "content.paragraph"){
-                          return (
-                            <div key={index}>
-                              {parse(component.content, optionParse)}
-                            </div>
-                          )
-                        }else if(component.__component === "content.intro-team"){
-                          return(
-                            <div key={index}>
-                              {parse(component.content, optionParse)}
-                            </div>
-                          )
-                        }else if(component.__component === "content.pre-formatted-paragraph"){
-                          return(
-                            <div key={index}>
-                              <pre className={styles.preformatted}>
-                                {parse(component.content, optionParse)}
-                              </pre>
-                            </div>
-                          )
-                        }
-                      })
-                    }
+                    {parse(item.introduction, optionParse)}
                   </div>
                   <div>
                     {item.showCommunicationLink && <CommunicationLinks />}
@@ -137,7 +110,35 @@ export default function DetailPage(props: any) {
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>
-                  <PostSidebar recentPostList={props.latestList} />
+                  <div className={styles.all_courses}>
+                    <span className={styles.all_courses_title}>ALL COURSES</span>
+                    <div className={styles.small_divider}></div>
+                    <div className={styles.list}>
+                      {
+                        props.courseList && props.courseList.map((item: any, index: number) => {
+                          return(
+                            <div key={index} onClick={() => {handleClick(item)}}>
+                              <Grid container className={styles.course_item}>
+                                <Grid item lg={3} style={{display: "flex", justifyContent: "center", height: "inherit"}}>
+                                  <img 
+                                    src={item.post_image.url} 
+                                    alt={item.post_image.name} 
+                                    className={styles.leftImage}
+                                  />
+                                </Grid>
+                                <Grid item lg={9}>
+                                  <div className={styles.right_content}>
+                                    {item.title}
+                                  </div>
+                                </Grid>
+                              </Grid>
+                            </div>
+                            
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
                 </Grid>
               </Grid>
             </div>
@@ -149,8 +150,8 @@ export default function DetailPage(props: any) {
 }
 
 export async function getStaticPaths() {
-  const newsList = await getAllNews()
-  const paths = newsList.map((_: any) => {
+  const courseList = await getAllCourses()
+  const paths = courseList.map((_: any) => {
     return ({
       params: {
         slug: _.slug
@@ -164,16 +165,16 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const homePage = await getHomePage()
-  const newsItem = await getOneNewsBySlug(params.slug)
+  const response = await getHomePage()
+  const courseItem = await getOneCoursesBySlug(params.slug) 
+  const courseList = await getAllCourses()
   const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
-  const latestList = await getLatestPost()
   return {
     props: {
-      layout: homePage,
-      newsItem: newsItem.data,
+      layout: response.data,
+      courseItem: courseItem.data,
+      courseList: courseList,
       commentBox: commentBox.data,
-      latestList: latestList.data
     },
     revalidate: 20
   }

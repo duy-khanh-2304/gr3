@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_content_lessons",
+  "info": {
+    "displayName": "Lesson",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "required": true,
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "video": {
+      "type": "customField",
+      "customField": "plugin::oembed.oembed"
+    }
+  }
+}

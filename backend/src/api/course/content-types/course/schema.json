@@ -1,0 +1,66 @@
+{
+  "kind": "collectionType",
+  "collectionName": "courses",
+  "info": {
+    "singularName": "course",
+    "pluralName": "courses",
+    "displayName": "Course",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "post_image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "post_subtitle": {
+      "type": "richtext"
+    },
+    "showCommunicationLink": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "showCommentBox": {
+      "type": "boolean"
+    },
+    "introduction": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "required": false,
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "lesson": {
+      "displayName": "Lesson",
+      "type": "component",
+      "repeatable": true,
+      "component": "content.lesson"
+    },
+    "seen_time_array": {
+      "type": "component",
+      "repeatable": true,
+      "component": "content.seen-array-time"
+    },
+    "comment": {
+      "type": "component",
+      "repeatable": true,
+      "component": "content.comment"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    }
+  }
+}

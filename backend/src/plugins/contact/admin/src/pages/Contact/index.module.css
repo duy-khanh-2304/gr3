@@ -1,0 +1,49 @@
+.title{
+  font-weight: bold;
+  width: 80px;
+  margin-right: 5px;
+}
+
+.message{
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.input{
+  padding: 10px;
+  width: 100%;
+  outline: none;
+}
+
+.input:focus{
+  outline: none;
+}
+
+.list{
+  background-color: #ffffff;
+}
+
+.replyButton{
+
+}
+
+.item{
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+.subject{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.email{
+  color: #999999;
+  margin-left: 5px;
+}
+
+.message{
+  margin-top: 10px;
+  border-left: 3px solid #cccccc;
+}

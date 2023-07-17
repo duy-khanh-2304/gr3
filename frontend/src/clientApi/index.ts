@@ -7,6 +7,7 @@ const selectorFieldProjects = `fields[0]=title&fields[1]=slug&fields[2]=post_ima
 const selectorFieldToolAndResources = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
 const selectorFieldSolutions = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
 const selectorFieldResearchTeams = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
+const selectorFieldCourses = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
 export async function getHomePage(){
   const response = (await axiosInstance.get("/api/home-page?populate=deep")).data
   return response
@@ -296,3 +297,28 @@ export async function sendMessage(
     }
   ))
 }
+
+export async function getAllCourses(){
+  let currentPage = 1
+  let response
+  let allCourses = []
+  response = (await axiosInstance.get(`/api/courses?${selectorFieldCourses}`)).data
+  allCourses.push(...response.data)
+
+  while(currentPage < response.meta.pagination.pageCount){
+    currentPage  = currentPage + 1
+    response = (await axiosInstance.get(`/api/courses?pagination[page]=${currentPage}&${selectorFieldCourses}`)).data
+    allCourses.push(...response.data)
+  }
+  return allCourses
+}
+
+export async function getPaginatedCourses(page: number = 1){
+  const response = (await axiosInstance.get(`/api/courses?pagination[page]=${page}&${selectorFieldCourses}`)).data
+  return response
+}
+
+export async function getOneCoursesBySlug(slug: string){
+  const response = (await axiosInstance.get(`/api/courses/${slug}?populate=deep`)).data
+  return response
+} 

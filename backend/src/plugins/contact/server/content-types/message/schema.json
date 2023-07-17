@@ -14,11 +14,17 @@
     "uuid": {
       "type": "string"
     },
-    "isReplied": {
-      "type": "boolean"
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
     },
     "message": {
-      "type": "json"
+      "type": "text"
     }
   }
 }

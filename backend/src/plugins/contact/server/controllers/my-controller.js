@@ -1,5 +1,9 @@
 'use strict';
 const {v4: uuidv4} = require('uuid')
+const {Resend} = require('resend')
+
+const resend = new Resend('re_WgSpk7yv_4PaBJpSVnEqepR5rcdnRMmoY')
+
 module.exports = ({ strapi }) => ({
   index(ctx) {
     ctx.body = strapi
@@ -14,16 +18,14 @@ module.exports = ({ strapi }) => ({
   },
 
   async createMessage(ctx){
-
     const body = ctx.request.body
     console.log("Body: ", body)
     await strapi.entityService.create('plugin::contact.message', {
       data: {
         uuid: uuidv4(),
-        isReplied: false,
-        message: JSON.stringify(body)
+        ...body
       }
     })
     ctx.body = "Create message successfully !"
-  }
+  },
 });

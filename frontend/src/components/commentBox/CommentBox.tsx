@@ -84,11 +84,16 @@ export default function CommentBox(props: any){
             })
           }
         </Grid>
-        <div style={{color: '#b20400', marginBottom: "10px"}}>
           {
-            props.isError ? "Post comment is fail. Can you check and post again" : " "
+            props.isError ?? <div style={{color: '#b20400', marginBottom: "10px"}}>
+              Post comment is fail. Can you check and post again
+            </div>
           }
-        </div>
+          {
+            props.isSuccess ?? <div style={{color: '#7a9c59', marginBottom: "10px"}}>
+              Post comment is success
+            </div>
+          }
         <button 
           type='submit'
           className={styles.button_post_comment}

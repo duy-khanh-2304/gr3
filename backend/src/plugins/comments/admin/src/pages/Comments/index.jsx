@@ -23,10 +23,6 @@ const Comments = () => {
     }, 4000)
   }
 
-  const filterCommentList = (commentList) => {
-    setComments([...commentList])
-  }
-
   useEffect(() => {
     ;(async () => {
      const data = await request("/comments", {
@@ -67,7 +63,7 @@ const Comments = () => {
                 <EmptyStateLayout content="You don't have any comments to moderate" />
               </Box>
             ) : (
-              <CommentTable commentList={comments} filter={filterCommentList} update={updateCommentListAfterEvent}/>
+              <CommentTable commentList={comments} update={updateCommentListAfterEvent}/>
             ))
           }
         </ContentLayout>

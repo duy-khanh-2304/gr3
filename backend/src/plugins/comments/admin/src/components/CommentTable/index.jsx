@@ -12,8 +12,6 @@ import {request} from '@strapi/helper-plugin'
 import { Box } from "@strapi/design-system/Box";
 import { Flex } from "@strapi/design-system/Flex";
 import { Typography } from "@strapi/design-system/Typography";
-import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden";
-import {RxCross2} from 'react-icons/rx'
 import {BsCheckLg} from 'react-icons/bs'
 import {Popover, Tag} from 'antd'
 import {Dialog, DialogBody, DialogFooter, Button, BaseCheckbox, Grid, MultiSelect, MultiSelectOption, Alert} from '@strapi/design-system'
@@ -21,7 +19,9 @@ import {ExclamationMarkCircle, Trash, Check} from '@strapi/icons'
 import styles from './index.module.css'
 import styled, {keyframes} from 'styled-components';
 import {Loader as LoadingIcon} from '@strapi/icons'
-import {DatePicker} from 'antd'
+import {DatePicker, Pagination} from 'antd'
+
+const COUNT_ONE_PAGE = 2
 
 export default function CommentTable(props){
   const [isVisibleAccept, setIsVisibleAccept] = useState(false)
@@ -36,6 +36,7 @@ export default function CommentTable(props){
     end: null
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const {RangePicker} = DatePicker
 
@@ -154,16 +155,11 @@ export default function CommentTable(props){
     })
   }
 
-  useEffect(() => {
-    if(checkedList.length === props.commentList.length){
-      setIsAllChecked(true)
-    }
+  const handleChangePage = (page) => {
+    setCurrentPage(page)
+  }
 
-    if(isAllChecked && checkedList.length !== props.commentList.length){
-      setIsAllChecked(false)
-    }
-  }, [checkedList.length])
-
+  //Filter
   let commentList
 
   if(selected.length === 0){
@@ -184,13 +180,13 @@ export default function CommentTable(props){
           new Date(rangeDate.end).getDate(),
           23,59,59,999
         )
-        console.log("Start Date: ", startDate)
-        console.log("End date: ", endDayOfEnd)
         return new Date(_.commentedAt) >= startDate && new Date(_.commentedAt) <= endDayOfEnd
       }
     })
   }
 
+  //Paginated
+  const paginatedComment = commentList.slice((currentPage-1)*COUNT_ONE_PAGE, currentPage*COUNT_ONE_PAGE)
   return (
     <div>
       <Box
@@ -198,59 +194,79 @@ export default function CommentTable(props){
         style={{ marginTop: "10px" }}
       >
         <div style={{display: "flex"}}>
-        <div style={{margin: "0 10px 10px 0", width: "30%"}}>
-          <MultiSelect 
-            placeholder="Filter..." 
-            onClear={() => {
-              setSelected([]);
-            }} 
-            value={selected} 
-            onChange={(value) => {
-              setSelected([...value])
-            }}
-            withTags
-            style={{minWidth: "200px"}}
-          >
-            <MultiSelectOption value="news-and-event">News and Event</MultiSelectOption>
-            <MultiSelectOption value="project">Project</MultiSelectOption>
-            <MultiSelectOption value="ai-tech-blog">AI Tech Blog</MultiSelectOption>
-            <MultiSelectOption value="solution">Solution</MultiSelectOption>
-            <MultiSelectOption value="tool-and-resource">Tool and Resource</MultiSelectOption>
-          </MultiSelect>
-        </div>
-        <div>
-            <RangePicker onChange={handleDatePicker} style={{height: "40px", marginTop: "5px"}}/>
-        </div>
-        {
-          checkedList.length > 0 && (
-            <div style={{display: "flex", alignItems: "end"}}>
-              <Button 
-                variant="danger-light" 
-                style={{margin: "0 10px 10px 0", height: "40px"}}
-                startIcon={
-                  <Trash
-                    style={{color: '#3e7251', fontSize: '24px', fontWeight: 700}}
-                  />
+          <div style={{margin: "0 10px 10px 0", width: "30%"}}>
+            <MultiSelect 
+              placeholder="Filter ..." 
+              onClear={() => {
+                setSelected([]);
+              }} 
+              value={selected} 
+              onChange={(value) => {
+                setSelected([...value])
+              }}
+              withTags
+              style={{minWidth: "120px"}}
+            >
+              <MultiSelectOption value="news-and-event">News and Event</MultiSelectOption>
+              <MultiSelectOption value="project">Project</MultiSelectOption>
+              <MultiSelectOption value="ai-tech-blog">AI Tech Blog</MultiSelectOption>
+              <MultiSelectOption value="solution">Solution</MultiSelectOption>
+              <MultiSelectOption value="tool-and-resource">Tool and Resource</MultiSelectOption>
+            </MultiSelect>
+          </div>
+          <div style={{margin: "0 10px 0 0"}}>
+              <RangePicker onChange={handleDatePicker} style={{height: "40px", marginTop: "5px"}}/>
+          </div>
+          <div style={{display: "flex", alignItems: "center"}}>
+            <BaseCheckbox 
+              style={{marginRight: "5px"}}
+              aria-label="Select all entries after filter" 
+              onClick={() => {
+                if(commentList.every((comment) => checkedList.some(_ => _.uuid === comment.uuid))){
+                  setCheckedList([])
+                }else{
+                  setCheckedList([...commentList])
                 }
-                onClick={() => {setIsVisibleDeclineChecked(true)}}
-              >
-                Decline
-              </Button>
-              <Button 
-                variant="success-light" 
-                style={{margin: "0 0 10px 0", height: "40px"}}
-                startIcon={
-                  <BsCheckLg
-                    style={{color: '#3e7251', fontSize: '24px', fontWeight: 700}}
-                  />
-                }
-                onClick={() => {setIsVisibleAcceptChecked(true)}}
-              >
-                Accept
-              </Button>
-            </div>
-          )
-        }
+              }}
+              checked={commentList.every((comment) => checkedList.some(_ => _.uuid === comment.uuid))}
+            />
+            All
+          </div>
+        </div>
+        <div style={{display: "flex"}}>
+          {
+            checkedList.length > 0 && (
+              <div style={{display: "flex", alignItems: "end"}}>
+                <Button 
+                  variant="danger-light" 
+                  style={{margin: "0 10px 10px 0", height: "40px"}}
+                  startIcon={
+                    <Trash
+                      style={{color: '#3e7251', fontSize: '24px', fontWeight: 700}}
+                    />
+                  }
+                  onClick={() => {setIsVisibleDeclineChecked(true)}}
+                >
+                  Decline
+                </Button>
+                <Button 
+                  variant="success-light" 
+                  style={{margin: "0 0 10px 0", height: "40px"}}
+                  startIcon={
+                    <BsCheckLg
+                      style={{color: '#3e7251', fontSize: '24px', fontWeight: 700}}
+                    />
+                  }
+                  onClick={() => {setIsVisibleAcceptChecked(true)}}
+                >
+                  Accept
+                </Button>
+              </div>
+            )
+          }
+          {
+            checkedList.length > 0 && (<div style={{marginLeft: "auto", display: "flex", alignItems:"center", alignContent: "center"}}>Selected: {checkedList.length}</div>)
+          }
         </div>
         <Table
           colCount={4}
@@ -260,16 +276,25 @@ export default function CommentTable(props){
             <Tr>
               <Th>
                 <BaseCheckbox 
-                  aria-label="Select all entries" 
+                  aria-label="Select all entries of a page" 
                   onClick={() => {
-                    if(isAllChecked){
-                      setCheckedList([])
+                    if(paginatedComment.every((comment) => checkedList.some(_ => _.uuid === comment.uuid))){
+                      console.log('Duy Khanh')
+                      setCheckedList(prev => {
+                        const newList = prev.filter(comment => !paginatedComment.some(_ => _.uuid === comment.uuid))
+                        return [...newList]
+                      })
                     }else{
-                      setCheckedList([...props.commentList])
+                      console.log("Duy khanh 2")
+                      setCheckedList(prev => {
+                        console.log("Paginated: ", paginatedComment)
+                        const isNotChecked = paginatedComment.filter(comment => !prev.some(_ => _.uuid === comment.uuid))
+                        console.log("Is not check: ", isNotChecked)
+                        return [...prev, ...isNotChecked]
+                      })
                     }
-                    setIsAllChecked(prev => !prev)
                   }}
-                  checked={isAllChecked}
+                  checked={paginatedComment.every((comment) => checkedList.some(_ => _.uuid === comment.uuid))}
                 />
               </Th>
               <Th>
@@ -294,19 +319,19 @@ export default function CommentTable(props){
           </Thead>
           <Tbody>
             {
-              commentList && commentList.map((comment, index) => {
+              paginatedComment && paginatedComment.map((comment, index) => {
                 return (
                   <Tr key={index}>
                     <Td>
                       <BaseCheckbox 
                         aria-label={`Select ${comment.id}`} 
-                        checked={checkedList.find(_ => _.id === comment.id)}
+                        checked={checkedList.find(_ => _.uuid === comment.uuid)}
                         onClick={() => {
-                          const checked = checkedList.find(_ => _.id === comment.id)
+                          const checked = checkedList.find(_ => _.uuid === comment.uuid)
                           if(checked){
                             setCheckedList(prev => {
-                              const newPrev = prev.filter(_ => _.id !== checked.id)
-                              return newPrev
+                              const newPrev = prev.filter(_ => _.uuid !== checked.uuid)
+                              return [...newPrev]
                             })
                           }else {
                             setCheckedList(prev => [...prev, comment])
@@ -491,6 +516,9 @@ export default function CommentTable(props){
             }
           </Tbody>
         </Table>
+        <Pagination current={currentPage} onChange={handleChangePage} total={commentList.length} defaultPageSize={COUNT_ONE_PAGE} 
+          style={{display: "flex", justifyContent: "center", marginTop: "10px"}}
+        />
       </Box>
     </div>
   )
