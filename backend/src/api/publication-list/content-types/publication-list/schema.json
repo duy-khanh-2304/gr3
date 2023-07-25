@@ -4,15 +4,22 @@
   "info": {
     "singularName": "publication-list",
     "pluralName": "publication-lists",
-    "displayName": "Publication List"
+    "displayName": "Publication List",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
+    "cite": {
       "type": "string"
+    },
+    "research_team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::research-team.research-team",
+      "inversedBy": "publication_lists"
     }
   }
 }

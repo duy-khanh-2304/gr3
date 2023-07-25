@@ -9,12 +9,20 @@
     "displayName": "Statistics"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@material-ui/core": "^4.12.4",
+    "@mui/icons-material": "^5.14.1",
+    "@mui/material": "^5.14.1",
     "@strapi/design-system": "^1.6.3",
     "@strapi/helper-plugin": "^4.6.0",
     "@strapi/icons": "^1.6.3",
     "antd": "^5.6.3",
     "chart.js": "^4.3.0",
+    "chartjs-plugin-annotation": "^3.0.1",
+    "dayjs": "^1.11.9",
     "prop-types": "^15.7.2",
+    "react-chartjs-2": "^5.2.0",
     "react-icons": "^4.10.1"
   },
   "devDependencies": {

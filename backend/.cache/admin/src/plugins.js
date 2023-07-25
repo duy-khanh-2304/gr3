@@ -6,17 +6,18 @@ import locationField from '../../../node_modules/strapi-location-field-plugin/st
 import ckeditor from '../../../src/plugins/strapi-plugin-ckeditor/strapi-admin.js';
 import entityRelationshipChart from '../../../node_modules/strapi-plugin-entity-relationship-chart/strapi-admin.js';
 import importExportEntries from '../../../node_modules/strapi-plugin-import-export-entries/strapi-admin.js';
-import menus from '../../../node_modules/strapi-plugin-menus/strapi-admin.js';
 import seo from '../../../node_modules/@strapi/plugin-seo/strapi-admin.js';
 import statistics from '../../../src/plugins/statistics/strapi-admin.js';
 import comments from '../../../src/plugins/comments/strapi-admin.js';
 import contact from '../../../src/plugins/contact/strapi-admin.js';
+import searchGgScholar from '../../../src/plugins/search-gg-scholar/strapi-admin.js';
 import ckeditor5 from '../../../node_modules/@_sh/strapi-plugin-ckeditor/strapi-admin.js';
 import colorPicker from '../../../node_modules/@strapi/plugin-color-picker/strapi-admin.js';
 import documentation from '../../../node_modules/@strapi/plugin-documentation/strapi-admin.js';
 import i18N from '../../../node_modules/@strapi/plugin-i18n/strapi-admin.js';
 import usersPermissions from '../../../node_modules/@strapi/plugin-users-permissions/strapi-admin.js';
 import configSync from '../../../node_modules/strapi-plugin-config-sync/strapi-admin.js';
+import menus from '../../../node_modules/strapi-plugin-menus/strapi-admin.js';
 import multiSelect from '../../../node_modules/strapi-plugin-multi-select/strapi-admin.js';
 import oembed from '../../../node_modules/strapi-plugin-oembed/strapi-admin.js';
 import restCache from '../../../node_modules/strapi-plugin-rest-cache/strapi-admin.js';
@@ -30,17 +31,18 @@ const plugins = {
   'ckeditor': ckeditor,
   'entity-relationship-chart': entityRelationshipChart,
   'import-export-entries': importExportEntries,
-  'menus': menus,
   'seo': seo,
   'statistics': statistics,
   'comments': comments,
   'contact': contact,
+  'search-gg-scholar': searchGgScholar,
   'ckeditor5': ckeditor5,
   'color-picker': colorPicker,
   'documentation': documentation,
   'i18n': i18N,
   'users-permissions': usersPermissions,
   'config-sync': configSync,
+  'menus': menus,
   'multi-select': multiSelect,
   'oembed': oembed,
   'rest-cache': restCache,

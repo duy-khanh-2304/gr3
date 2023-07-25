@@ -1,3 +1,27 @@
 .header{
   padding: 40px 50px;
 }
+
+.single_select, .multi_select{
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.single_select > div {
+  min-width: 300px;
+}
+
+.multi_select > div {
+  min-width: 900px;
+}
+
+.section {
+  padding: 2px 0;
+  border-radius: 8px;
+  border: 0.5px solid #C1C7D0;
+  margin: 10px 4px;
+  background-color: #ffffff;
+  color: "#45526c";
+  font-size: "14px";
+}

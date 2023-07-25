@@ -7,13 +7,69 @@ module.exports = ({ strapi }) => ({
 
   async getAllNewsAndEvents(){
     const data = await strapi.entityService.findMany('api::news-and-event.news-and-event', {
-      populate: 'deep'
+      populate: {
+        post_image: '*',
+        comment: true,
+        seen_time_array: true
+      }
     })
-    return JSON.stringify(data)
+    return data
   },
 
   async getAllProjects(){
-    const data = await strapi.entityService.findMany('api::project.project')
-    return JSON.stringify(data)
-  }
+    const data = await strapi.entityService.findMany('api::project.project', {
+      populate: {
+        post_image: '*',
+        comment: true,
+        seen_time_array: true
+      }
+    })
+    return data
+  },
+
+  async getAllAiTechBlogs(){
+    const data = await strapi.entityService.findMany('api::ai-tech-blog.ai-tech-blog', {
+      populate: {
+        post_image: '*',
+        comment: true,
+        seen_time_array: true
+      }
+    })
+    return data
+  },
+
+  async getAllSolutions(){
+    const data = await strapi.entityService.findMany('api::solution.solution', {
+      populate: {
+        post_image: '*',
+        comment: true,
+        seen_time_array: true
+      }
+    })
+    return data
+  },
+
+  async getAllToolAndResources(){
+    const data = await strapi.entityService.findMany('api::tool-and-resource.tool-and-resource', {
+      populate: {
+        post_image: '*',
+        comment: true,
+        seen_time_array: true
+      }
+    })
+    return data
+  },
+
+  async getAllCourses(){
+    const data = await strapi.entityService.findMany('api::course.course', {
+      populate: {
+        post_image: '*',
+        comment: true,
+        seen_time_array: true
+      }
+    })
+    return data
+  },
+
+  
 });

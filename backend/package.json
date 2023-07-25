@@ -18,6 +18,10 @@
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^2.0.4",
     "@ckeditor/strapi-plugin-ckeditor": "^0.0.7",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.1",
+    "@mui/material": "^5.14.1",
     "@strapi/plugin-color-picker": "^4.10.6",
     "@strapi/plugin-documentation": "^4.11.1",
     "@strapi/plugin-i18n": "4.10.6",
@@ -28,6 +32,7 @@
     "@strapi/strapi": "4.10.6",
     "@wiris/mathtype-ckeditor5": "^8.3.1",
     "antd": "^5.6.4",
+    "chartjs-plugin-annotation": "^3.0.1",
     "knex": "^2.4.2",
     "pg": "8.8.0",
     "strapi-location-field-plugin": "^1.2.0",

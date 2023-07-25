@@ -2,7 +2,7 @@ import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import PostSidebar from "@/components/postSidebar/PostSidebar";
@@ -12,16 +12,19 @@ import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
 import { addComment, getAllCourses, getAllEvents, getAllNews, getHomePage, getLatestPost, getOneCoursesBySlug, getOneEventBySlug } from "@/clientApi";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 export default function DetailPage(props: any) {
   const item = props.courseItem
 
-  console.log("Item: ", item)
-
-  console.log("Course list: ", props.courseList)
-
-  const [commentList, setCommentList] = useState<Array<any>>(item.comment)
+  const [commentList, setCommentList] = useState<Array<any>>([...item.comment])
   const [isError, setIsError] = useState<boolean>(false)
+  const [url, setUrl] = useState<string>("")
   
   const optionParse = {
     replace: (domNode: any) => {
@@ -67,6 +70,11 @@ export default function DetailPage(props: any) {
     }
   }
 
+  useEffect(() => {
+    const currentUrl = window.location.href
+    setUrl(currentUrl)
+  }, [])
+
   const router = useRouter()
   if(router.isFallback){
     return (
@@ -92,9 +100,44 @@ export default function DetailPage(props: any) {
                   </div>
                   <div className={styles.entry_content}>
                     {parse(item.introduction, optionParse)}
+                    <h3>Slides và video các bài giảng</h3>
+                    {
+                      item.lesson.map((lesson: any, index: number) => {
+                        const video = lesson.video ? JSON.parse(lesson.video) : null
+                        const src = video ? (parse(video.rawData.html) as any).props.src : null
+                        return (
+                          <Accordion key={index}>
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon />}
+                              aria-controls="panel1a-content"
+                              id="panel1a-header"
+                            >
+                              <Typography style={{fontSize: "18px"}}>Bài {index + 1}: {lesson.title}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              {parse(lesson.content, optionParse)}
+                              {
+                                lesson.video && (
+                                  <iframe 
+                                    id={`lesson-video-${index}`}
+                                    width="100%" 
+                                    height="1080px" 
+                                    src={`${src}&autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&showinfo=0&fs=0&loop=1&el=0&enablejsapi=1`}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    data-gtm-yt-inspected-4="true"
+                                    data-audio="0"
+                                    style={{border: 'none', outline: 'none', height: "480px"}}
+                                  ></iframe>
+                                )
+                              }
+                            </AccordionDetails>
+                          </Accordion>
+                        )
+                      })
+                    }
                   </div>
                   <div>
-                    {item.showCommunicationLink && <CommunicationLinks />}
+                    {item.showCommunicationLink && <CommunicationLinks url={url}/>}
                   </div>
                   {
                     commentList.length > 0 && commentList.map((item: any, index: number) => {

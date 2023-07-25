@@ -25,11 +25,11 @@ const Comments = () => {
 
   useEffect(() => {
     ;(async () => {
-     const data = await request("/comments", {
-       method: "GET",
-       "Content-Type": "application/json",
-     })
-     setComments([...data])
+      const data = await request("/comments", {
+        method: "GET",
+        "Content-Type": "application/json",
+      })
+      setComments([...data])
     })()
   }, [])
   return (

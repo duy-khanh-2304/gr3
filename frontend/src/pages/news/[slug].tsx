@@ -18,6 +18,8 @@ export default function DetailPage(props: any) {
   const [commentList, setCommentList] = useState<Array<any>>(item.comment)
   const [isError, setIsError] = useState<boolean>(false)
   const [isSuccess, setIsSuccess] = useState<boolean>(false)
+  const [url, setUrl] = useState<string>("")
+
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -59,6 +61,11 @@ export default function DetailPage(props: any) {
       setIsError(true)
     }
   }
+
+  useEffect(() => {
+    const currentUrl = window.location.href
+    setUrl(currentUrl)
+  }, [])
 
   const router = useRouter()
   if(router.isFallback){
@@ -121,7 +128,7 @@ export default function DetailPage(props: any) {
                     }
                   </div>
                   <div>
-                    {item.showCommunicationLink && <CommunicationLinks />}
+                    {item.showCommunicationLink && <CommunicationLinks url={url} />}
                   </div>
                   {
                     commentList.length > 0 && commentList.map((item: any, index: number) => {

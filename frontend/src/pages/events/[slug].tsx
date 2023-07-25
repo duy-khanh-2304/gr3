@@ -2,7 +2,7 @@ import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import PostSidebar from "@/components/postSidebar/PostSidebar";
@@ -18,7 +18,8 @@ export default function DetailPage(props: any) {
 
   const [commentList, setCommentList] = useState<Array<any>>(item.comment)
   const [isError, setIsError] = useState<boolean>(false)
-  
+  const [url, setUrl] = useState<string>("")
+
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -58,6 +59,11 @@ export default function DetailPage(props: any) {
       setIsError(true)
     }
   }
+
+  useEffect(() => {
+    const currentUrl = window.location.href
+    setUrl(currentUrl)
+  }, [])
 
   const router = useRouter()
   if(router.isFallback){
@@ -121,7 +127,7 @@ export default function DetailPage(props: any) {
                     }
                   </div>
                   <div>
-                    {item.showCommunicationLink && <CommunicationLinks />}
+                    {item.showCommunicationLink && <CommunicationLinks url={url}/>}
                   </div>
                   {
                     commentList.length > 0 && commentList.map((item: any, index: number) => {

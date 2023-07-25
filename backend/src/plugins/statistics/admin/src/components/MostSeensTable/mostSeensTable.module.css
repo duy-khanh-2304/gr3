@@ -1,0 +1,25 @@
+.loadingScreen{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.postChartProgress svg {
+  color: #4945ff
+}
+
+.table{
+  margin-top: 20px;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tablezoom{
+  min-height: 560px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

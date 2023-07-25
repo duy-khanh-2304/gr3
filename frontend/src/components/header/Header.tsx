@@ -3,7 +3,7 @@ import styles from './header.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
-import { Tooltip } from "antd";
+import { Tooltip } from "@mui/material";
 
 export default function Header(props: any) {
   const {

@@ -14,9 +14,34 @@ module.exports = ({ strapi }) => ({
       .getAllNewsAndEvents();
   },
   async getAllProjects(ctx){
+    const { from } = ctx.query
     ctx.body = await strapi
       .plugin('statistics')
       .service('myService')
-      .getAllProjects();
+      .getAllProjects(from);
+  },
+  async getAllAiTechBlogs(ctx){
+    ctx.body = await strapi
+      .plugin('statistics')
+      .service('myService')
+      .getAllAiTechBlogs();
+  },
+  async getAllSolutions(ctx){
+    ctx.body = await strapi
+      .plugin('statistics')
+      .service('myService')
+      .getAllSolutions();
+  },
+  async getAllToolAndResources(ctx){
+    ctx.body = await strapi
+      .plugin('statistics')
+      .service('myService')
+      .getAllToolAndResources();
+  },
+  async getAllCourses(ctx){
+    ctx.body = await strapi
+      .plugin('statistics')
+      .service('myService')
+      .getAllCourses();
   }
 });

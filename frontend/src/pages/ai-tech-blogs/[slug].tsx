@@ -1,7 +1,7 @@
 import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import PostSidebar from "@/components/postSidebar/PostSidebar";
@@ -18,6 +18,7 @@ export default function DetailPage(props: any) {
 
   const [commentList, setCommentList] = useState<Array<any>>(item.comment)
   const [isError, setIsError] = useState<boolean>(false)
+  const [url, setUrl] = useState<string>("")
 
   const sections = item.content
     .filter((component: any) => component.__component === "content.paragraph-with-title")
@@ -94,6 +95,11 @@ export default function DetailPage(props: any) {
     }
   }
   
+  useEffect(() => {
+    const currentUrl = window.location.href
+    setUrl(currentUrl)
+  }, [])
+
   const router = useRouter()
   if(router.isFallback){
     return (
@@ -225,7 +231,7 @@ export default function DetailPage(props: any) {
                     }
                   </div>
                   <div>
-                    {item.showCommunicationLink && <CommunicationLinks />}
+                    {item.showCommunicationLink && <CommunicationLinks url={url} />}
                   </div>
                   {
                     commentList.length > 0 && commentList.map((item: any, index: number) => {

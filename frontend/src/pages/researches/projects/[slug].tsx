@@ -1,7 +1,7 @@
 import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import parse from 'html-react-parser'
@@ -18,6 +18,7 @@ export default function DetailPage(props: any) {
 
   const [commentList, setCommentList] = useState<Array<any>>(item.comment)
   const [isError, setIsError] = useState<boolean>(false)
+  const [url, setUrl] = useState<string>("")
 
   const information = item.content.find((_: any) => _.__component === "content.information")
   const imageHeader = item.content.find((_: any) => _.__component === "content.image-header").image
@@ -69,6 +70,11 @@ export default function DetailPage(props: any) {
       setIsError(true)
     }
   }
+
+  useEffect(() => {
+    const currentUrl = window.location.href
+    setUrl(currentUrl)
+  }, [])
 
   const router = useRouter()
   if(router.isFallback){
@@ -136,7 +142,7 @@ export default function DetailPage(props: any) {
                         </div>
                       }
                       <div>
-                        {item.showCommunicationLink && <CommunicationLinks />}
+                        {item.showCommunicationLink && <CommunicationLinks url={url}/>}
                       </div>
                       {
                         commentList.length > 0 && commentList.map((item: any, index: number) => {

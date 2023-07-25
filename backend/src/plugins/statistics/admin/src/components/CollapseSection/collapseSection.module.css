@@ -1,0 +1,21 @@
+.root{
+  padding: 6px 10px;
+  border: 0.5px solid #C1C7D0;
+  border-radius: 8px;
+  margin: 10px 5px;
+  background-color: #ffffff;
+  font-size: 14px;
+  color:#45526c;
+}
+
+.collapseHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collapseHeader > h4 {
+  margin: 0;
+  color: #4945ff;
+  font-size: 18px !important;
+}
