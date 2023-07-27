@@ -277,6 +277,9 @@ export async function addComment(
   type: string,
   slug: string, data: any
 ){
+  console.log("AXIOS: ", axiosInstance)
+  console.log("Data: ", data)
+  console.log("BASEURL: ", axiosInstance.defaults)
   const response = (await axiosInstance.put(
     `/api/${type}/${slug}/comment?populate=deep`,
     data
