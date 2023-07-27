@@ -10,9 +10,9 @@ import { useRouter } from 'next/router'
 import { redirect } from 'next/navigation'
 
 export default function AiTechBlogsPage(props: any) {
-  const aiTechBlogs = props.aiTechBlogs.data
-  const numberPage = props.aiTechBlogs.meta.pagination.pageCount
-  const layout = props.layout.data
+  const aiTechBlogs = props.aiTechBlogs?.data
+  const numberPage = props.aiTechBlogs?.meta.pagination.pageCount
+  const layout = props.layout?.data
 
   const router = useRouter()
 
@@ -104,7 +104,7 @@ export async function getStaticProps({params}:any) {
       layout: homePage,
       currentPage: pageNumber,
       aiTechBlogs: aiTechBlogs,
-      latestList: latestList.data
+      latestList: latestList?.data
     },
     revalidate: 20
   }

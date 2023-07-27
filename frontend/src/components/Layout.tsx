@@ -44,7 +44,7 @@ export default function Layout(props: any) {
     return () => {
       document.removeEventListener("scroll", onScroll);
     }
-  }, []);
+  }, [onScroll]);
   return (
     <div>
       <ThemeProvider theme={theme}>

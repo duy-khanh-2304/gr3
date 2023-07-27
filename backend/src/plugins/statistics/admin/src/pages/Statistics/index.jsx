@@ -192,7 +192,6 @@ const Statistics = () => {
           allData.push(...data)
         })
       )
-      console.log("ALL DATA: ", allData)
       createNumberSeensDataset(labels, [...allData])
       const filteredData = allData.filter(_ => new Date(_.createdAt) > new Date(timeBefore))
       createNumberPostsDataset(labels, [...filteredData])

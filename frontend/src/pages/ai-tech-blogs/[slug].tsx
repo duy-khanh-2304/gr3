@@ -15,12 +15,11 @@ import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
   const item = props.aiTechBlog
-
-  const [commentList, setCommentList] = useState<Array<any>>(item.comment)
+  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
   const [isError, setIsError] = useState<boolean>(false)
   const [url, setUrl] = useState<string>("")
 
-  const sections = item.content
+  const sections = item?.content
     .filter((component: any) => component.__component === "content.paragraph-with-title")
     .map((component: any) => {
       if(component.sub_section){
@@ -179,7 +178,7 @@ export default function DetailPage(props: any) {
                   </div>
                   <div className={styles.entry_content}>
                     {
-                      item.content.map((component: any, index: number) => {
+                      item?.content.length > 0 && item.content.map((component: any, index: number) => {
                         if(component.__component === "content.paragraph"){
                           return (
                             <div key={index}>

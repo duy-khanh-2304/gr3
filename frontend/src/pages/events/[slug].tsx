@@ -16,7 +16,7 @@ import CommentEntry from "@/components/commentEntry/CommentEntry";
 export default function DetailPage(props: any) {
   const item = props.eventItem
 
-  const [commentList, setCommentList] = useState<Array<any>>(item.comment)
+  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
   const [isError, setIsError] = useState<boolean>(false)
   const [url, setUrl] = useState<string>("")
 
@@ -101,7 +101,7 @@ export default function DetailPage(props: any) {
                   </div>
                   <div className={styles.entry_content}>
                     {
-                      item.content.map((component: any, index: number) => {
+                      item?.content.length > 0 && item.content.map((component: any, index: number) => {
                         if(component.__component === "content.paragraph"){
                           return (
                             <div key={index}>

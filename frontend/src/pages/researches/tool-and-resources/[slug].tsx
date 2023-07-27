@@ -15,11 +15,11 @@ import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
   const item = props.toolAndResourceItem
-  const [commentList, setCommentList] = useState<Array<any>>(item.comment)
+  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
   const [isError, setIsError] = useState<boolean>(false)
   const [url, setUrl] = useState<string>("")
 
-  const relatedToolAndResources = item.related.map((item: any) => {
+  const relatedToolAndResources = item?.related.length > 0 && item.related.map((item: any) => {
     return {
       post_image: item.post_image,
       title: item.title,
@@ -105,7 +105,7 @@ export default function DetailPage(props: any) {
                     <Grid item lg={9} sm={8} style={{ padding: "0 15px" }}>
                       <div className={styles.entry_content}>
                         {
-                          item.content.map((component: any, index: number) => {
+                          item?.content.length > 0 && item.content.map((component: any, index: number) => {
                             if(component.__component === "content.paragraph"){
                               return (
                                 <div key={index}>

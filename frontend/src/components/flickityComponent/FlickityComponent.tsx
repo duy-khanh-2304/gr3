@@ -2,11 +2,6 @@ import React, { useEffect, useRef } from "react"
 import 'flickity/dist/flickity.min.css'
 import Card from "../card/Card";
 export default function FlickityComponent(props: any) {
-  console.log("Props flickity: ", props)
-
-  useEffect(() => {
-    initFlickity();
-  }, []);
 
   const carousel = useRef(null);
 
@@ -23,12 +18,15 @@ export default function FlickityComponent(props: any) {
       });
     }
   }
+  useEffect(() => {
+    initFlickity();
+  }, []);
   return (
     <div ref={carousel} className="carousel">
       {
         props.dataList.map((item: any, index: number) => {
           return (
-            <div className="carousel-cell">
+            <div key={index} className="carousel-cell">
               <Card item={item}/>
             </div>
           )

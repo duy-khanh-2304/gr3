@@ -16,13 +16,13 @@ import CommentEntry from "@/components/commentEntry/CommentEntry";
 export default function DetailPage(props: any) {
   const item = props.projectItem
 
-  const [commentList, setCommentList] = useState<Array<any>>(item.comment)
+  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
   const [isError, setIsError] = useState<boolean>(false)
   const [url, setUrl] = useState<string>("")
 
-  const information = item.content.find((_: any) => _.__component === "content.information")
-  const imageHeader = item.content.find((_: any) => _.__component === "content.image-header").image
-  const paragraph = item.content.find((_: any) => _.__component === "content.paragraph")
+  const information = item?.content.find((_: any) => _.__component === "content.information")
+  const imageHeader = item?.content.find((_: any) => _.__component === "content.image-header").image
+  const paragraph = item?.content.find((_: any) => _.__component === "content.paragraph")
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {

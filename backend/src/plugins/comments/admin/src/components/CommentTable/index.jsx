@@ -279,17 +279,13 @@ export default function CommentTable(props){
                   aria-label="Select all entries of a page" 
                   onClick={() => {
                     if(paginatedComment.every((comment) => checkedList.some(_ => _.uuid === comment.uuid))){
-                      console.log('Duy Khanh')
                       setCheckedList(prev => {
                         const newList = prev.filter(comment => !paginatedComment.some(_ => _.uuid === comment.uuid))
                         return [...newList]
                       })
                     }else{
-                      console.log("Duy khanh 2")
                       setCheckedList(prev => {
-                        console.log("Paginated: ", paginatedComment)
                         const isNotChecked = paginatedComment.filter(comment => !prev.some(_ => _.uuid === comment.uuid))
-                        console.log("Is not check: ", isNotChecked)
                         return [...prev, ...isNotChecked]
                       })
                     }

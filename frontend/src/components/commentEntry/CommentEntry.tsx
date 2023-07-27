@@ -27,9 +27,9 @@ export default function CommentEntry(props: any){
       </div>
       <div style={{marginBottom: "15px"}}>
         <cite>
-          " {
-            props.item.comment
-          } "
+          {
+            `"${props.item.comment}"`
+          } 
         </cite>
       </div>
       <div>

@@ -91,7 +91,6 @@ const Contact = () => {
                   loadMore={loadMore}
                   dataSource={list}
                   renderItem={(item) => {
-                    console.log("item : ", item)
                     return (
                       <List.Item
                         className={styles.item}

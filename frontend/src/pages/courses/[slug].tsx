@@ -22,7 +22,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 export default function DetailPage(props: any) {
   const item = props.courseItem
 
-  const [commentList, setCommentList] = useState<Array<any>>([...item.comment])
+  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
   const [isError, setIsError] = useState<boolean>(false)
   const [url, setUrl] = useState<string>("")
   
@@ -102,7 +102,7 @@ export default function DetailPage(props: any) {
                     {parse(item.introduction, optionParse)}
                     <h3>Slides và video các bài giảng</h3>
                     {
-                      item.lesson.map((lesson: any, index: number) => {
+                      item?.lesson.map((lesson: any, index: number) => {
                         const video = lesson.video ? JSON.parse(lesson.video) : null
                         const src = video ? (parse(video.rawData.html) as any).props.src : null
                         return (
@@ -115,7 +115,7 @@ export default function DetailPage(props: any) {
                               <Typography style={{fontSize: "18px"}}>Bài {index + 1}: {lesson.title}</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                              {parse(lesson.content, optionParse)}
+                              {parse(lesson?.content, optionParse)}
                               {
                                 lesson.video && (
                                   <iframe 
@@ -158,7 +158,7 @@ export default function DetailPage(props: any) {
                     <div className={styles.small_divider}></div>
                     <div className={styles.list}>
                       {
-                        props.courseList && props.courseList.map((item: any, index: number) => {
+                        props?.courseList.length > 0 && props.courseList.map((item: any, index: number) => {
                           return(
                             <div key={index} onClick={() => {handleClick(item)}}>
                               <Grid container className={styles.course_item}>
