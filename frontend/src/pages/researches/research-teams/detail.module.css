@@ -158,3 +158,12 @@
   padding: 4px;
   width: 60px;
 }
+
+.titlePublication{
+  font-weight: bold;
+}
+
+.publication{
+  margin-bottom: 14px;
+  line-height: 1.5rem;
+}

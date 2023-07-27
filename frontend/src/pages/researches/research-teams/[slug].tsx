@@ -98,6 +98,26 @@ export default function DetailPage(props: any) {
                     )
                   }
                   {
+                    item.publication_lists.length > 0 && (
+                      <div className={styles.section}>
+                        <h2 className={styles.titleSection}>Latest Publications</h2>
+                        <Grid container>
+                          {
+                            item.publication_lists.map((item: any, index: number) => {
+                              return (
+                                <div key={index} className={styles.publication}>
+                                  <span>{index + 1}. </span>
+                                  <span className={styles.titlePublication}>{item.title} : </span>
+                                  <span>{item.cite}</span>
+                                </div>
+                              )
+                            })
+                          }
+                        </Grid>
+                      </div>
+                    )
+                  }
+                  {
                     item.Members.length > 0 && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Members</h2>

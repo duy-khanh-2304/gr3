@@ -11,15 +11,19 @@ import axios from 'axios'
 import { useEffect } from 'react';
 import { request } from '@strapi/helper-plugin';
 import { Alert, BaseHeaderLayout, Button, ContentLayout, Layout, MenuItem, SingleSelect, SingleSelectOption } from '@strapi/design-system';
-import {ClickAwayListener, FormControl, Grid, Grow, Menu, MenuList, Paper, Popper, Select, TextField} from '@material-ui/core'
+import {ClickAwayListener, FormControl, FormControlLabel, Grid, Grow, Menu, MenuList, Paper, Popper, Radio, RadioGroup, Select, TextField} from '@material-ui/core'
 import styles from './index.module.css'
 const HomePage = () => {
   const [organicResults, setOrganicResults] = useState([])
+  const [organicChecked, setOrganicChecked] = useState()
+  const [citeList, setCiteList] = useState([])
+  const [selectedTitle, setSelectedTitle] = useState()
   const [query, setQuery] = useState("")
   const [quote, setQuote] = useState("")
   const [teams, setTeams] = useState([])
   const [selectedTeam, setSelectedTeam] = useState()
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [isShowSuccessMessage, setIsShowSuccessMessage] = useState(false)
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -31,7 +35,6 @@ const HomePage = () => {
   }
 
   const handleChooseOrganic = async (result) => {
-    console.log("RESULT: ", result)
     const data = await request('/search-gg-scholar/searchScholarCite', {
       method: "POST",
       "Content-Type": "application/json",
@@ -39,11 +42,53 @@ const HomePage = () => {
         query: result.result_id
       }
     })
-    console.log("DATA CITE : ", data)
-    const cite = data.citations.find(_ => _.title === "MLA")
-    setQuote(cite.snippet)
+    setOrganicChecked(result)
+    const citeList = data.citations.map(_ => ({
+      title: _.title,
+      text: _.snippet
+    }))
+    setCiteList([...citeList])
+    setSelectedTitle(citeList[0].title)
+    setQuote(citeList[0].text)
     setAnchorEl(null)
   }
+
+  const handleChangeQuote = (e) => {
+    setQuote(e.target.value)
+  }
+
+  const handleClickButton = async () => {
+    const title = organicChecked.title
+    const data = await request('/search-gg-scholar/addPublication', {
+      method: "POST",
+      "Content-Type": "application/json",
+      body: {
+        query: {
+          research_team_id: selectedTeam,
+          quote: quote,
+          title: title
+        }
+      }
+    })
+    setQuery(""),
+    setSelectedTeam()
+    setQuote("")
+    setSelectedTitle("")
+    setCiteList([])
+    setIsShowSuccessMessage(true)
+    setTimeout(() => {
+      setIsShowSuccessMessage(false)
+    }, 4000)
+  }
+
+  const handleChangeTitle = (e) => {
+    const cite = citeList.find(_ => _.title === e.target.value)
+    setSelectedTitle(e.target.value)
+    if(cite){
+      setQuote(cite.text)
+    }
+  }
+
   useEffect(() => {
     let mounted = true
     if (query !== undefined) {
@@ -57,7 +102,6 @@ const HomePage = () => {
                 query: query
               }
             })
-            console.log("DATA RESPONE : ", data)
             setOrganicResults(data.organic_results)
             const el = document.getElementById("search")
             setAnchorEl(el);
@@ -86,6 +130,19 @@ const HomePage = () => {
   return (
     <div>
       <Layout>
+        {
+          isShowSuccessMessage && 
+            <Alert 
+              onClose={() => {
+                setIsShowSuccessMessage(false)
+              }}
+              closeLabel="Close alert" 
+              title="Add publication to team successfully !" 
+              variant="success"
+              style={{position: "absolute", top: "40px", width: "400px", left: "50%"}}
+            >.
+            </Alert>
+        }
         <BaseHeaderLayout
           title="Search Google Scholar"
           subtitle="Find articles in Google Scholar and add to team"
@@ -105,6 +162,7 @@ const HomePage = () => {
                 <Grid item xs={8}>
                   <input 
                     id="search" name="search" placeholder='Enter query ...' className={styles.input}
+                    value={query}
                     onChange={handleChangeQuery}
                   />
                   <div>
@@ -123,9 +181,9 @@ const HomePage = () => {
                       }}
                     >
                       {
-                        organicResults.map((item, index) => {
+                        organicResults.length > 0 && organicResults.map((item, index) => {
                           return (
-                            <MenuItem onClick={() => {handleChooseOrganic(item)}}>
+                            <MenuItem key={index} onClick={() => {handleChooseOrganic(item)}}>
                               <h4>{item.title}</h4>
                               <span style={{color: "#888888", fontSize: "12px"}}>{item.publication_info.summary}</span>
                             </MenuItem>
@@ -141,7 +199,32 @@ const HomePage = () => {
                   <label htmlFor="search">Quote: </label>
                 </Grid>
                 <Grid item xs={8}>
-                  <textarea id="quote" name="quote" className={styles.input_textarea} value={quote}/>
+                  <textarea id="quote" name="quote" className={styles.input_textarea} value={quote} onChange={handleChangeQuote}/>
+                </Grid>
+              </Grid>
+              <Grid container spacing={1}>
+                <Grid item xs={4}>
+                </Grid>
+                <Grid item xs={8}>
+                  {
+                    citeList.length > 0 ? (
+                      <RadioGroup aria-label="gender" name="gender1" row onChange={handleChangeTitle}>
+                          {
+                            citeList.map((item, index) => {
+                              return (
+                                <FormControlLabel 
+                                  checked={selectedTitle === item.title}
+                                  key={index}
+                                  value={item.title} 
+                                  control={<Radio style={{color: "#4945ff", fontSize: "12px"}} size='small' color='secondary'/>} 
+                                  label={item.title} 
+                                />
+                              )
+                            })
+                          }
+                      </RadioGroup>
+                    ) : <div></div>
+                  }
                 </Grid>
               </Grid>
               <Grid container spacing={1}>
@@ -160,19 +243,22 @@ const HomePage = () => {
                     {
                       teams.map((item, index) => {
                         return (
-                          <SingleSelectOption key={index} value={item.slug}>{item.title}</SingleSelectOption>
+                          <SingleSelectOption key={index} value={item.id}>{item.title}</SingleSelectOption>
                         )
                       })  
                     }
                   </SingleSelect>
                 </Grid>
               </Grid>
-              <Button style={{
-                width: "120px",
-                marginLeft: "auto",
-                display: "flex",
-                justifyContent: "center",
-              }}><span>Add to team</span></Button>
+              <Button 
+                style={{
+                  width: "120px",
+                  marginLeft: "auto",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                onClick={handleClickButton}
+              ><span>Add to team</span></Button>
             </form>
           </div>
         </ContentLayout>

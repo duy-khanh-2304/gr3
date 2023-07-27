@@ -12,14 +12,17 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "cite": {
-      "type": "string"
-    },
     "research_team": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::research-team.research-team",
       "inversedBy": "publication_lists"
+    },
+    "cite": {
+      "type": "richtext"
+    },
+    "title": {
+      "type": "string"
     }
   }
 }

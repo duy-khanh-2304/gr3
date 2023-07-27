@@ -56,5 +56,20 @@ module.exports = ({ strapi }) => ({
       fields: ['title', 'slug']
     })
     ctx.body = researchTeams
+  },
+
+  async addPublication(ctx){
+    const body = ctx.request.body
+    await strapi.entityService.create('api::publication-list.publication-list', {
+      data: {
+        cite: body.query.quote,
+        title: body.query.title,
+        research_team: {
+          id: Number(body.query.research_team_id)
+        }
+      }
+    })
+    console.log("Successfully !")
+    ctx.body = JSON.stringify("Successfully !")
   }
 });

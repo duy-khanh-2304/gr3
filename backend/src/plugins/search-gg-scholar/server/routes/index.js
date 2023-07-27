@@ -26,4 +26,13 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: 'POST',
+    path: '/addPublication',
+    handler: 'myController.addPublication',
+    config: {
+      auth: false,
+      policies: [],
+    },
+  },
 ];

@@ -1,0 +1,21 @@
+.main{
+  background-color: #ffffff;
+}
+
+.container{
+  max-width: 1170px;
+  margin: auto;
+  padding: 30px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title{
+  font-weight: bold;
+}
+
+.publication{
+  margin-bottom: 14px;
+  line-height: 1.5rem;
+}

@@ -322,3 +322,18 @@ export async function getOneCoursesBySlug(slug: string){
   const response = (await axiosInstance.get(`/api/courses/${slug}?populate=deep`)).data
   return response
 } 
+
+export async function getAllPublications(){
+  let currentPage = 1
+  let response
+  let allPublications = []
+  response = (await axiosInstance.get(`/api/publication-lists`)).data
+  allPublications.push(...response.data)
+
+  while(currentPage < response.meta.pagination.pageCount){
+    currentPage  = currentPage + 1
+    response = (await axiosInstance.get(`/api/publication-lists?pagination[page]=${currentPage}`)).data
+    allPublications.push(...response.data)
+  }
+  return allPublications
+}

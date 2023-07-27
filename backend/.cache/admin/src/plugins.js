@@ -17,7 +17,6 @@ import documentation from '../../../node_modules/@strapi/plugin-documentation/st
 import i18N from '../../../node_modules/@strapi/plugin-i18n/strapi-admin.js';
 import usersPermissions from '../../../node_modules/@strapi/plugin-users-permissions/strapi-admin.js';
 import configSync from '../../../node_modules/strapi-plugin-config-sync/strapi-admin.js';
-import menus from '../../../node_modules/strapi-plugin-menus/strapi-admin.js';
 import multiSelect from '../../../node_modules/strapi-plugin-multi-select/strapi-admin.js';
 import oembed from '../../../node_modules/strapi-plugin-oembed/strapi-admin.js';
 import restCache from '../../../node_modules/strapi-plugin-rest-cache/strapi-admin.js';
@@ -42,7 +41,6 @@ const plugins = {
   'i18n': i18N,
   'users-permissions': usersPermissions,
   'config-sync': configSync,
-  'menus': menus,
   'multi-select': multiSelect,
   'oembed': oembed,
   'rest-cache': restCache,
