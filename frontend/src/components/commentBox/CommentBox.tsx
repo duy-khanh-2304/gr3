@@ -85,12 +85,12 @@ export default function CommentBox(props: any){
           }
         </Grid>
           {
-            props.isError ?? <div style={{color: '#b20400', marginBottom: "10px"}}>
+            props.isError && <div style={{color: '#b20400', marginBottom: "10px"}}>
               Post comment is fail. Can you check and post again
             </div>
           }
           {
-            props.isSuccess ?? <div style={{color: '#7a9c59', marginBottom: "10px"}}>
+            props.isSuccess && <div style={{color: '#7a9c59', marginBottom: "10px"}}>
               Post comment is success
             </div>
           }

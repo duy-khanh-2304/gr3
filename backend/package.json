@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "description": "A Strapi application",
   "scripts": {
+    "install-all": "npm install && cd src/plugins/comments; npm install && cd ../contact; npm install && cd ../search-gg-scholar; npm install && cd ../statistics; npm install",
     "develop": "strapi develop",
     "dev:admin": "strapi develop --watch-admin",
     "cs": "config-sync",

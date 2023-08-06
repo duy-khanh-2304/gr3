@@ -144,7 +144,7 @@ const HomePage = () => {
             </Alert>
         }
         <BaseHeaderLayout
-          title="Search Google Scholar"
+          title="Search Publication"
           subtitle="Find articles in Google Scholar and add to team"
           as="h2"
         />

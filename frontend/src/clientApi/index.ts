@@ -34,7 +34,7 @@ export async function getPaginatedNews(page: number = 1){
 }
 
 export async function getPaginatedSortedNews(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&sort[0]=publishAt:desc&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&sort[0]=publishAt:desc&pagination[page]=${page}&pagination[pageSize]=6&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 

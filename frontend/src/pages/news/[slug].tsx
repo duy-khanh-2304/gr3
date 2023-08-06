@@ -78,7 +78,7 @@ export default function DetailPage(props: any) {
       <div>
         <Head>
           <title>{item.title}</title>
-          <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+          <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
         </Head>
         <Layout data={props.layout.data}>
           <div className={styles.main}>
