@@ -5,7 +5,7 @@ import styles from './index.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
-import { getHomePage, getLatestPost, getPaginatedSortedEvents } from '@/clientApi'
+import { getContactInformation, getHomePage, getLatestPost, getLayout, getPaginatedSortedEvents } from '@/clientApi'
 import { useRouter } from 'next/router'
 
 export default function Events(props: any) {
@@ -27,7 +27,10 @@ export default function Events(props: any) {
       <Head>
         <title>Events Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout data={layout}>
+      <Layout 
+        layout={props.layout}
+        information={props.information}
+      >
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container>
@@ -37,7 +40,7 @@ export default function Events(props: any) {
                     eventList && eventList.map((item: any, index: number) => {
                       return (
                         <Grid item key={index} sm={6} lg={4}>
-                          <Card item={item} onClick={() => {handleClick(item)}}/>
+                          <Card item={item} onClickItem={handleClick}/>
                         </Grid>
                       )
                     })
@@ -61,15 +64,19 @@ export default function Events(props: any) {
 }
 
 export async function getStaticProps() {
-  const homePage = await getHomePage() 
+  const information = await getContactInformation()
+  const layout = await getLayout() 
   const eventList = await getPaginatedSortedEvents()
   const latestList = await getLatestPost()
   return {
     props: {
-      layout: homePage,
+      information: information.data,
+      layout: layout.data,
       eventList: eventList,
       latestList: latestList.data
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

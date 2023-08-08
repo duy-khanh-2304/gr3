@@ -13,19 +13,44 @@
   "pluginOptions": {},
   "attributes": {
     "start_time": {
-      "type": "time"
+      "type": "time",
+      "required": true
     },
     "end_time": {
-      "type": "time"
-    },
-    "phone_number": {
-      "type": "string"
+      "type": "time",
+      "required": true
     },
     "email": {
-      "type": "string"
+      "displayName": "Contact Entry",
+      "type": "component",
+      "repeatable": false,
+      "component": "content.contact-entry"
+    },
+    "phone_number": {
+      "type": "component",
+      "repeatable": false,
+      "component": "content.contact-entry"
     },
     "address": {
-      "type": "string"
+      "type": "component",
+      "repeatable": false,
+      "component": "content.contact-entry"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "copy_right": {
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
     }
   }
 }

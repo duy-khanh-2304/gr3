@@ -9,7 +9,6 @@ import importExportEntries from '../../../node_modules/strapi-plugin-import-expo
 import seo from '../../../node_modules/@strapi/plugin-seo/strapi-admin.js';
 import statistics from '../../../src/plugins/statistics/strapi-admin.js';
 import comments from '../../../src/plugins/comments/strapi-admin.js';
-import contact from '../../../src/plugins/contact/strapi-admin.js';
 import searchGgScholar from '../../../src/plugins/search-gg-scholar/strapi-admin.js';
 import ckeditor5 from '../../../node_modules/@_sh/strapi-plugin-ckeditor/strapi-admin.js';
 import colorPicker from '../../../node_modules/@strapi/plugin-color-picker/strapi-admin.js';
@@ -33,7 +32,6 @@ const plugins = {
   'seo': seo,
   'statistics': statistics,
   'comments': comments,
-  'contact': contact,
   'search-gg-scholar': searchGgScholar,
   'ckeditor5': ckeditor5,
   'color-picker': colorPicker,

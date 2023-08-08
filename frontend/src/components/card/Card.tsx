@@ -9,7 +9,7 @@ export default function Card(props: any){
     <div>
       <div 
         className={`${styles.item} ${styles.card}`}
-        onClick={props.onClick}
+        onClick={() => {props.onClickItem(item)}}
       >
         <div className={styles.content}>
           <img 

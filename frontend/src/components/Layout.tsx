@@ -10,6 +10,10 @@ import BreadCrumbs from "./breadCrumbs/BreadCrumbs";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 export default function Layout(props: any) {
+  const {
+    header_navigation,
+    footer_navigation
+  } = props.layout
   const [showButton, setShowButton] = useState(false)
   const [stickyNavbar, setStickyNavbar] = useState(false)
   const router = useRouter()
@@ -48,15 +52,23 @@ export default function Layout(props: any) {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Header header={props.data.header}/>
-        <NavBar navbar={props.data.nav_bar}/>
+        <Header
+          information={props.information}
+        />
+        <NavBar 
+          logo={props.information.logo}
+          headerNavigation={header_navigation}
+        />
         {
           router.asPath !== "/" && <BreadCrumbs/>
         }
         <div>
           {props.children}
         </div>
-        <Footer footerSection={props.data.footer} absoluteFooter={props.data.absolute_footer}/>
+        <Footer 
+          information={props.information}
+          footerNavigation={footer_navigation}
+        />
         {
           showButton && <div onClick={onScrollToTop} className={styles.back_to_top}>
             <UpOutlined/>

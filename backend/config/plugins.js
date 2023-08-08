@@ -93,10 +93,6 @@ module.exports = ({ env }) => ({
     enabled: true,
     resolve: './src/plugins/comments'
   },
-  'contact': {
-    enabled: true,
-    resolve: './src/plugins/contact'
-  },
   'search-gg-scholar': {
     enabled: true,
     resolve: './src/plugins/search-gg-scholar'

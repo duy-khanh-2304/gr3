@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_content_contact_entries",
+  "info": {
+    "displayName": "Contact Entry"
+  },
+  "options": {},
+  "attributes": {
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    }
+  }
+}

@@ -3,12 +3,12 @@ import Layout from "@/components/Layout";
 import Head from "next/head";
 import React, { Suspense, useEffect, useState } from "react";
 import styles from './detail.module.css'
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import parse from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import { addComment, getAllNews, getAllProjects, getHomePage, getLatestPost, getLatestProjects, getOneNewsBySlug, getOneProjectBySlug } from "@/clientApi";
+import { addComment, getAllNews, getAllProjects, getContactInformation, getHomePage, getLatestPost, getLatestProjects, getLayout, getOneNewsBySlug, getOneProjectBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
 import LatestProject from "@/components/latestProjects/LatestProject";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
@@ -21,7 +21,7 @@ export default function DetailPage(props: any) {
   const [url, setUrl] = useState<string>("")
 
   const information = item?.content.find((_: any) => _.__component === "content.information")
-  const imageHeader = item?.content.find((_: any) => _.__component === "content.image-header").image
+  const imageHeader = item?.content.find((_: any) => _.__component === "content.image-header")?.image
   const paragraph = item?.content.find((_: any) => _.__component === "content.paragraph")
   const optionParse = {
     replace: (domNode: any) => {
@@ -72,6 +72,10 @@ export default function DetailPage(props: any) {
   }
 
   useEffect(() => {
+    document.body.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     const currentUrl = window.location.href
     setUrl(currentUrl)
   }, [])
@@ -79,7 +83,15 @@ export default function DetailPage(props: any) {
   const router = useRouter()
   if(router.isFallback){
     return (
-      <div>Loading information...</div>
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
     )
   }
   return (
@@ -88,7 +100,8 @@ export default function DetailPage(props: any) {
         <Head>
           <title>{item.title}</title>
         </Head>
-        <Layout data={props.layout}>
+        <Layout layout={props.layout}
+        information={props.information}>
           <div className={styles.main}>
             <div className={styles.container}>
               <div className={styles.entry_content}>
@@ -124,13 +137,15 @@ export default function DetailPage(props: any) {
                           </div>
                         </Grid>
                         <Grid item lg={8}>
-                          <div className={styles.entry_image_header}>
-                            <img 
-                              src={imageHeader.url} 
-                              alt={imageHeader.name}
-                              style={{width: "100%", height: "inherit"}}
-                            />
-                          </div>
+                          {
+                            !!imageHeader && <div className={styles.entry_image_header}>
+                              <img 
+                                src={imageHeader.url} 
+                                alt={imageHeader.name}
+                                style={{width: "100%", height: "inherit"}}
+                              />
+                            </div>
+                          }
                         </Grid>
                         <div style={{marginTop: "40px"}}>
                           {parse(paragraph.content, optionParse)}
@@ -187,17 +202,21 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const response = await getHomePage()
+  const information = await getContactInformation()
+  const layout = await getLayout() 
   const projectItem = await getOneProjectBySlug(params.slug) 
   const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
   const latestProjects = await getLatestProjects(10)
   return {
     props: {
-      layout: response.data,
+      information: information.data,
+      layout: layout.data,
       projectItem: projectItem.data,
       commentBox: commentBox.data,
       latestProjects: latestProjects.data
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

@@ -17,6 +17,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #ffffffcc;
 }
 
 .footerSection{
@@ -29,16 +30,16 @@
 
 .list_footerSection{
   margin-left: 30px;
+  width: 70%;
 }
 
 .list_container{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 }
 
 .item_container{
-  flex: 1;
+  min-width: 200px;
   padding: 0 15px;
 }
 
@@ -65,3 +66,7 @@
   font-weight: 450;
 }
 
+.item_infor{
+  margin-bottom: 8px;
+  line-height: 1.4rem;
+}

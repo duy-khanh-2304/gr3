@@ -7,13 +7,6 @@ import {
 } from '@ant-design/icons'
 
 export default function NavBar(props: any){
-
-  const [menuList, setMenuList] = useState()
-
-  const data = props.navbar
-  const logo = data.find((_: any) => _.__component.indexOf('logo-navigation') !== -1)
-  const linkList = data.filter((_:any) => _.__component.indexOf('logo-navigation') === -1)
-
   const createMenuItems = (subLinks: Array<any>) => {
     const items: MenuProps['items'] = subLinks.map((link, index) => {
       return {
@@ -41,12 +34,12 @@ export default function NavBar(props: any){
     <div className={styles.main}>
       <div className={styles.container}>
         {
-          logo && 
+          props.logo && 
           <div className={styles.logo}>
-            <Link href={logo.url}>
+            <Link href={"/"}>
               <img 
-                src={logo.image.url} 
-                alt={logo.image.name}
+                src={props.logo.url} 
+                alt={props.logo.name}
                 width="140p"
                 height="auto"
               />
@@ -55,7 +48,7 @@ export default function NavBar(props: any){
         }
         <div className={styles.flex_list}>
           {
-            linkList.map((link: any, index: number) => {
+            props.headerNavigation.map((link: any, index: number) => {
               return (
                 <div key={index}>
                   {

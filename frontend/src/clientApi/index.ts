@@ -1,5 +1,4 @@
 import axiosInstance from "@/axiosConfig"
-import sortByPublishedDate from "@/utils/sortByPublishedDate"
 
 const selectorFieldNewsAndEvents = `fields[0]=title&fields[1]=slug&fields[2]=publishAt&fields[3]=post_image&fields[4]=post_subtitle&fields[5]=tag&populate[post_image]=*`
 const selectorFieldAiTechBlogs = `fields[0]=title&fields[1]=slug&fields[2]=publishAt&fields[3]=post_image&fields[4]=post_subtitle&fields[5]=tag&populate[post_image]=*`
@@ -8,8 +7,19 @@ const selectorFieldToolAndResources = `fields[0]=title&fields[1]=slug&fields[2]=
 const selectorFieldSolutions = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
 const selectorFieldResearchTeams = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
 const selectorFieldCourses = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
+const selectorFieldInformation= 'populate[email]=true&populate[phone_number]=true&populate[address]=true'
 export async function getHomePage(){
   const response = (await axiosInstance.get("/api/home-page?populate=deep")).data
+  return response
+}
+
+export async function getContactInformation(){
+  const response = (await axiosInstance.get(`/api/contact-information?populate=deep`)).data
+  return response
+}
+
+export async function getLayout(){
+  const response = (await axiosInstance.get(`/api/layout?populate=deep`)).data
   return response
 }
 

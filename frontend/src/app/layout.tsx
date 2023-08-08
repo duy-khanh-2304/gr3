@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router';
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -17,6 +18,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Đặt vị trí cuộn trang về 0 mỗi khi chuyển trang
+      window.scrollTo(0, 0);
+    };
+
+    // Lắng nghe sự kiện routeChangeComplete sau khi chuyển trang
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      // Huỷ lắng nghe sự kiện khi component unmount
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, []);
   return (
     <html lang="en">
       <body className={inter.className}>

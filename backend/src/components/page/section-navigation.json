@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_page_section_navigations",
+  "info": {
+    "displayName": "Section Navigation",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.links-navigation"
+    }
+  }
+}

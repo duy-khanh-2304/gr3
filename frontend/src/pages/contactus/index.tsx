@@ -5,9 +5,16 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styles from './contactus.module.css'
 import { NextPage } from 'next'
 import { useLoadScript, GoogleMap, MarkerF } from '@react-google-maps/api'
-import { sendMessage } from '@/clientApi'
+import { getContactInformation, getLayout, sendMessage } from '@/clientApi'
+import { formattedPhoneNumber } from '@/utils'
+import emailjs, {EmailJSResponseStatus} from 'emailjs-com'
 
 export default function ContactUs(props: any){
+  const {
+    email,
+    phone_number,
+    address
+  } = props.information
   const {
     contact_info,
     location_google_map,
@@ -21,9 +28,30 @@ export default function ContactUs(props: any){
   const [message, setMessage] = useState({})
 
   const handleSubmit = async (event: any) => {
+
     event.preventDefault();
     (document.getElementById("form-contact") as any).reset()
-    await sendMessage(JSON.stringify(message))
+    const templateParams = {
+      to_name: 'Recipient Name',
+      from_name: 'Your Name',
+      to_email: 'khanh.ngo@dssolution.jp',
+      from_email: 'ngokhanh357@gmail.com',
+      message: 'Hello, Minh duong!',
+    };
+  
+    try {
+      const response: EmailJSResponseStatus = await emailjs.send(
+        'service_4rkurx5',
+        'template_mm12o4v',
+        templateParams,
+        '5Eu4kYruvoheDxz4e'
+      );
+  
+      console.log('Email sent successfully!', response);
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+    // await sendMessage(JSON.stringify(message))
   }
 
   return (
@@ -31,25 +59,40 @@ export default function ContactUs(props: any){
       <Head>
         <title>Contact Us</title>
       </Head>
-      <Layout data={props.layout}>
+      <Layout
+        layout={props.layout}
+        information={props.information}
+      >
         <div className={styles.main}>
           <div className={styles.container}>
             <div className={styles.contact_info_list}>
-              {
-                contact_info.map((item: any, index: number) => {
-                  return (
-                    <div key={index} className={styles.contact_info}>
-                      <img 
-                        src={item.image.url} 
-                        alt={item.image.name} 
-                        width="80px"
-                        height="auto"
-                      />
-                      <h2 className={styles.info_text}>{item.text}</h2>
-                    </div>
-                  )
-                })
-              }
+              <div className={styles.contact_info}>
+                <img 
+                  src={email.image.url} 
+                  alt={email.image.name} 
+                  width="80px"
+                  height="80px"
+                />
+                <h2 className={styles.info_text}>{email.value}</h2>
+              </div>
+              <div className={styles.contact_info}>
+                <img 
+                  src={phone_number.image.url} 
+                  alt={phone_number.image.name} 
+                  width="80px"
+                  height="80px"
+                />
+                <h2 className={styles.info_text}>{formattedPhoneNumber(phone_number.value)}</h2>
+              </div>
+              <div className={styles.contact_info}>
+                <img 
+                  src={address.image.url} 
+                  alt={address.image.name} 
+                  width="80px"
+                  height="80px"
+                />
+                <h2 className={styles.info_text}>{address.value}</h2>
+              </div>
             </div>
             <div className={styles.map}>
               <Map/>
@@ -166,13 +209,17 @@ function Map(props: any){
 }
 
 export async function getStaticProps() {
-  const layoutResponse = (await axiosInstance.get("/api/home-page?populate=deep")).data
+  const information = await getContactInformation()
+  const layout = await getLayout()
   const contactUsResponse = (await axiosInstance.get("/api/contact-us-page?populate=deep")).data
   return {
     props: {
-      layout: layoutResponse.data,
+      layout: layout.data,
+      information: information.data,
       contactUs: contactUsResponse.data
     },
-    revalidate: 10
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

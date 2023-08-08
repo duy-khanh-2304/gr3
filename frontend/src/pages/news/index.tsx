@@ -5,13 +5,12 @@ import styles from './index.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
-import { getPaginatedSortedNews, getHomePage, getLatestPost } from '@/clientApi'
+import { getPaginatedSortedNews, getHomePage, getLatestPost, getContactInformation, getLayout } from '@/clientApi'
 import { useRouter } from 'next/router'
 
 export default function News(props: any) {
   const newsList = props.newsList.data
   const numberPage = props.newsList.meta.pagination.pageCount
-  const layout = props.layout.data
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     router.push(`/news/page/${value}`)
@@ -26,7 +25,10 @@ export default function News(props: any) {
       <Head>
         <title>News Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout data={layout}>
+      <Layout
+        layout={props.layout}
+        information={props.information}
+      >
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container>
@@ -36,7 +38,7 @@ export default function News(props: any) {
                     newsList && newsList.map((item: any, index: number) => {
                       return (
                         <Grid item key={index} sm={6} lg={4}>
-                          <Card item={item} onClick={() => {handleClick(item)}}/>
+                          <Card item={item} onClickItem={handleClick}/>
                         </Grid>
                       )
                     })
@@ -60,15 +62,19 @@ export default function News(props: any) {
 }
 
 export async function getStaticProps() {
-  const homePage = await getHomePage() 
+  const information = await getContactInformation()
+  const layout = await getLayout()
   const newsList = await getPaginatedSortedNews()
   const latestList = await getLatestPost()
   return {
     props: {
-      layout: homePage,
+      information: information.data,
+      layout: layout.data,
       newsList: newsList,
       latestList: latestList
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

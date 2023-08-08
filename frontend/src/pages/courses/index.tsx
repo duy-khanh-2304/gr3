@@ -4,7 +4,7 @@ import React from 'react'
 import styles from './index.module.css'
 import { Grid, Pagination, Stack } from '@mui/material'
 import Card from '@/components/card/Card'
-import { getHomePage, getPaginatedCourses } from '@/clientApi'
+import { getContactInformation, getHomePage, getLayout, getPaginatedCourses } from '@/clientApi'
 import { useRouter } from 'next/router'
 
 export default function Events(props: any) {
@@ -26,7 +26,9 @@ export default function Events(props: any) {
       <Head>
         <title>Courses Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout data={layout}>
+      <Layout layout={props.layout}
+        information={props.information}
+      >
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container style={{padding: "0 15px"}}>
@@ -35,7 +37,7 @@ export default function Events(props: any) {
                   courseList && courseList.map((item: any, index: number) => {
                     return (
                       <Grid item key={index} sm={6} md={4} lg={3}>
-                        <Card item={item} onClick={() => {handleClick(item)}}/>
+                        <Card item={item} onClickItem={handleClick}/>
                       </Grid>
                     )
                   })
@@ -55,13 +57,15 @@ export default function Events(props: any) {
 }
 
 export async function getStaticProps() {
-  const homePage = await getHomePage() 
+  const information = await getContactInformation()
+  const layout = await getLayout() 
   const courseList = await getPaginatedCourses()
   return {
     props: {
-      layout: homePage,
+      information: information.data,
+      layout: layout.data,
       courseList: courseList,
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }

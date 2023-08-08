@@ -1,4 +1,4 @@
-import { getAllPublications, getHomePage } from '@/clientApi'
+import { getAllPublications, getContactInformation, getHomePage, getLayout } from '@/clientApi'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -14,7 +14,8 @@ export default function  PublicationList(props: any){
       <Head>
         <title>Publication List Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout data={layout}>
+      <Layout layout={props.layout}
+        information={props.information}>
         <div className={styles.main}>
           <div className={styles.container}>
             {
@@ -36,13 +37,17 @@ export default function  PublicationList(props: any){
 }
 
 export async function getStaticProps() {
-  const homePage = await getHomePage() 
+  const information = await getContactInformation()
+  const layout = await getLayout()  
   const publicationList = await getAllPublications()
   return {
     props: {
-      layout: homePage,
+      information: information.data,
+      layout: layout.data,
       publicationList: publicationList,
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

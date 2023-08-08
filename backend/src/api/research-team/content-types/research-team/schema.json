@@ -24,38 +24,39 @@
         "images"
       ]
     },
-    "Introduction": {
+    "introduction": {
       "type": "customField",
       "options": {
         "preset": "toolbar"
       },
       "customField": "plugin::ckeditor5.CKEditor"
     },
-    "ResearchDirections": {
+    "research_directions": {
       "type": "customField",
       "options": {
         "preset": "toolbar"
       },
       "customField": "plugin::ckeditor5.CKEditor"
     },
-    "ResearchProblems": {
+    "research_problems": {
       "type": "customField",
       "options": {
         "preset": "toolbar"
       },
       "customField": "plugin::ckeditor5.CKEditor"
     },
-    "Members": {
+    "members": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::member.member"
+      "relation": "manyToMany",
+      "target": "api::member.member",
+      "inversedBy": "research_teams"
     },
-    "Projects": {
+    "projects": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::project.project"
     },
-    "ToolAndResources": {
+    "tool_and_resources": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::tool-and-resource.tool-and-resource"
@@ -67,7 +68,7 @@
       "type": "string",
       "required": true
     },
-    "Collaborations": {
+    "collaborations": {
       "type": "customField",
       "options": {
         "preset": "toolbar"
@@ -75,12 +76,12 @@
       "required": false,
       "customField": "plugin::ckeditor5.CKEditor"
     },
-    "Publications": {
+    "publications": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::publication-list.publication-list"
     },
-    "Solutions": {
+    "solutions": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::solution.solution"
@@ -89,12 +90,6 @@
       "type": "component",
       "repeatable": true,
       "component": "content.seen-array-time"
-    },
-    "publication_lists": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::publication-list.publication-list",
-      "mappedBy": "research_team"
     }
   }
 }

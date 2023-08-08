@@ -1,0 +1,29 @@
+{
+  "kind": "singleType",
+  "collectionName": "layouts",
+  "info": {
+    "singularName": "layout",
+    "pluralName": "layouts",
+    "displayName": "Layout",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "header_navigation": {
+      "type": "dynamiczone",
+      "components": [
+        "page.links-navigation",
+        "page.dropdown-navigation"
+      ]
+    },
+    "footer_navigation": {
+      "type": "dynamiczone",
+      "components": [
+        "page.section-navigation"
+      ]
+    }
+  }
+}

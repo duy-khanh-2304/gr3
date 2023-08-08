@@ -2,12 +2,12 @@ import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React, { useEffect } from 'react'
 import styles from './page.module.css'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
 import parse from 'html-react-parser'
-import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getPaginatedProjects, getPaginatedToolAndResources } from '@/clientApi'
+import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getPaginatedProjects, getPaginatedToolAndResources, getContactInformation, getLayout } from '@/clientApi'
 import { useRouter } from 'next/router'
 import { redirect } from 'next/navigation'
 
@@ -16,7 +16,15 @@ export default function ToolAndResourcePage(props: any) {
 
   if(router.isFallback){
     return (
-      <div>Loading information...</div>
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
     )
   }
   const toolAndResourceList = props.toolAndResourceList.data
@@ -41,7 +49,8 @@ export default function ToolAndResourcePage(props: any) {
       <Head>
         <title>{headTitle}</title>
       </Head>
-      <Layout data={layout}>
+      <Layout layout={props.layout}
+        information={props.information}>
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container>
@@ -51,7 +60,7 @@ export default function ToolAndResourcePage(props: any) {
                     toolAndResourceList && toolAndResourceList.map((item: any, index: number) => {
                       return (
                         <Grid item key={index} sm={6} md={4} lg={3}>
-                          <Card item={item} onClick={() => {handleClick(item)}}/>
+                          <Card item={item} onClickItem={handleClick}/>
                         </Grid>
                       )
                     })
@@ -92,15 +101,19 @@ export async function getStaticPaths(){
 export async function getStaticProps({params}:any) {
   const pageNumber = Number(params.pageNumber)
 
-  const homePage = await getHomePage() 
+  const information = await getContactInformation()
+  const layout = await getLayout()
 
   const toolAndResourceList = await getPaginatedToolAndResources(pageNumber)
   return {
     props: {
-      layout: homePage,
+      information: information.data,
+      layout: layout.data,
       currentPage: pageNumber,
       toolAndResourceList: toolAndResourceList,
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

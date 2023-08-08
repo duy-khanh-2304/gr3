@@ -8,7 +8,7 @@ import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
 import parse from 'html-react-parser'
-import {getHomePage, getLatestPost, getPaginatedSortedSeminars } from '@/clientApi'
+import {getContactInformation, getHomePage, getLatestPost, getLayout, getPaginatedSortedSeminars } from '@/clientApi'
 import { useRouter } from 'next/router'
 
 export default function NewsAndEvents(props: any) {
@@ -24,7 +24,10 @@ export default function NewsAndEvents(props: any) {
       <Head>
         <title>News and Events - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout data={layout}>
+      <Layout 
+        layout={props.layout}
+        information={props.information}
+      >
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container>
@@ -32,7 +35,7 @@ export default function NewsAndEvents(props: any) {
               postList && postList.map((item: any, index: number) => {
                 return (
                   <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
-                    <Card item={item} onClick={() => {handleClick(item)}}/>
+                    <Card item={item} onClickItem={handleClick}/>
                   </Grid>
                 )
               })
@@ -46,13 +49,17 @@ export default function NewsAndEvents(props: any) {
 }
 
 export async function getStaticProps() {
-  const homePage = await getHomePage() 
+  const information = await getContactInformation()
+  const layout = await getLayout()  
   const postList = await getLatestPost(8)
   return {
     props: {
-      layout: homePage,
+      information: information.data,
+      layout: layout.data,
       postList: postList
     },
-    revalidate: 10
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

@@ -3,11 +3,20 @@ import styles from './section.module.css'
 import { Grid } from "@mui/material";
 import Card from "../card/Card";
 import FlickityComponent from "../flickityComponent/FlickityComponent";
+import { CONTENT_TYPE } from "@/utils";
+import { useRouter } from 'next/router'
 
 export default function Section(props: any){
   const dataList = props.sectionsData[props.data.entity]
+  const router = useRouter()
   const handleClick = (item: any) => {
-
+    const contentType = CONTENT_TYPE.find(_ => _.name === props.data.entity)
+    if(contentType?.name === "News and Events"){
+      const tag = item.tag[0]
+      router.replace(`/${tag}/${item.slug}`)
+    }else{
+      router.replace(`${contentType?.api}/${item.slug}`)
+    }
   }
   return (
     <div className={props.data.background_effect ? `${styles.backgroundEffect} ${styles.main}` : `${styles.main}`}>
@@ -35,7 +44,7 @@ export default function Section(props: any){
               {
                 props.data.flickity ? (
                   <>
-                    <FlickityComponent dataList={dataList}/>
+                    <FlickityComponent dataList={dataList} onClickItem={handleClick}/>
                   </>
                 ): (
                   <div style={{width: "100%"}}>
@@ -44,7 +53,9 @@ export default function Section(props: any){
                         dataList && dataList.map((item: any, index: number) => {
                           return (
                             <Grid item key={index} sm={6} md={4} lg={3}>
-                              <Card item={item} onClick={() => {handleClick(item)}}/>
+                              <Card item={item} onClickItem={() => {
+                                handleClick(item)
+                              }}/>
                             </Grid>
                           )
                         })

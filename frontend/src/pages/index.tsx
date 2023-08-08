@@ -7,7 +7,9 @@ import parse from "html-react-parser"
 import {FaYoutube} from "@react-icons/all-files/fa/FaYoutube"
 import {IoMdClose}from "@react-icons/all-files/io/IoMdClose"
 import Section from "@/components/section/Section";
-import { getAllPartners, getAllProjects, getAllTeams, getLatestPost, getLatestProjects, getPaginatedSolutions, getPaginatedSortedAiTechBlogs, getPaginatedToolAndResources } from "@/clientApi";
+import { getAllPartners, getAllProjects, getAllTeams, getContactInformation, getHomePage, getLatestPost, getLatestProjects, getLayout, getPaginatedSolutions, getPaginatedSortedAiTechBlogs, getPaginatedToolAndResources } from "@/clientApi";
+import { useRouter } from 'next/router'
+import { CONTENT_TYPE } from "@/utils";
 
 export default function Home(props: any) {
   const [isShowOverlay, setIsShowOverlay] = useState(false)
@@ -29,18 +31,41 @@ export default function Home(props: any) {
     const banner = document.getElementById('banner-video')
     banner?.click()
   }, [])
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Reset vị trí cuộn trang về đầu trang
+      document.body.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    };
+
+    // Lắng nghe sự kiện routeChangeComplete khi chuyển trang hoàn tất
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      // Huỷ lắng nghe sự kiện khi component unmount
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, []);
   return(
     <div>
       <Head>
         <title>Home Page - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout data={props.data}>
+      <Layout 
+        layout={props.layout}
+        information={props.information}
+      >
         <div className={styles.banner}>
           <iframe 
             id='banner-video'
             width="100%" 
             height="1080px" 
-            src={`${src}&autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&showinfo=0&fs=0&loop=1&el=0&enablejsapi=1`}
+            src={`${src}&autoplay=1&mute=1&controls=0&modestbranding=1&playsinline=1&showinfo=0&fs=0&loop=1&el=0&enablejsapi=1&rel=0`}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             data-gtm-yt-inspected-4="true"
             data-audio="0"
@@ -89,7 +114,9 @@ export default function Home(props: any) {
 }
 
 export async function getStaticProps() {
-  const response = (await axiosInstance.get("/api/home-page?populate=deep")).data
+  const response = await getHomePage()
+  const information = await getContactInformation()
+  const layout = await getLayout()
   const sections = response.data.body.filter((component: any) => component.__component === "page.section")
   const sectionsData = {
     'News and Events': [],
@@ -138,8 +165,12 @@ export async function getStaticProps() {
   return {
     props: {
       sectionsData: sectionsData,
-      data: response.data
+      information: information.data,
+      data: response.data,
+      layout: layout.data
     },
-    revalidate: 10
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

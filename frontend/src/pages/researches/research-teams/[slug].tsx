@@ -1,17 +1,12 @@
-import axiosInstance from "@/axiosConfig";
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import React, { Suspense } from "react";
+import React from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
-import PostSidebar from "@/components/postSidebar/PostSidebar";
+import CircularProgress from '@mui/material/CircularProgress'
 import parse from 'html-react-parser'
-import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
-import CommentBox from "@/components/commentBox/CommentBox";
-import Link from 'next/link'
-import { getAllNews, getAllProjects, getAllTeams, getHomePage, getLatestPost, getLatestProjects, getOneNewsBySlug, getOneProjectBySlug, getOneTeamBySlug } from "@/clientApi";
+import {getAllTeams, getContactInformation, getHomePage, getLatestPost, getLatestProjects, getLayout, getOneNewsBySlug, getOneProjectBySlug, getOneTeamBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
-import LatestProject from "@/components/latestProjects/LatestProject";
 import MemberCard from "@/components/memberCard/MemberCard";
 
 export default function DetailPage(props: any) {
@@ -51,7 +46,15 @@ export default function DetailPage(props: any) {
   const router = useRouter()
   if(router.isFallback){
     return (
-      <div>Loading information...</div>
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
     )
   }
   return (
@@ -59,51 +62,52 @@ export default function DetailPage(props: any) {
       <Head>
         <title>{item.title}</title>
       </Head>
-      <Layout data={props.layout}>
+      <Layout layout={props.layout}
+        information={props.information}>
         <div className={styles.main}>
           <div className={styles.container}>
             <div className={styles.entry_content}>
               <Grid container>
                 <Grid item lg={9} sm={8} style={{ padding: "0 15px" }}>
                   {
-                    item.Introduction && (
+                    item.introduction && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Introduction</h2>
-                        {parse(item.Introduction)}
+                        {parse(item.introduction)}
                       </div>
                     )
                   }
                   {
-                    item.ResearchDirections && (
+                    item.research_directions && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Research Directions</h2>
-                        {parse(item.ResearchDirections)}
+                        {parse(item.research_directions)}
                       </div>
                     )
                   }
                   {
-                    item.ResearchProblems && (
+                    item.research_problems && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Research Problems</h2>
-                        {parse(item.ResearchProblems)}
+                        {parse(item.research_problems)}
                       </div>
                     )
                   }
                   {
-                    item.Collaborations && (
+                    item.collaborations && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Collaborations</h2>
-                        {parse(item.Collaborations)}
+                        {parse(item.collaborations)}
                       </div>
                     )
                   }
                   {
-                    item.publication_lists.length > 0 && (
+                    item.publications.length > 0 && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Latest Publications</h2>
                         <Grid container>
                           {
-                            item.publication_lists.map((item: any, index: number) => {
+                            item.publications.map((item: any, index: number) => {
                               return (
                                 <div key={index} className={styles.publication}>
                                   <span>{index + 1}. </span>
@@ -118,12 +122,12 @@ export default function DetailPage(props: any) {
                     )
                   }
                   {
-                    item.Members.length > 0 && (
+                    item.members.length > 0 && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Members</h2>
                         <Grid container>
                           {
-                            item.Members.map((item: any, index: number) => {
+                            item.members.map((item: any, index: number) => {
                               return (
                                 <Grid item key={index} lg={4} md={6} sm={12}>
                                   <MemberCard member={item}/>
@@ -136,12 +140,12 @@ export default function DetailPage(props: any) {
                     )
                   }
                   {
-                    (item.Projects.length > 0 || item.Solutions.length > 0) && (
+                    (item.projects.length > 0 || item.solutions.length > 0) && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Projects and Solutions</h2>
                         <Grid container>
                           {
-                            item.Projects.map((item: any, index: number) => {
+                            item.projects.map((item: any, index: number) => {
                               return (
                                 <Grid item key={index} lg={6} sm={12}>
                                   <div 
@@ -166,7 +170,7 @@ export default function DetailPage(props: any) {
                             })
                           }
                           {
-                            item.Solutions.map((item: any, index: number) => {
+                            item.solutions.map((item: any, index: number) => {
                               return (
                                 <Grid item key={index} lg={6} sm={12}>
                                   <div 
@@ -195,12 +199,12 @@ export default function DetailPage(props: any) {
                     )
                   }
                   {
-                    item.ToolAndResources.length > 0 && (
+                    item.tool_and_resources.length > 0 && (
                       <div className={styles.section}>
                         <h2 className={styles.titleSection}>Tool And Resources</h2>
                         <Grid container>
                           {
-                            item.ToolAndResources.map((item: any, index: number) => {
+                            item.tool_and_resources.map((item: any, index: number) => {
                               return (
                                 <Grid item key={index} lg={6} sm={12}>
                                   <div 
@@ -288,15 +292,19 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const response = await getHomePage()
+  const information = await getContactInformation()
+  const layout = await getLayout()
   const teamItem = await getOneTeamBySlug(params.slug) 
   const allTeams = await getAllTeams()
   return {
     props: {
-      layout: response.data,
+      information: information.data,
+      layout: layout.data,
       teamItem: teamItem.data,
       allTeams: allTeams
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

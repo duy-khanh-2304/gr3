@@ -5,13 +5,12 @@
   },
   "options": {},
   "attributes": {
-    "image": {
+    "image_header": {
       "allowedTypes": [
         "images"
       ],
       "type": "media",
-      "multiple": false,
-      "required": true
+      "multiple": false
     }
   }
 }

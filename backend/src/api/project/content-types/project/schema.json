@@ -40,8 +40,9 @@
       "type": "dynamiczone",
       "components": [
         "content.information",
-        "content.image-header",
-        "content.paragraph"
+        "content.paragraph",
+        "content.light-box",
+        "content.image-header"
       ],
       "required": true
     },

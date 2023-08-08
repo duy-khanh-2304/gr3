@@ -29,6 +29,12 @@
     },
     "PI_link": {
       "type": "string"
+    },
+    "research_teams": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::research-team.research-team",
+      "mappedBy": "members"
     }
   }
 }

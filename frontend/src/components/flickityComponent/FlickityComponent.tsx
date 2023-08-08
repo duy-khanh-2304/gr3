@@ -27,7 +27,7 @@ export default function FlickityComponent(props: any) {
         props.dataList.map((item: any, index: number) => {
           return (
             <div key={index} className="carousel-cell">
-              <Card item={item}/>
+              <Card item={item} onClickItem={props.onClickItem}/>
             </div>
           )
         })

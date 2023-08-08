@@ -8,7 +8,7 @@ import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
 import parse from 'html-react-parser'
-import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getOurTeamPage, getAllTeams } from '@/clientApi'
+import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getOurTeamPage, getAllTeams, getLayout, getContactInformation } from '@/clientApi'
 import { useRouter } from 'next/router'
 import MemberCard from '@/components/memberCard/MemberCard'
 
@@ -27,7 +27,10 @@ export default function OurTeam(props: any) {
       <Head>
         <title>Our Team - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout data={layout}>
+      <Layout
+        layout={props.layout}
+        information={props.information}
+      >
         <div className={styles.main}>
           <div className={styles.directorSection}>
             <div className={styles.container}>
@@ -88,15 +91,19 @@ export default function OurTeam(props: any) {
 }
 
 export async function getStaticProps() {
-  const homePage = await getHomePage() 
+  const information = await getContactInformation()
+  const layout = await getLayout() 
   const ourTeamPage = await getOurTeamPage()
   const teams = await getAllTeams()
   return {
     props: {
-      layout: homePage,
+      information: information.data,
+      layout: layout.data,
       ourTeamPage: ourTeamPage,
       teams: teams
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

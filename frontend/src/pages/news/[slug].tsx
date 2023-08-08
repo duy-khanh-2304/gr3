@@ -3,13 +3,13 @@ import Layout from "@/components/Layout";
 import Head from "next/head";
 import React, { Suspense, useEffect, useState } from "react";
 import styles from './detail.module.css'
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import PostSidebar from "@/components/postSidebar/PostSidebar";
 import parse from 'html-react-parser'
 import CommunicationLinks from "@/components/communicationLinks/CommunicationLinks";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Link from 'next/link'
-import { addComment, getAllNews, getHomePage, getLatestPost, getOneNewsBySlug } from "@/clientApi";
+import { addComment, getAllNews, getContactInformation, getHomePage, getLatestPost, getLayout, getOneNewsBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
 
@@ -63,6 +63,10 @@ export default function DetailPage(props: any) {
   }
 
   useEffect(() => {
+    document.body.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     const currentUrl = window.location.href
     setUrl(currentUrl)
   }, [])
@@ -70,7 +74,15 @@ export default function DetailPage(props: any) {
   const router = useRouter()
   if(router.isFallback){
     return (
-      <div>Loading information...</div>
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
     )
   }
   return (
@@ -80,7 +92,10 @@ export default function DetailPage(props: any) {
           <title>{item.title}</title>
           <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
         </Head>
-        <Layout data={props.layout.data}>
+        <Layout 
+          layout={props.layout}
+          information={props.information}
+        >
           <div className={styles.main}>
             <div className={styles.container}>
               <Grid container>
@@ -172,17 +187,21 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const homePage = await getHomePage()
+  const information = await getContactInformation()
+  const layout = await getLayout() 
   const newsItem = await getOneNewsBySlug(params.slug)
   const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
   const latestList = await getLatestPost()
   return {
     props: {
-      layout: homePage,
+      information: information.data,
+      layout: layout.data,
       newsItem: newsItem.data,
       commentBox: commentBox.data,
       latestList: latestList.data
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

@@ -8,7 +8,7 @@ import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
 import parse from 'html-react-parser'
-import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getPaginatedProjects, getPaginatedToolAndResources } from '@/clientApi'
+import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, getPaginatedProjects, getPaginatedToolAndResources, getLayout, getContactInformation } from '@/clientApi'
 import { useRouter } from 'next/router'
 
 export default function ToolAndResources(props: any) {
@@ -29,7 +29,10 @@ export default function ToolAndResources(props: any) {
       <Head>
         <title>Tool and Resources Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout data={layout}>
+      <Layout
+        layout={props.layout}
+        information={props.information}
+      >
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container>
@@ -39,7 +42,7 @@ export default function ToolAndResources(props: any) {
                     toolAndResourceList && toolAndResourceList.map((item: any, index: number) => {
                       return (
                         <Grid item key={index} sm={6} md={4} lg={3}>
-                          <Card item={item} onClick={() => {handleClick(item)}}/>
+                          <Card item={item} onClickItem={handleClick}/>
                         </Grid>
                       )
                     })
@@ -60,13 +63,17 @@ export default function ToolAndResources(props: any) {
 }
 
 export async function getStaticProps() {
-  const homePage = await getHomePage() 
+  const information = await getContactInformation()
+  const layout = await getLayout() 
   const toolAndResourceList = await getPaginatedToolAndResources()
   return {
     props: {
-      layout: homePage,
+      information: information.data,
+      layout: layout.data,
       toolAndResourceList: toolAndResourceList,
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0

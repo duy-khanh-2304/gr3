@@ -2,10 +2,10 @@ import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React, { useEffect } from 'react'
 import styles from './page.module.css'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
-import { getHomePage, getLatestPost, getPaginatedAiTechBlogs, getPaginatedSortedAiTechBlogs } from '@/clientApi'
+import { getContactInformation, getHomePage, getLatestPost, getLayout, getPaginatedAiTechBlogs, getPaginatedSortedAiTechBlogs } from '@/clientApi'
 import { useRouter } from 'next/router'
 import { redirect } from 'next/navigation'
 
@@ -31,7 +31,15 @@ export default function AiTechBlogsPage(props: any) {
 
   if(router.isFallback){
     return (
-      <div>Loading information...</div>
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
     )
   }
   const headTitle = `AI Tech Blogs Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
@@ -40,7 +48,9 @@ export default function AiTechBlogsPage(props: any) {
       <Head>
         <title>{headTitle}</title>
       </Head>
-      <Layout data={layout}>
+      <Layout layout={props.layout}
+        information={props.information}
+      >
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container>
@@ -50,7 +60,7 @@ export default function AiTechBlogsPage(props: any) {
                     aiTechBlogs && aiTechBlogs.map((item: any, index: number) => {
                       return (
                         <Grid item key={index} sm={6} lg={4}>
-                          <Card item={item} onClick={() => {handleClick(item)}}/>
+                          <Card item={item} onClickItem={handleClick}/>
                         </Grid>
                       )
                     })
@@ -94,18 +104,21 @@ export async function getStaticPaths(){
 export async function getStaticProps({params}:any) {
   const pageNumber = Number(params.pageNumber)
 
-  const homePage = await getHomePage() 
+  const information = await getContactInformation()
+  const layout = await getLayout() 
 
   const aiTechBlogs = await getPaginatedSortedAiTechBlogs(pageNumber)
 
   const latestList = await getLatestPost()
   return {
     props: {
-      layout: homePage,
-      currentPage: pageNumber,
+      information: information.data,
+      layout: layout.data,
       aiTechBlogs: aiTechBlogs,
       latestList: latestList?.data
     },
-    revalidate: 20
+    revalidate: 1,
   }
 }
+
+export const revalidate = 0
