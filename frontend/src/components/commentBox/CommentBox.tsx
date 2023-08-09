@@ -5,7 +5,6 @@ import parse from'html-react-parser'
 import { CircularProgress, Grid } from '@mui/material'
 
 export default function CommentBox(props: any){
-  const data = props.data
   const [commentData, setCommentData] = useState({
     name: null,
     email: null,
@@ -39,67 +38,89 @@ export default function CommentBox(props: any){
   return (
     <div className={styles.container}>
       <div className={styles.title}>
-        {parse(data.text)}
+        <h3>Create a comment</h3>
+        <p>Please leave a few comments below this post. Required fields are marked *</p>
       </div>
       <form 
         id="form_comment"
         onSubmit={handleSubmit}
       >
         <Grid container spacing={2}>
-          {
-            data.inputList.map((item: any, index: number) => {
-              if(item.type === "textarea"){
-                return (
-                  <Grid item md={12} key={index}>
-                    <div key={index} className={`${styles.item} ${styles.textarea}`}>
-                      <label htmlFor={item.name}><h4>{item.label}{item.required ? ' *' : ''}</h4></label>
-                      <textarea 
-                        name={item.name} 
-                        id={item.name} 
-                        style={{height: "80px"}}
-                        className={styles.input_container}
-                        onChange={handleChange}
-                        required={item.required}
-                      ></textarea>
-                    </div>
-                  </Grid>
-                )
-              }else{
-                return (
-                  <Grid item md={4} key={index}>
-                    <div key={index} className={`${styles.item} ${styles.input}`}>
-                      <label htmlFor={item.name}><h4>{item.label}</h4></label>
-                      <input 
-                        name={item.name} 
-                        id={item.name}
-                        type={item.type}
-                        className={styles.input_container}
-                        onChange={handleChange}
-                        required={item.required}
-                      ></input>
-                    </div>
-                  </Grid>
-                )
-              }
-            })
-          }
+          <Grid item md={12}>
+            <div className={`${styles.item} ${styles.textarea}`}>
+              <label htmlFor="comment"><h4>Comment<span style={{color: 'red'}}>*</span></h4></label>
+              <textarea 
+                name="comment"
+                id="comment"
+                style={{height: "80px"}}
+                className={styles.text_container}
+                onChange={handleChange}
+                required={true}
+                placeholder='Write some comments here ...'
+              ></textarea>
+            </div>
+          </Grid>
+          <Grid item md={4}>
+            <div className={`${styles.item} ${styles.input}`}>
+              <label htmlFor="name"><h4>Name<span style={{color: 'red'}}>*</span></h4></label>
+              <input 
+                name="name"
+                id="name"
+                type="text"
+                className={styles.input_container}
+                onChange={handleChange}
+                required={true}
+                placeholder='Enter your name'
+              ></input>
+            </div>
+          </Grid>
+          <Grid item md={4}>
+            <div className={`${styles.item} ${styles.input}`}>
+              <label htmlFor="email"><h4>Email</h4></label>
+              <input 
+                name="email"
+                id="email"
+                type="text"
+                className={styles.input_container}
+                onChange={handleChange}
+                required={false}
+                placeholder='Enter your email'
+              ></input>
+            </div>
+          </Grid>
+          <Grid item md={4}>
+            <div className={`${styles.item} ${styles.input}`}>
+              <label htmlFor="website"><h4>Website</h4></label>
+              <input 
+                name="website"
+                id="website"
+                type="text"
+                className={styles.input_container}
+                onChange={handleChange}
+                required={false}
+                placeholder='Enter your website'
+              ></input>
+            </div>
+          </Grid>
         </Grid>
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <button 
+            type='submit'
+            className={styles.button_post_comment}
+          >
+            {isLoading ? <CircularProgress style={{color: "#ffffff", fontWeight: "700"}} size={20}/> : 'Comment'}
+          </button>
           {
-            props.isError && <div style={{color: '#b20400', marginBottom: "10px"}}>
-              Post comment is fail. Can you check and post again
+            props.statusComment === false && <div style={{color: '#b20400', marginLeft: "20px"}}>
+              Post comment is fail. Can you check and post again ?
             </div>
           }
           {
-            props.isSuccess && <div style={{color: '#7a9c59', marginBottom: "10px"}}>
-              Post comment is success
+            props.statusComment && <div style={{color: '#7a9c59', marginLeft: "20px"}}>
+              Post comment is success.
             </div>
           }
-        <button 
-          type='submit'
-          className={styles.button_post_comment}
-        >
-          {isLoading ? <CircularProgress style={{color: "#ffffff", fontWeight: "700"}} size={20}/> : 'POST COMMENT'}
-        </button>
+        </div>
         </form>
     </div>
   )

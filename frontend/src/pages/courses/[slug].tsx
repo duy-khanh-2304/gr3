@@ -19,10 +19,11 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function DetailPage(props: any) {
-  const item = props.courseItem
+  const [data, setData] = useState<any>()
+  const item = data?.courseItem
 
   const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
-  const [isError, setIsError] = useState<boolean>(false)
+  const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
   
   const optionParse = {
@@ -41,11 +42,11 @@ export default function DetailPage(props: any) {
   }
 
   const handleClick = (item: any) => {
-    router.push(`/courses/${item.slug}`)
+    window.location.href = `/courses/${item.slug}`
   }
 
   const handlePostComment = async (commentData: any) => {
-    setIsError(false)
+    setStatusComment(null)
     const now = new Date()
     try{
       await addComment(
@@ -64,12 +65,28 @@ export default function DetailPage(props: any) {
           isModerated: false
         }]
       })
+      setStatusComment(true)
     }catch(error){
-      setIsError(true)
+      setStatusComment(false)
     }
   }
 
+  const router = useRouter()
+
   useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {slug} = router.query
+      const courseItem = await getOneCoursesBySlug(slug as string ?? "") 
+      const courseList = await getAllCourses()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        courseItem: courseItem.data,
+        courseList: courseList,
+      })
+    })()
     document.body.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -78,8 +95,20 @@ export default function DetailPage(props: any) {
     setUrl(currentUrl)
   }, [])
 
-  const router = useRouter()
   if(router.isFallback){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
+  if(!data){
     return (
       <div style={{
         width: '100%',
@@ -99,8 +128,8 @@ export default function DetailPage(props: any) {
         <Head>
           <title>{item.title}</title>
         </Head>
-        <Layout layout={props.layout}
-        information={props.information}>
+        <Layout layout={data.layout}
+        information={data.information}>
           <div className={styles.main}>
             <div className={styles.container}>
               <Grid container>
@@ -114,7 +143,7 @@ export default function DetailPage(props: any) {
                     {parse(item.introduction, optionParse)}
                     <h3>Slides và video các bài giảng</h3>
                     {
-                      item?.lesson.map((lesson: any, index: number) => {
+                      item?.lesson.length > 0 && item?.lesson.map((lesson: any, index: number) => {
                         const video = lesson.video ? JSON.parse(lesson.video) : null
                         const src = video ? (parse(video.rawData.html) as any).props.src : null
                         return (
@@ -129,7 +158,7 @@ export default function DetailPage(props: any) {
                             <AccordionDetails>
                               {parse(lesson?.content, optionParse)}
                               {
-                                lesson.video && (
+                                !!lesson.video && (
                                   <iframe 
                                     id={`lesson-video-${index}`}
                                     width="100%" 
@@ -161,7 +190,7 @@ export default function DetailPage(props: any) {
                     })
                   }
                   <div>
-                    {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment} isError={isError}/>}
+                    {item.showCommentBox && <CommentBox onPostComment={handlePostComment} statusComment={statusComment}/>}
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>
@@ -170,7 +199,7 @@ export default function DetailPage(props: any) {
                     <div className={styles.small_divider}></div>
                     <div className={styles.list}>
                       {
-                        props?.courseList.length > 0 && props.courseList.map((item: any, index: number) => {
+                        data?.courseList.length > 0 && data.courseList.map((item: any, index: number) => {
                           return(
                             <div key={index} onClick={() => {handleClick(item)}}>
                               <Grid container className={styles.course_item}>
@@ -204,37 +233,8 @@ export default function DetailPage(props: any) {
   )
 }
 
-export async function getStaticPaths() {
-  const courseList = await getAllCourses()
-  const paths = courseList.map((_: any) => {
-    return ({
-      params: {
-        slug: _.slug
-      }
-    })
-  })
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
-  }
+    props: {},
+  };
 }
-
-export async function getStaticProps({ params }: any) {
-  const information = await getContactInformation()
-  const layout = await getLayout() 
-  const courseItem = await getOneCoursesBySlug(params.slug) 
-  const courseList = await getAllCourses()
-  const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      courseItem: courseItem.data,
-      courseList: courseList,
-      commentBox: commentBox.data,
-    },
-    revalidate: 1,
-  }
-}
-
-export const revalidate = 0

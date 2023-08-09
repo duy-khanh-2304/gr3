@@ -1,24 +1,52 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.css'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
 import { getPaginatedSortedNews, getHomePage, getLatestPost, getContactInformation, getLayout } from '@/clientApi'
 import { useRouter } from 'next/router'
 
-export default function News(props: any) {
-  const newsList = props.newsList.data
-  const numberPage = props.newsList.meta.pagination.pageCount
-
+export default function News() {
+  const [data, setData] = useState<any>()
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     router.push(`/news/page/${value}`)
   }
+  const newsList = data?.newsList.data
+  const numberPage = data?.newsList.meta.pagination.pageCount
+  useEffect(() => {
+    ;(async () => {
+      const information = await getContactInformation()
+      const layout = await getLayout()
+      const newsList = await getPaginatedSortedNews()
+      const latestList = await getLatestPost()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        newsList: newsList,
+        latestList: latestList
+      })
+    })()
+  }, [])
 
   const router = useRouter()
   const handleClick = (item: any) => {
     router.push(`/news/${item.slug}`)
+  }
+
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress color='success'/>
+      </div>
+    )
   }
   return (
     <div>
@@ -26,8 +54,8 @@ export default function News(props: any) {
         <title>News Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout
-        layout={props.layout}
-        information={props.information}
+        layout={data.layout}
+        information={data.information}
       >
         <div className={styles.main}>
           <div className={styles.container}>
@@ -51,7 +79,7 @@ export default function News(props: any) {
                 </div>}
               </Grid>
               <Grid item sm={4} lg={3} style={{padding: "0 15px"}}>
-                <PostSidebar recentPostList={props.latestList.data}/>
+                <PostSidebar recentPostList={data.latestList.data}/>
               </Grid>
             </Grid>
           </div>
@@ -61,20 +89,8 @@ export default function News(props: any) {
   )
 }
 
-export async function getStaticProps() {
-  const information = await getContactInformation()
-  const layout = await getLayout()
-  const newsList = await getPaginatedSortedNews()
-  const latestList = await getLatestPost()
+export async function getServerSideProps(context: any) {
   return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      newsList: newsList,
-      latestList: latestList
-    },
-    revalidate: 1,
-  }
+    props: {},
+  };
 }
-
-export const revalidate = 0

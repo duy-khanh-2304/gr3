@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './page.module.css'
 import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
@@ -13,6 +13,37 @@ import { redirect } from 'next/navigation'
 
 export default function ToolAndResourcePage(props: any) {
   const router = useRouter()
+
+  const [data, setData] = useState<any>()
+
+  useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {pageNumber} = router.query 
+      const toolAndResourceList = await getPaginatedToolAndResources(Number(pageNumber as string ?? ""))
+      setData({
+        information: information.data,
+        layout: layout.data,
+        currentPage: Number(pageNumber),
+        toolAndResourceList: toolAndResourceList,
+      })
+    })()
+  }, [])
+
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
 
   if(router.isFallback){
     return (
@@ -27,15 +58,14 @@ export default function ToolAndResourcePage(props: any) {
       </div>
     )
   }
-  const toolAndResourceList = props.toolAndResourceList.data
-  const numberPage = props.toolAndResourceList.meta.pagination.pageCount
-  const layout = props.layout.data
+  const toolAndResourceList = data?.toolAndResourceList.data
+  const numberPage = data?.toolAndResourceList.meta.pagination.pageCount
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
       router.replace(`/researches/tool-and-resources`)
     }else{
-      router.push(`/researches/tool-and-resources/page/${value}`)
+      window.location.href = `/researches/tool-and-resources/page/${value}`
     }
   }
 
@@ -43,14 +73,14 @@ export default function ToolAndResourcePage(props: any) {
     router.push(`/researches/tool-and-resources/${item.slug}`)
   }
 
-  const headTitle = `Tool and Resources Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
+  const headTitle = `Tool and Resources Archives - Page ${data.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (
     <div>
       <Head>
         <title>{headTitle}</title>
       </Head>
-      <Layout layout={props.layout}
-        information={props.information}>
+      <Layout layout={data.layout}
+        information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container>
@@ -68,7 +98,7 @@ export default function ToolAndResourcePage(props: any) {
                 </Grid>
                 {numberPage > 1 && <div className={styles.pagination}>
                   <Stack spacing={2}>
-                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={props.currentPage}/>
+                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={data.currentPage}/>
                   </Stack>
                 </div>}
               </Grid>
@@ -80,40 +110,8 @@ export default function ToolAndResourcePage(props: any) {
   )
 }
 
-export async function getStaticPaths(){
-  const toolAndResourceList = await getPaginatedToolAndResources()
-  let pageCount = toolAndResourceList.meta.pagination.pageCount
-  let paths = []
-  while(pageCount > 0){
-    paths.push({
-      params: {
-        pageNumber: pageCount.toString()
-      }
-    })
-    pageCount = pageCount - 1
-  }
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
+    props: {}
   }
 }
-
-export async function getStaticProps({params}:any) {
-  const pageNumber = Number(params.pageNumber)
-
-  const information = await getContactInformation()
-  const layout = await getLayout()
-
-  const toolAndResourceList = await getPaginatedToolAndResources(pageNumber)
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      currentPage: pageNumber,
-      toolAndResourceList: toolAndResourceList,
-    },
-    revalidate: 1,
-  }
-}
-
-export const revalidate = 0

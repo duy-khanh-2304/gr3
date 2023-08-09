@@ -14,10 +14,11 @@ import LatestProject from "@/components/latestProjects/LatestProject";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
-  const item = props.projectItem
+  const [data, setData] = useState<any>()
 
+  const item = data?.projectItem
   const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
-  const [isError, setIsError] = useState<boolean>(false)
+  const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
 
   const information = item?.content.find((_: any) => _.__component === "content.information")
@@ -47,7 +48,7 @@ export default function DetailPage(props: any) {
   };
   
   const handlePostComment = async (commentData: any) => {
-    setIsError(false)
+    setStatusComment(null)
     const now = new Date()
     try{
       await addComment(
@@ -66,12 +67,28 @@ export default function DetailPage(props: any) {
           isModerated: false
         }]
       })
+      setStatusComment(true)
     }catch(error){
-      setIsError(true)
+      setStatusComment(false)
     }
   }
 
+  const router = useRouter()
+
   useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {slug} = router.query
+      const projectItem = await getOneProjectBySlug(slug as string ?? "")
+      const latestProjects = await getLatestProjects(10)
+      setData({
+        information: information.data,
+        layout: layout.data,
+        projectItem: projectItem.data,
+        latestProjects: latestProjects.data
+      })
+    })()
     document.body.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -80,8 +97,21 @@ export default function DetailPage(props: any) {
     setUrl(currentUrl)
   }, [])
 
-  const router = useRouter()
   if(router.isFallback){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
+
+  if(!data){
     return (
       <div style={{
         width: '100%',
@@ -100,8 +130,8 @@ export default function DetailPage(props: any) {
         <Head>
           <title>{item.title}</title>
         </Head>
-        <Layout layout={props.layout}
-        information={props.information}>
+        <Layout layout={data.layout}
+        information={data.information}>
           <div className={styles.main}>
             <div className={styles.container}>
               <div className={styles.entry_content}>
@@ -169,11 +199,11 @@ export default function DetailPage(props: any) {
                         })
                       }
                       <div>
-                        {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment} isError={isError}/>}
+                        {item.showCommentBox && <CommentBox onPostComment={handlePostComment} statusComment={statusComment}/>}
                       </div>
                     </Grid>
                     <Grid item lg={3} sm={4} style={{ padding: "0 15px" }}>
-                      <LatestProject latestProjects={props.latestProjects}/>
+                      <LatestProject latestProjects={data.latestProjects}/>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -186,37 +216,8 @@ export default function DetailPage(props: any) {
   )
 }
 
-export async function getStaticPaths() {
-  const projectList = await getAllProjects()
-  const paths = projectList.map((_: any) => {
-    return ({
-      params: {
-        slug: _.slug
-      }
-    })
-  })
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
-  }
+    props: {},
+  };
 }
-
-export async function getStaticProps({ params }: any) {
-  const information = await getContactInformation()
-  const layout = await getLayout() 
-  const projectItem = await getOneProjectBySlug(params.slug) 
-  const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
-  const latestProjects = await getLatestProjects(10)
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      projectItem: projectItem.data,
-      commentBox: commentBox.data,
-      latestProjects: latestProjects.data
-    },
-    revalidate: 1,
-  }
-}
-
-export const revalidate = 0

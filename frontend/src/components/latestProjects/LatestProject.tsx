@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 export default function LatestProject(props: any){
   const router = useRouter()
   const handleClick = (item : any) => {
-    router.push(`/researches/projects/${item.slug}`)
+    window.location.href = `/researches/projects/${item.slug}`
   }
   return (
     <div className={styles.container}>

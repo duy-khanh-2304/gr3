@@ -14,9 +14,11 @@ import { useRouter } from "next/router";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
-  const item = props.aiTechBlog
+  const [data, setData] = useState<any>()
+
+  const item = data?.aiTechBlog
   const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
-  const [isError, setIsError] = useState<boolean>(false)
+  const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
 
   const sections = item?.content
@@ -70,7 +72,7 @@ export default function DetailPage(props: any) {
   };
 
   const handlePostComment = async (commentData: any) => {
-    setIsError(false)
+    setStatusComment(null)
     const now = new Date()
     try{
       await addComment(
@@ -89,12 +91,28 @@ export default function DetailPage(props: any) {
           isModerated: false
         }]
       })
+      setStatusComment(true)
     }catch(error){
-      setIsError(true)
+      setStatusComment(false)
     }
   }
   
+  const router = useRouter()
+
   useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {slug} = router.query
+      const aiTechBlog = await getOneAiTechBlogBySlug(slug as string ?? "")
+      const latestList = await getLatestPost()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        aiTechBlog: aiTechBlog.data,
+        latestList: latestList.data,
+      })
+    })()
     document.body.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -103,8 +121,21 @@ export default function DetailPage(props: any) {
     setUrl(currentUrl)
   }, [])
 
-  const router = useRouter()
   if(router.isFallback){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
+
+  if(!data){
     return (
       <div style={{
         width: '100%',
@@ -125,8 +156,8 @@ export default function DetailPage(props: any) {
           <title>{item.title}</title>
         </Head>
         <Layout
-          layout={props.layout}
-          information={props.information}
+          layout={data.layout}
+          information={data.information}
         >
           <div className={styles.main}>
             <div className={styles.container}>
@@ -148,7 +179,7 @@ export default function DetailPage(props: any) {
                       <div className={styles.tableOfContent}>
                         <h3>Content</h3>
                         {
-                          sections.map((section: any, index: number) => {
+                          sections.length > 0 && sections.map((section: any, index: number) => {
                             const url = `#${index + 1}_${createId(section.title)}`
                             const sub_urls = section.sub_titles ?
                               section.sub_titles.map((subTitle: any, subIndex: number) => {
@@ -257,11 +288,11 @@ export default function DetailPage(props: any) {
                     })
                   }
                   <div>
-                    {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment} isError={isError}/>}
+                    {item.showCommentBox && <CommentBox onPostComment={handlePostComment} statusComment={statusComment}/>}
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>
-                  <PostSidebar recentPostList={props.latestList} />
+                  <PostSidebar recentPostList={data.latestList} />
                 </Grid>
               </Grid>
             </div>
@@ -272,36 +303,8 @@ export default function DetailPage(props: any) {
   )
 }
 
-export async function getStaticPaths() {
-  const aiTechBlogs = await getAllAiTechBlogs()
-  const paths = aiTechBlogs.map((_: any) => {
-    return ({
-      params: {
-        slug: _.slug
-      }
-    })
-  })
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
-  }
+    props: {},
+  };
 }
-
-export async function getStaticProps({ params }: any) {
-  const information = await getContactInformation()
-  const layout = await getLayout()
-  const aiTechBlog = await getOneAiTechBlogBySlug(params.slug) 
-  const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
-  const latestList = await getLatestPost()
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      aiTechBlog: aiTechBlog.data,
-      commentBox: commentBox.data,
-      latestList: latestList.data,
-    },
-    revalidate: 1,
-  }
-}
-export const revalidate = 0

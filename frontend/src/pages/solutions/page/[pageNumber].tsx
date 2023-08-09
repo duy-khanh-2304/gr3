@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './page.module.css'
 import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
@@ -13,6 +13,23 @@ import { redirect } from 'next/navigation'
 
 export default function SolutionsPage(props: any) {
   const router = useRouter()
+
+  const [data, setData] = useState<any>()
+
+  useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {pageNumber} = router.query 
+      const solutionList = await getPaginatedSolutions(Number(pageNumber as string ?? ""))
+      setData({
+        information: information.data,
+        layout: layout.data,
+        currentPage: Number(pageNumber),
+        solutionList: solutionList,
+      })
+    })()
+  }, [])
   if(router.isFallback){
     return (
       <div style={{
@@ -26,40 +43,52 @@ export default function SolutionsPage(props: any) {
       </div>
     )
   }
-  const solutionList = props.solutionList.data
-  const numberPage = props.solutionList.meta.pagination.pageCount
-  const layout = props.layout.data
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
+  const solutionList = data?.solutionList.data
+  const numberPage = data?.solutionList.meta.pagination.pageCount
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
       router.replace(`/solutions`)
     }else{
-      router.push(`/solutions/page/${value}`)
+      window.location.href = `/solutions/page/${value}`
     }
   }
 
   const handleClick = (item: any) => {
     router.push(`/solutions/${item.slug}`)
   }
-  const headTitle = `Solutions Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
+  const headTitle = `Solutions Archives - Page ${data.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (
     <div>
       <Head>
         <title>{headTitle}</title>
       </Head>
       <Layout
-        layout={props.layout}
-        information={props.information}
+        layout={data.layout}
+        information={data.information}
       >
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container>
-              <Grid item sm={8} lg={9} style={{padding: "0 15px"}}>
+              <Grid item lg={12} style={{padding: "0 15px"}}>
                 <Grid container style={{margin: "0 -15px"}}>
                   {
                     solutionList && solutionList.map((item: any, index: number) => {
                       return (
-                        <Grid item key={index} sm={6} lg={4}>
+                        <Grid item key={index} sm={6} lg={3}>
                           <Card item={item} onClickItem={handleClick}/>
                         </Grid>
                       )
@@ -68,7 +97,7 @@ export default function SolutionsPage(props: any) {
                 </Grid>
                 {numberPage > 1 && <div className={styles.pagination}>
                   <Stack spacing={2}>
-                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={props.currentPage}/>
+                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={data.currentPage}/>
                   </Stack>
                 </div>}
               </Grid>
@@ -80,40 +109,8 @@ export default function SolutionsPage(props: any) {
   )
 }
 
-export async function getStaticPaths(){
-  const newsList = await getPaginatedSolutions()
-  let pageCount = newsList.meta.pagination.pageCount
-  let paths = []
-  while(pageCount > 0){
-    paths.push({
-      params: {
-        pageNumber: pageCount.toString()
-      }
-    })
-    pageCount = pageCount - 1
-  }
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
+    props: {}
   }
 }
-
-export async function getStaticProps({params}:any) {
-  const pageNumber = Number(params.pageNumber)
-
-  const information = await getContactInformation()
-  const layout = await getLayout()  
-
-  const solutionList = await getPaginatedSolutions(pageNumber)
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      currentPage: pageNumber,
-      solutionList: solutionList,
-    },
-    revalidate: 1,
-  }
-}
-
-export const revalidate = 0

@@ -8,37 +8,48 @@ import { useLoadScript, GoogleMap, MarkerF } from '@react-google-maps/api'
 import { getContactInformation, getLayout, sendMessage } from '@/clientApi'
 import { formattedPhoneNumber } from '@/utils'
 import emailjs, {EmailJSResponseStatus} from 'emailjs-com'
+import { CircularProgress } from '@mui/material'
 
 export default function ContactUs(props: any){
-  const {
-    email,
-    phone_number,
-    address
-  } = props.information
-  const {
-    contact_info,
-    location_google_map,
-  } = props.contactUs
+  const [data, setData] = useState<any>()
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState<any>()
+  const email = data?.information.email
+  const phone_number = data?.information.phone_number
+  const address = data?.information.address
+  const image = data?.contactUs.form.image
 
-  const {
-    input,
-    image
-  } = props.contactUs.form
+  const [message, setMessage] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  })
 
-  const [message, setMessage] = useState({})
+  useEffect(() => {
+    ;(async () => {
+      const information = await getContactInformation()
+      const layout = await getLayout()
+      const contactUsResponse = (await axiosInstance.get("/api/contact-us-page?populate=deep")).data
+      setData({
+        layout: layout.data,
+        information: information.data,
+        contactUs: contactUsResponse.data
+      })
+    })()
+  }, [])
 
   const handleSubmit = async (event: any) => {
-
     event.preventDefault();
+    setIsLoading(true);
+    setIsSuccess(null);
     (document.getElementById("form-contact") as any).reset()
     const templateParams = {
-      to_name: 'Recipient Name',
-      from_name: 'Your Name',
-      to_email: 'khanh.ngo@dssolution.jp',
-      from_email: 'ngokhanh357@gmail.com',
-      message: 'Hello, Minh duong!',
+      from_name: message.name,
+      from_email: message.email,
+      subject: message.subject,
+      message: message.message,
     };
-  
     try {
       const response: EmailJSResponseStatus = await emailjs.send(
         'service_4rkurx5',
@@ -46,22 +57,40 @@ export default function ContactUs(props: any){
         templateParams,
         '5Eu4kYruvoheDxz4e'
       );
-  
-      console.log('Email sent successfully!', response);
+      setIsSuccess(true)
+      setTimeout(() => {
+        setIsSuccess(null)
+      }, 3000)
     } catch (error) {
-      console.error('Error sending email:', error);
+      setIsSuccess(false)
+      setTimeout(() => {
+        setIsSuccess(null)
+      }, 3000)
     }
-    // await sendMessage(JSON.stringify(message))
+    setIsLoading(false)
   }
 
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress color='success'/>
+      </div>
+    )
+  }
   return (
     <div>
       <Head>
         <title>Contact Us</title>
       </Head>
       <Layout
-        layout={props.layout}
-        information={props.information}
+        layout={data.layout}
+        information={data.information}
       >
         <div className={styles.main}>
           <div className={styles.container}>
@@ -94,71 +123,97 @@ export default function ContactUs(props: any){
                 <h2 className={styles.info_text}>{address.value}</h2>
               </div>
             </div>
-            <div className={styles.map}>
-              <Map/>
-            </div>
-            <div className={styles.map}>
-
-            </div>
             <div className={styles.form}>
-              <div className={styles.img}>
-                <img 
-                  src={image.url} 
-                  alt={image.name} 
-                  width="100%"
-                  height="auto"
-                />
-              </div>
-              <div className={styles.form_input}>
-                <form onSubmit={(event) => handleSubmit(event)} id="form-contact">
-                  {
-                    input.map((item: any, index: number) => {
-                      return(
-                        <div key={index} className={styles.form_item}>
-                          <label htmlFor={item.name}>
-                            <h3>{item.label} {item.required ? (<span style={{color: 'red'}}>*</span>) : ''}</h3>
-                          </label>
-                          {
-                            item.type === "textarea" &&
-                            <textarea 
-                              className={styles.textarea}
-                              id={item.name} 
-                              name={item.name} 
-                              placeholder={item.placeholder ? item.placeholder : ''}
-                              required={item.required}
-                              onChange={(event) => {
-                                setMessage(prev => {
-                                  (prev as any)[item.name] = event.target.value
-                                  return prev
-                                })
-                              }}
-                            ></textarea>
+              <h1 style={{textAlign: 'center', marginBottom: '20px'}}>Send message</h1>
+              <div style={{display: 'flex'}}>
+                <div className={styles.img}>
+                  <img 
+                    src={image.url} 
+                    alt={image.name} 
+                    width="100%"
+                    height="auto"
+                  />
+                </div>
+                <div className={styles.form_input}>
+                  <form onSubmit={(event) => handleSubmit(event)} id="form-contact">
+                    <input 
+                      className={styles.input}
+                      type="text"
+                      name="name"
+                      id="name"
+                      placeholder="Enter your name"
+                      required={true}
+                      onChange={(event) => {
+                        setMessage(prev => {
+                          const name = event.target.value
+                          return {
+                            ...prev,
+                            name
                           }
-                          {
-                            item.type !== "textarea" && 
-                            <input 
-                              className={styles.input}
-                              type={item.type}
-                              name={item.name} 
-                              id={item.name} 
-                              placeholder={item.placeholder ? item.placeholder : ''}
-                              required={item.required}
-                              onChange={(event) => {
-                                setMessage(prev => {
-                                  (prev as any)[item.name] = event.target.value
-                                  return prev
-                                })
-                              }}
-                            />
+                        })
+                      }}
+                    />
+                    <input 
+                      className={styles.input}
+                      type="text"
+                      name="email"
+                      id="email"
+                      placeholder="Enter your email"
+                      required={true}
+                      onChange={(event) => {
+                        setMessage(prev => {
+                          const email = event.target.value
+                          return {
+                            ...prev,
+                            email
                           }
-                        </div>
-                      )
-                    })
-                  }
-                    <button type='submit' className={styles.button}>
-                      SUBMIT
-                    </button>
-                </form>
+                        })
+                      }}
+                    />
+                    <input 
+                      className={styles.input}
+                      type="text"
+                      name="subject"
+                      id="subject"
+                      placeholder="Enter subject of message "
+                      required={false}
+                      onChange={(event) => {
+                        setMessage(prev => {
+                          const subject = event.target.value
+                          return {
+                            ...prev,
+                            subject
+                          }
+                        })
+                      }}
+                    />
+                    <textarea 
+                      className={styles.textarea}
+                      id="message" 
+                      name="message" 
+                      placeholder="Write some words ..."
+                      required={false}
+                      onChange={(event) => {
+                        setMessage(prev => {
+                          const message = event.target.value
+                          return {
+                            ...prev,
+                            message
+                          }
+                        })
+                      }}
+                    ></textarea>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                      <button type='submit' className={styles.button}>
+                        {isLoading ? <CircularProgress style={{color: "#ffffff", fontWeight: "700"}} size={16}/> : 'Send'}
+                      </button>
+                      <div>
+                        {isSuccess===false && <span style={{color: '#b20400', marginLeft: "20px", fontSize: '16px'}}>Sending email is fail.</span>}
+                        {isSuccess===true && <span style={{color: '#7a9c59', marginLeft: "20px"}}>Sending email is success.</span>}
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -208,18 +263,8 @@ function Map(props: any){
   )
 }
 
-export async function getStaticProps() {
-  const information = await getContactInformation()
-  const layout = await getLayout()
-  const contactUsResponse = (await axiosInstance.get("/api/contact-us-page?populate=deep")).data
+export async function getServerSideProps(context: any) {
   return {
-    props: {
-      layout: layout.data,
-      information: information.data,
-      contactUs: contactUsResponse.data
-    },
-    revalidate: 1,
-  }
+    props: {},
+  };
 }
-
-export const revalidate = 0

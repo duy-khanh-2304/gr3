@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './page.module.css'
 import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
@@ -12,6 +12,25 @@ import { useRouter } from 'next/router'
 
 export default function EventsPage(props: any) {
   const router = useRouter()
+
+  const [data, setData] = useState<any>()
+
+  useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {pageNumber} = router.query 
+      const eventList = await getPaginatedSortedEvents(Number(pageNumber as string ?? ""))
+      const latestList = await getLatestPost()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        currentPage: Number(pageNumber),
+        eventList: eventList,
+        latestList: latestList.data
+      })
+    })()
+  }, [])
 
   if(router.isFallback){
     return (
@@ -26,15 +45,27 @@ export default function EventsPage(props: any) {
       </div>
     )
   }
-  const eventList = props.eventList.data
-  const numberPage = props.eventList.meta.pagination.pageCount
-  const layout = props.layout.data
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
+  const eventList = data.eventList.data
+  const numberPage = data.eventList.meta.pagination.pageCount
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
       router.replace(`/events`)
     }else{
-      router.push(`/events/page/${value}`)
+      window.location.href = `/events/page/${value}`
     }
   }
 
@@ -42,15 +73,15 @@ export default function EventsPage(props: any) {
     router.push(`/events/${item.slug}`)
   }
 
-  const headTitle = `Events Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
+  const headTitle = `Events Archives - Page ${data.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (
     <div>
       <Head>
         <title>{headTitle}</title>
       </Head>
       <Layout 
-        layout={props.layout}
-        information={props.information}
+        layout={data.layout}
+        information={data.information}
       >
         <div className={styles.main}>
           <div className={styles.container}>
@@ -69,12 +100,12 @@ export default function EventsPage(props: any) {
                 </Grid>
                 {numberPage > 1 && <div className={styles.pagination}>
                   <Stack spacing={2}>
-                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={props.currentPage}/>
+                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={data.currentPage}/>
                   </Stack>
                 </div>}
               </Grid>
               <Grid item sm={4} lg={3} style={{padding: "0 15px"}}>
-                <PostSidebar recentPostList={props.latestList}/>
+                <PostSidebar recentPostList={data.latestList}/>
               </Grid>
             </Grid>
           </div>
@@ -84,41 +115,8 @@ export default function EventsPage(props: any) {
   )
 }
 
-export async function getStaticPaths(){
-  const eventList = await getPaginatedEvents()
-  let pageCount = eventList.meta.pagination.pageCount
-  let paths = []
-  while(pageCount > 0){
-    paths.push({
-      params: {
-        pageNumber: pageCount.toString()
-      }
-    })
-    pageCount = pageCount - 1
-  }
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
-  }
+    props: {},
+  };
 }
-
-export async function getStaticProps({params}:any) {
-  const pageNumber = Number(params.pageNumber)
-
-  const information = await getContactInformation()
-  const layout = await getLayout() 
-  const eventList = await getPaginatedSortedEvents(pageNumber)
-  const latestList = await getLatestPost()
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      currentPage: pageNumber,
-      eventList: eventList,
-      latestList: latestList.data
-    },
-    revalidate: 1,
-  }
-}
-
-export const revalidate = 0

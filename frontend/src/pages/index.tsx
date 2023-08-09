@@ -10,16 +10,12 @@ import Section from "@/components/section/Section";
 import { getAllPartners, getAllProjects, getAllTeams, getContactInformation, getHomePage, getLatestPost, getLatestProjects, getLayout, getPaginatedSolutions, getPaginatedSortedAiTechBlogs, getPaginatedToolAndResources } from "@/clientApi";
 import { useRouter } from 'next/router'
 import { CONTENT_TYPE } from "@/utils";
+import { CircularProgress } from "@mui/material";
 
 export default function Home(props: any) {
+  const [data, setData] = useState<any>()
   const [isShowOverlay, setIsShowOverlay] = useState(false)
 
-  const banner = props.data.body.find((component: any) => component.__component === "page.banner")
-  const background = JSON.parse(banner.background)
-  const src = (parse(background.rawData.html) as any).props.src
-
-  const sections = props.data.body.filter((component: any) => component.__component === "page.section")
-  
   const openOverlay = () => {
     setIsShowOverlay(true)
   }
@@ -27,38 +23,111 @@ export default function Home(props: any) {
     setIsShowOverlay(false)
   }
 
-  useEffect(() => {
-    const banner = document.getElementById('banner-video')
-    banner?.click()
-  }, [])
-
   const router = useRouter();
 
   useEffect(() => {
     const handleRouteChange = () => {
-      // Reset vị trí cuộn trang về đầu trang
       document.body.scrollTo({
         top: 0,
         behavior: 'smooth'
       })
     };
 
-    // Lắng nghe sự kiện routeChangeComplete khi chuyển trang hoàn tất
+    const banner = document.getElementById('banner-video')
+    banner?.click()
+
     router.events.on('routeChangeComplete', handleRouteChange);
 
+    ;(async () => {
+      const response = await getHomePage()
+      const information = await getContactInformation()
+      const layout = await getLayout()
+      const sections = response.data.body.filter((component: any) => component.__component === "page.section")
+      const sectionsData = {
+        'News and Events': [],
+        'AI Tech Blogs': [],
+        'Solutions': [],
+        'Research Teams': [],
+        'Projects': [],
+        'Tool and Resources': [],
+        'Partners': []
+      }
+
+      if(sections.find((_: any) => _.entity === "News and Events")){
+        const fetchData = (await getLatestPost(8)).data as []
+        sectionsData['News and Events'].push(...fetchData)
+      }
+
+      if(sections.find((_: any) => _.entity === "AI Tech Blogs")){
+        const fetchData = (await getPaginatedSortedAiTechBlogs()).data as []
+        sectionsData['AI Tech Blogs'].push(...fetchData)
+      }
+
+      if(sections.find((_: any) => _.entity === "Solutions")){
+        const fetchData = (await getPaginatedSolutions()).data as []
+        sectionsData['Solutions'].push(...fetchData)
+      }
+
+      if(sections.find((_: any) => _.entity === "Projects")){
+        const fetchData = (await getLatestProjects(8)).data as []
+        sectionsData['Projects'].push(...fetchData)
+      }
+
+      if(sections.find((_: any) => _.entity === "Research Teams")){
+        const fetchData = (await getAllTeams()) as []
+        sectionsData['Research Teams'].push(...fetchData)
+      }
+
+      if(sections.find((_: any) => _.entity === "Tool and Resources")){
+        const fetchData = (await getPaginatedToolAndResources()).data as []
+        sectionsData['Tool and Resources'].push(...fetchData)
+      }
+
+      if(sections.find((_: any) => _.entity === "Partners")){
+        const fetchData = (await getAllPartners()).data as []
+        sectionsData['Partners'].push(...fetchData)
+      }
+      setData({
+        sectionsData: sectionsData,
+        information: information.data,
+        data: response.data,
+        layout: layout.data
+      })
+    })()
+
     return () => {
-      // Huỷ lắng nghe sự kiện khi component unmount
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
+
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress color='success'/>
+      </div>
+    )
+  }
+
+  const banner = data?.data.body.find((component: any) => component.__component === "page.banner")
+  const background = JSON.parse(banner?.background)
+  const src = (parse(background?.rawData.html) as any).props.src
+
+  const sections = data?.data.body.filter((component: any) => component.__component === "page.section")
+  
   return(
     <div>
       <Head>
         <title>Home Page - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout 
-        layout={props.layout}
-        information={props.information}
+        layout={data.layout}
+        information={data.information}
       >
         <div className={styles.banner}>
           <iframe 
@@ -87,7 +156,7 @@ export default function Home(props: any) {
         <div className={styles.content}>
           {
             sections.map((section: any, index: number) => {
-              return <Section data={section} key={index} sectionsData={props.sectionsData}/>
+              return <Section data={section} key={index} sectionsData={data.sectionsData}/>
             })
           }
         </div>
@@ -113,64 +182,8 @@ export default function Home(props: any) {
   )
 }
 
-export async function getStaticProps() {
-  const response = await getHomePage()
-  const information = await getContactInformation()
-  const layout = await getLayout()
-  const sections = response.data.body.filter((component: any) => component.__component === "page.section")
-  const sectionsData = {
-    'News and Events': [],
-    'AI Tech Blogs': [],
-    'Solutions': [],
-    'Research Teams': [],
-    'Projects': [],
-    'Tool and Resources': [],
-    'Partners': []
-  }
-
-  if(sections.find((_: any) => _.entity === "News and Events")){
-    const fetchData = (await getLatestPost(8)).data as []
-    sectionsData['News and Events'].push(...fetchData)
-  }
-
-  if(sections.find((_: any) => _.entity === "AI Tech Blogs")){
-    const fetchData = (await getPaginatedSortedAiTechBlogs()).data as []
-    sectionsData['AI Tech Blogs'].push(...fetchData)
-  }
-
-  if(sections.find((_: any) => _.entity === "Solutions")){
-    const fetchData = (await getPaginatedSolutions()).data as []
-    sectionsData['Solutions'].push(...fetchData)
-  }
-
-  if(sections.find((_: any) => _.entity === "Projects")){
-    const fetchData = (await getLatestProjects(8)).data as []
-    sectionsData['Projects'].push(...fetchData)
-  }
-
-  if(sections.find((_: any) => _.entity === "Research Teams")){
-    const fetchData = (await getAllTeams()) as []
-    sectionsData['Research Teams'].push(...fetchData)
-  }
-
-  if(sections.find((_: any) => _.entity === "Tool and Resources")){
-    const fetchData = (await getPaginatedToolAndResources()).data as []
-    sectionsData['Tool and Resources'].push(...fetchData)
-  }
-
-  if(sections.find((_: any) => _.entity === "Partners")){
-    const fetchData = (await getAllPartners()).data as []
-    sectionsData['Partners'].push(...fetchData)
-  }
+export async function getServerSideProps(context: any) {
   return {
-    props: {
-      sectionsData: sectionsData,
-      information: information.data,
-      data: response.data,
-      layout: layout.data
-    },
-    revalidate: 1,
-  }
+    props: {},
+  };
 }
-
-export const revalidate = 0

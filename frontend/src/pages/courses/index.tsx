@@ -1,17 +1,29 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.css'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Card from '@/components/card/Card'
 import { getContactInformation, getHomePage, getLayout, getPaginatedCourses } from '@/clientApi'
 import { useRouter } from 'next/router'
 
 export default function Events(props: any) {
-  const courseList = props.courseList.data
-  const numberPage = props.courseList.meta.pagination.pageCount
-  const layout = props.layout.data
+  const [data, setData] = useState<any>()
 
+  const courseList = data?.courseList.data
+  const numberPage = data?.courseList.meta.pagination.pageCount
+  useEffect(() => {
+    ;(async () => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const courseList = await getPaginatedCourses()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        courseList: courseList,
+      })
+    })()
+  }, [])
   const router = useRouter()
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -21,13 +33,27 @@ export default function Events(props: any) {
   const handleClick = (item: any) => {
     router.push(`/courses/${item.slug}`)
   }
+
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress color='success'/>
+      </div>
+    )
+  }
   return (
     <div>
       <Head>
         <title>Courses Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout layout={props.layout}
-        information={props.information}
+      <Layout layout={data.layout}
+        information={data.information}
       >
         <div className={styles.main}>
           <div className={styles.container}>
@@ -56,16 +82,8 @@ export default function Events(props: any) {
   )
 }
 
-export async function getStaticProps() {
-  const information = await getContactInformation()
-  const layout = await getLayout() 
-  const courseList = await getPaginatedCourses()
+export async function getServerSideProps(context: any) {
   return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      courseList: courseList,
-    },
-    revalidate: 1,
-  }
+    props: {},
+  };
 }

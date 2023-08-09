@@ -4,9 +4,14 @@ import styles from './postSidebar.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function PostSidebar(props: any){
   const recentPostList = props.recentPostList
+
+  const handleClick = (tag: string, slug: string) => {
+    window.location.href = `/${tag}/${slug}`
+  }
   return(
     <div>
       <div className={styles.container}>
@@ -30,10 +35,8 @@ export default function PostSidebar(props: any){
                       <div className={styles.date_month}>{(new Date(item.publishAt)).toLocaleString('default', { month: 'short' })}</div>
                     </div>
                     <div className={styles.right_content}>
-                      <div className={styles.title}>
-                        <Link href={`/${tag}/${item.slug}`}>
-                          {item.title}
-                        </Link>
+                      <div className={styles.title} onClick={() => {handleClick(item.tag, item.slug)}}>
+                        {item.title}
                       </div>
                       <div style={{marginTop: "10px", fontSize: "12px", color: "#666666D9"}}>
                         Comments {item.showCommentBox ? 'on' : 'off'}

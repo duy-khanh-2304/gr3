@@ -12,7 +12,7 @@ export default function NavBar(props: any){
       return {
         key: index,
         label: (
-          <Link href={link.url}>{link.text}</Link>
+          <a href={link.url}>{link.text}</a>
         )
       }
     })
@@ -55,7 +55,7 @@ export default function NavBar(props: any){
                     link.__component.indexOf('links-navigation') !== -1 && 
                     (
                       <div className={styles.flex_item}>
-                        <Link href={link.url}>{link.text}</Link>
+                        <a href={link.url}>{link.text}</a>
                       </div>
                     )
                   }
@@ -73,12 +73,12 @@ export default function NavBar(props: any){
                         )}
                       >
                         <div className={styles.flex_item}>
-                          <Link href={link.url}>
+                          <a href={link.url}>
                             <Space>
                               {link.text}
                               <DownOutlined style={{fontSize: "12px", marginLeft: "-6px", color: "#dddddd"}}/>
                             </Space>
-                          </Link>
+                          </a>
                         </div>
                       </Dropdown>
                     )

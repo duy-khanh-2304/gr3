@@ -1,9 +1,9 @@
 import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.css'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
@@ -12,12 +12,38 @@ import {getContactInformation, getHomePage, getLatestPost, getLayout, getPaginat
 import { useRouter } from 'next/router'
 
 export default function NewsAndEvents(props: any) {
-  const postList = props.postList.data
-  const layout = props.layout.data
+  const [data, setData] = useState<any>()
+  const postList = data?.postList.data
+
+  useEffect(() => {
+    ;(async () => {
+      const information = await getContactInformation()
+      const layout = await getLayout()  
+      const postList = await getLatestPost(8)
+      setData({
+        information: information.data,
+        layout: layout.data,
+        postList: postList
+      })
+    })()
+  }, [])
   const router = useRouter()
 
   const handleClick = (item: any) => {
     router.push(`/${item.tag[0]}/${item.slug}`)
+  }
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress color='success'/>
+      </div>
+    )
   }
   return (
     <div>
@@ -25,8 +51,8 @@ export default function NewsAndEvents(props: any) {
         <title>News and Events - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout 
-        layout={props.layout}
-        information={props.information}
+        layout={data.layout}
+        information={data.information}
       >
         <div className={styles.main}>
           <div className={styles.container}>
@@ -48,18 +74,8 @@ export default function NewsAndEvents(props: any) {
   )
 }
 
-export async function getStaticProps() {
-  const information = await getContactInformation()
-  const layout = await getLayout()  
-  const postList = await getLatestPost(8)
+export async function getServerSideProps(context: any) {
   return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      postList: postList
-    },
-    revalidate: 1,
-  }
+    props: {},
+  };
 }
-
-export const revalidate = 0

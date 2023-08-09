@@ -14,10 +14,11 @@ import { addComment, getAllEvents, getAllNews, getContactInformation, getHomePag
 import CommentEntry from "@/components/commentEntry/CommentEntry";
 
 export default function DetailPage(props: any) {
-  const item = props.eventItem
+  const [data, setData] = useState<any>()
+  const item = data?.eventItem
 
   const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
-  const [isError, setIsError] = useState<boolean>(false)
+  const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
 
   const optionParse = {
@@ -36,7 +37,7 @@ export default function DetailPage(props: any) {
   }
 
   const handlePostComment = async (commentData: any) => {
-    setIsError(false)
+    setStatusComment(null)
     const now = new Date()
     try{
       await addComment(
@@ -55,12 +56,28 @@ export default function DetailPage(props: any) {
           isModerated: false
         }]
       })
+      setStatusComment(true)
     }catch(error){
-      setIsError(true)
+      setStatusComment(false)
     }
   }
 
+  const router = useRouter()
+
   useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {slug} = router.query
+      const eventItem = await getOneEventBySlug(slug as string ?? "")
+      const latestList = await getLatestPost()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        eventItem: eventItem.data,
+        latestList: latestList.data
+      })
+    })()
     document.body.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -69,8 +86,21 @@ export default function DetailPage(props: any) {
     setUrl(currentUrl)
   }, [])
 
-  const router = useRouter()
   if(router.isFallback){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
+
+  if(!data){
     return (
       <div style={{
         width: '100%',
@@ -91,8 +121,8 @@ export default function DetailPage(props: any) {
           <title>{item.title}</title>
         </Head>
         <Layout
-          layout={props.layout}
-          information={props.information}
+          layout={data.layout}
+          information={data.information}
         >
           <div className={styles.main}>
             <div className={styles.container}>
@@ -101,7 +131,7 @@ export default function DetailPage(props: any) {
                   <div className={styles.entry_header}>
                     <div style={{ display: "flex", marginBottom: "10px" }}>
                       {
-                        item.tag.map((tag: any, index: number) => {
+                        item.tag && item.tag.map((tag: any, index: number) => {
                           return <div className={styles.entry_header_tag} key={index}>
                             <Link href={`/${tag}`}>
                               {tag.toUpperCase()}
@@ -154,11 +184,11 @@ export default function DetailPage(props: any) {
                     })
                   }
                   <div>
-                    {item.showCommentBox && <CommentBox data={props.commentBox} onPostComment={handlePostComment} isError={isError}/>}
+                    {item.showCommentBox && <CommentBox onPostComment={handlePostComment} statusComment={statusComment}/>}
                   </div>
                 </Grid>
                 <Grid item sm={4} lg={3} style={{ padding: "0 15px" }}>
-                  <PostSidebar recentPostList={props.latestList} />
+                  <PostSidebar recentPostList={data.latestList} />
                 </Grid>
               </Grid>
             </div>
@@ -169,37 +199,8 @@ export default function DetailPage(props: any) {
   )
 }
 
-export async function getStaticPaths() {
-  const eventList = await getAllEvents()
-  const paths = eventList.map((_: any) => {
-    return ({
-      params: {
-        slug: _.slug
-      }
-    })
-  })
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
-  }
+    props: {},
+  };
 }
-
-export async function getStaticProps({ params }: any) {
-  const information = await getContactInformation()
-  const layout = await getLayout() 
-  const eventItem = await getOneEventBySlug(params.slug) 
-  const commentBox = (await axiosInstance.get("/api/comment-box?populate=deep")).data
-  const latestList = await getLatestPost()
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      eventItem: eventItem.data,
-      commentBox: commentBox.data,
-      latestList: latestList.data
-    },
-    revalidate: 1,
-  }
-}
-
-export const revalidate = 0

@@ -2,20 +2,33 @@ import { getAllPublications, getContactInformation, getHomePage, getLayout } fro
 import Layout from '@/components/Layout'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.css'
 
 export default function  PublicationList(props: any){
-  const publicationList = props.publicationList
-  const layout = props.layout.data
+  const [data, setData] = useState<any>()
+
+  const publicationList = data?.publicationList
+  useEffect(() => {
+    ;(async () => {
+      const information = await getContactInformation()
+      const layout = await getLayout()
+      const publicationList = await getAllPublications()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        publicationList: publicationList,
+      })
+    })()
+  }, [])
   const router = useRouter()
   return (
     <div>
       <Head>
         <title>Publication List Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout layout={props.layout}
-        information={props.information}>
+      <Layout layout={data.layout}
+        information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>
             {
@@ -36,18 +49,8 @@ export default function  PublicationList(props: any){
   )
 }
 
-export async function getStaticProps() {
-  const information = await getContactInformation()
-  const layout = await getLayout()  
-  const publicationList = await getAllPublications()
+export async function getServerSideProps(context: any) {
   return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      publicationList: publicationList,
-    },
-    revalidate: 1,
+    props: {}
   }
 }
-
-export const revalidate = 0

@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './page.module.css'
 import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
@@ -13,6 +13,23 @@ import { redirect } from 'next/navigation'
 
 export default function ProjectPage(props: any) {
   const router = useRouter()
+
+  const [data, setData] = useState<any>()
+
+  useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {pageNumber} = router.query 
+      const teamList = await getPaginatedTeams(Number(pageNumber as string ?? ""))
+      setData({
+        information: information.data,
+        layout: layout.data,
+        currentPage: Number(pageNumber),
+        teamList: teamList,
+      })
+    })()
+  }, [])
 
   if(router.isFallback){
     return (
@@ -27,15 +44,28 @@ export default function ProjectPage(props: any) {
       </div>
     )
   }
-  const teamList = props.teamList.data
-  const numberPage = props.teamList.meta.pagination.pageCount
-  const layout = props.layout.data
+
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
+  const teamList = data?.teamList.data
+  const numberPage = data?.teamList.meta.pagination.pageCount
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
       router.replace(`/researches/research-teams`)
     }else{
-      router.push(`/researches/research-teams/page/${value}`)
+      window.location.href = `/researches/research-teams/page/${value}`
     }
   }
 
@@ -43,14 +73,14 @@ export default function ProjectPage(props: any) {
     router.push(`/researches/research-teams/${item.slug}`)
   }
 
-  const headTitle = `Research Teams Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
+  const headTitle = `Research Teams Archives - Page ${data.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (
     <div>
       <Head>
         <title>{headTitle}</title>
       </Head>
-      <Layout layout={props.layout}
-        information={props.information}>
+      <Layout layout={data.layout}
+        information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>
             <Grid container>
@@ -68,7 +98,7 @@ export default function ProjectPage(props: any) {
                 </Grid>
                 {numberPage > 1 && <div className={styles.pagination}>
                   <Stack spacing={2}>
-                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={props.currentPage}/>
+                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={data.currentPage}/>
                   </Stack>
                 </div>}
               </Grid>
@@ -80,40 +110,8 @@ export default function ProjectPage(props: any) {
   )
 }
 
-export async function getStaticPaths(){
-  const teamList = await getPaginatedTeams()
-  let pageCount = teamList.meta.pagination.pageCount
-  let paths = []
-  while(pageCount > 0){
-    paths.push({
-      params: {
-        pageNumber: pageCount.toString()
-      }
-    })
-    pageCount = pageCount - 1
-  }
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
-  }
+    props: {},
+  };
 }
-
-export async function getStaticProps({params}:any) {
-  const pageNumber = Number(params.pageNumber)
-
-  const information = await getContactInformation()
-  const layout = await getLayout() 
-
-  const teamList = await getPaginatedTeams(pageNumber)
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      currentPage: pageNumber,
-      teamList: teamList,
-    },
-    revalidate: 1,
-  }
-}
-
-export const revalidate = 0

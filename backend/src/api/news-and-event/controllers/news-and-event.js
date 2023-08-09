@@ -59,5 +59,31 @@ module.exports = createCoreController('api::news-and-event.news-and-event', ({st
       }
     })
     ctx.body = "post comment successfully !"
+  },
+
+  async getPageAll(ctx){
+    // const layout = await strapi.entityService.findMany('api::layout.layout',{
+    //   populate: '*',
+    // })
+    // const information = await strapi.entityService.findMany('api::contact-information.contact-information',{
+    //   populate: '*',
+    // })
+    // const newsList = await strapi.entityService.findMany('api::news-and-event.news-and-event',{
+    //   filters: {
+    //     tag: {$containsi: 'news'}
+    //   },
+    //   sort: 'publishAt',
+    //   page: 1,
+    //   pageSize: 6,
+    //   fields: ['title', 'slug', 'publishAt', 'post_image', 'post_subtitle', 'tag'],
+    //   populate: {
+    //     post_image: '*'
+    //   }
+    // })
+    // console.log('NEWS LIST; ', newsList)
+    // console.log('LAYOUT: ', layout)
+    // console.log('INFORMATION: ', information)
+
+    ctx.body = 'DUY KHANH'
   }
 }));

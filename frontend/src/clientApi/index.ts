@@ -23,6 +23,12 @@ export async function getLayout(){
   return response
 }
 
+export async function getPageAll(){
+  const response = (await axiosInstance.get(`/api/news-and-events/news`)).data
+  console.log('RESPONSE: ', response)
+  return response
+}
+
 export async function getAllNews(){
   let currentPage = 1
   let response

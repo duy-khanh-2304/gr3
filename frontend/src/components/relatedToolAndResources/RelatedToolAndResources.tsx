@@ -4,9 +4,8 @@ import { Grid } from "@mui/material"
 import { useRouter } from "next/router"
 
 export default function RelatedToolAndResource(props: any){
-  const router = useRouter()
   const handleClick = (item: any) => {
-    router.push(`/researches/tool-and-resources/${item.slug}`)
+    window.location.href = `/researches/tool-and-resources/${item.slug}`
   }
   return (
     <div className={styles.container}>

@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './page.module.css'
 import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
@@ -10,8 +10,25 @@ import parse from 'html-react-parser'
 import {getContactInformation, getHomePage, getLayout, getPaginatedCourses, getPaginatedEvents, getPaginatedSortedEvents } from '@/clientApi'
 import { useRouter } from 'next/router'
 
-export default function EventsPage(props: any) {
+export default function CoursesPage(props: any) {
   const router = useRouter()
+
+  const [data, setData] = useState<any>()
+
+  useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {pageNumber} = router.query 
+      const courseList = await getPaginatedCourses(Number(pageNumber as string ?? ""))
+      setData({
+        information: information.data,
+        layout: layout.data,
+        currentPage: Number(pageNumber),
+        courseList: courseList,
+      })
+    })()
+  }, [])
 
   if(router.isFallback){
     return (
@@ -26,15 +43,27 @@ export default function EventsPage(props: any) {
       </div>
     )
   }
-  const courseList = props.courseList.data
-  const numberPage = props.courseList.meta.pagination.pageCount
-  const layout = props.layout.data
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
+  const courseList = data.courseList.data
+  const numberPage = data.courseList.meta.pagination.pageCount
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     if(value === 1){
       router.replace(`/courses`)
     }else{
-      router.push(`/courses/page/${value}`)
+      window.location.href = `/courses/page/${value}`
     }
   }
 
@@ -42,14 +71,14 @@ export default function EventsPage(props: any) {
     router.push(`/courses/${item.slug}`)
   }
 
-  const headTitle = `Courses Archives - Page ${props.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
+  const headTitle = `Courses Archives - Page ${data.currentPage} of ${numberPage} - BKAI - The International Research Center for Artificial Intelligence`
   return (
     <div>
       <Head>
         <title>{headTitle}</title>
       </Head>
-      <Layout layout={props.layout}
-        information={props.information}>
+      <Layout layout={data.layout}
+        information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>
               <Grid container style={{padding: "0 15px"}}>
@@ -66,7 +95,7 @@ export default function EventsPage(props: any) {
                 </Grid>
                 {numberPage > 1 && <div className={styles.pagination}>
                   <Stack spacing={2}>
-                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={props.currentPage}/>
+                    <Pagination count={numberPage} variant='outlined' size='large' onChange={handleChangePage} page={data.currentPage}/>
                   </Stack>
                 </div>}
               </Grid>
@@ -77,39 +106,8 @@ export default function EventsPage(props: any) {
   )
 }
 
-export async function getStaticPaths(){
-  const courseList = await getPaginatedCourses()
-  let pageCount = courseList.meta.pagination.pageCount
-  let paths = []
-  while(pageCount > 0){
-    paths.push({
-      params: {
-        pageNumber: pageCount.toString()
-      }
-    })
-    pageCount = pageCount - 1
-  }
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
+    props: {}
   }
 }
-
-export async function getStaticProps({params}:any) {
-  const pageNumber = Number(params.pageNumber)
-
-  const information = await getContactInformation()
-  const layout = await getLayout()  
-  const courseList = await getPaginatedCourses(pageNumber)
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      currentPage: pageNumber,
-      courseList: courseList,
-    },
-    revalidate: 1,
-  }
-}
-
-export const revalidate = 0

@@ -1,9 +1,9 @@
 import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.css'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
@@ -12,9 +12,23 @@ import { getPaginatedSortedNews, getHomePage, getPaginatedNews, getLatestPost, g
 import { useRouter } from 'next/router'
 
 export default function Solutions(props: any) {
-  const solutionList = props.solutionList.data
-  const numberPage = props.solutionList.meta.pagination.pageCount
-  const layout = props.layout.data
+  const [data, setData] = useState<any>()
+
+  const solutionList = data?.solutionList.data
+  const numberPage = data?.solutionList.meta.pagination.pageCount
+  useEffect(() => {
+    ;(async () => {
+      const information = await getContactInformation()
+      const layout = await getLayout()
+      const solutionList = await getPaginatedSolutions()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        solutionList: solutionList,
+      })
+    })()
+  }, [])
+
   const router = useRouter()
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -24,14 +38,27 @@ export default function Solutions(props: any) {
   const handleClick = (item: any) => {
     router.push(`/solutions/${item.slug}`)
   }
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress color='success'/>
+      </div>
+    )
+  }
   return (
     <div>
       <Head>
         <title>Solutions Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout
-        layout={props.layout}
-        information={props.information}
+        layout={data.layout}
+        information={data.information}
       >
         <div className={styles.main}>
           <div className={styles.container}>
@@ -62,18 +89,8 @@ export default function Solutions(props: any) {
   )
 }
 
-export async function getStaticProps() {
-  const information = await getContactInformation()
-  const layout = await getLayout() 
-  const solutionList = await getPaginatedSolutions()
+export async function getServerSideProps(context: any) {
   return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      solutionList: solutionList,
-    },
-    revalidate: 1,
-  }
+    props: {},
+  };
 }
-
-export const revalidate = 0

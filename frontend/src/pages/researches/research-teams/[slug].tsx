@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from './detail.module.css'
 import { Grid } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress'
@@ -10,8 +10,10 @@ import { useRouter } from "next/router";
 import MemberCard from "@/components/memberCard/MemberCard";
 
 export default function DetailPage(props: any) {
-  const item = props.teamItem
-  const allTeams = props.allTeams
+  const [data, setData] = useState<any>()
+
+  const item = data?.teamItem
+  const allTeams = data?.allTeams
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -28,7 +30,7 @@ export default function DetailPage(props: any) {
   }
   
   const handleClickTeam = (item: any) => {
-    router.push(`/researches/research-teams/${item.slug}`)
+    window.location.href = `/researches/research-teams/${item.slug}`
   }
 
   const handleClickProject = (item: any) => {
@@ -44,7 +46,41 @@ export default function DetailPage(props: any) {
   }
 
   const router = useRouter()
+
+  useEffect(() => {
+    ;(async() => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const {slug} = router.query
+      const teamItem = await getOneTeamBySlug(slug as string ?? "")
+      const allTeams = await getAllTeams()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        teamItem: teamItem.data,
+        allTeams: allTeams
+      })
+    })()
+    document.body.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [])
   if(router.isFallback){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress/>
+      </div>
+    )
+  }
+
+  if(!data){
     return (
       <div style={{
         width: '100%',
@@ -62,8 +98,8 @@ export default function DetailPage(props: any) {
       <Head>
         <title>{item.title}</title>
       </Head>
-      <Layout layout={props.layout}
-        information={props.information}>
+      <Layout layout={data.layout}
+        information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>
             <div className={styles.entry_content}>
@@ -240,7 +276,7 @@ export default function DetailPage(props: any) {
                       <div className={styles.small_divider}></div>
                       <div className={styles.latest_projects_list}>
                         {
-                          allTeams && allTeams.map((item: any, index: number) => {
+                          allTeams?.length > 0 && allTeams.map((item: any, index: number) => {
                             return(
                               <div key={index} onClick={() => {handleClickTeam(item)}}>
                                 <Grid container
@@ -276,35 +312,8 @@ export default function DetailPage(props: any) {
   )
 }
 
-export async function getStaticPaths() {
-  const teamList = await getAllTeams()
-  const paths = teamList.map((_: any) => {
-    return ({
-      params: {
-        slug: _.slug
-      }
-    })
-  })
+export async function getServerSideProps(context: any) {
   return {
-    paths: paths,
-    fallback: true,
-  }
+    props: {},
+  };
 }
-
-export async function getStaticProps({ params }: any) {
-  const information = await getContactInformation()
-  const layout = await getLayout()
-  const teamItem = await getOneTeamBySlug(params.slug) 
-  const allTeams = await getAllTeams()
-  return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      teamItem: teamItem.data,
-      allTeams: allTeams
-    },
-    revalidate: 1,
-  }
-}
-
-export const revalidate = 0

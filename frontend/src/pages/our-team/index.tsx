@@ -1,9 +1,9 @@
 import axiosInstance from '@/axiosConfig'
 import Layout from '@/components/Layout'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.css'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { CircularProgress, Grid, Pagination, Stack } from '@mui/material'
 import Link from 'next/link'
 import PostSidebar from '@/components/postSidebar/PostSidebar'
 import Card from '@/components/card/Card'
@@ -13,14 +13,44 @@ import { useRouter } from 'next/router'
 import MemberCard from '@/components/memberCard/MemberCard'
 
 export default function OurTeam(props: any) {
-  const ourTeamPage = props.ourTeamPage
-  const boardOfDirectors = ourTeamPage.data.boardOfDirectors
-  const teams = props.teams
-  const layout = props.layout.data
+  const [data, setData] = useState<any>()
+
+  const ourTeamPage = data?.ourTeamPage
+  const boardOfDirectors = ourTeamPage?.data.boardOfDirectors
+  const teams = data?.teams
+
+  useEffect(() => {
+    ;(async () => {
+      const information = await getContactInformation()
+      const layout = await getLayout() 
+      const ourTeamPage = await getOurTeamPage()
+      const teams = await getAllTeams()
+      setData({
+        information: information.data,
+        layout: layout.data,
+        ourTeamPage: ourTeamPage,
+        teams: teams
+      })
+    })()
+  }, [])
 
   const router = useRouter()
   const handleClick = (item: any) => {
     router.push(`/researches/research-teams/${item.slug}`)
+  }
+
+  if(!data){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress color='success'/>
+      </div>
+    )
   }
   return (
     <div>
@@ -28,8 +58,8 @@ export default function OurTeam(props: any) {
         <title>Our Team - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout
-        layout={props.layout}
-        information={props.information}
+        layout={data.layout}
+        information={data.information}
       >
         <div className={styles.main}>
           <div className={styles.directorSection}>
@@ -90,20 +120,8 @@ export default function OurTeam(props: any) {
   )
 }
 
-export async function getStaticProps() {
-  const information = await getContactInformation()
-  const layout = await getLayout() 
-  const ourTeamPage = await getOurTeamPage()
-  const teams = await getAllTeams()
+export async function getServerSideProps(context: any) {
   return {
-    props: {
-      information: information.data,
-      layout: layout.data,
-      ourTeamPage: ourTeamPage,
-      teams: teams
-    },
-    revalidate: 1,
-  }
+    props: {},
+  };
 }
-
-export const revalidate = 0
