@@ -86,6 +86,7 @@ const HomePage = () => {
   useEffect(() => {
     let mounted = true
     setIsLoading(true)
+    setOrganicResults()
     if (selectedMember !== undefined) {
       const name = members.find(_ => _.id === Number(selectedMember))?.name ?? ""
       const waitingUserType = setTimeout(() => {
@@ -97,7 +98,6 @@ const HomePage = () => {
               query: name
             }
           })
-          console.log('DATA: ', data)
           setOrganicResults(data.organic_results)
         })()
       }, 1200)
