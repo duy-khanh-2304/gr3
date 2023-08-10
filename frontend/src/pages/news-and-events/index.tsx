@@ -18,11 +18,9 @@ export default function NewsAndEvents(props: any) {
   useEffect(() => {
     ;(async () => {
       const information = await getContactInformation()
-      const layout = await getLayout()  
       const postList = await getLatestPost(8)
       setData({
         information: information.data,
-        layout: layout.data,
         postList: postList
       })
     })()
@@ -32,7 +30,7 @@ export default function NewsAndEvents(props: any) {
   const handleClick = (item: any) => {
     router.push(`/${item.tag[0]}/${item.slug}`)
   }
-  if(!data){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -51,7 +49,7 @@ export default function NewsAndEvents(props: any) {
         <title>News and Events - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout 
-        layout={data.layout}
+        
         information={data.information}
       >
         <div className={styles.main}>

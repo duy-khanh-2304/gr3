@@ -47,46 +47,100 @@ export default function NavBar(props: any){
           </div>
         }
         <div className={styles.flex_list}>
-          {
-            props.headerNavigation.map((link: any, index: number) => {
-              return (
-                <div key={index}>
-                  {
-                    link.__component.indexOf('links-navigation') !== -1 && 
-                    (
-                      <div className={styles.flex_item}>
-                        <a href={link.url}>{link.text}</a>
-                      </div>
-                    )
-                  }
-                  {
-                    link.__component.indexOf('dropdown-navigation') !== -1 && 
-                    (
-                      <Dropdown 
-                        menu={{items: createMenuItems(link.sub_links)}} 
-                        placement="bottom" 
-                        arrow
-                        dropdownRender={(menu) => (
-                          <div style={contentStyle}>
-                            {React.cloneElement(menu as React.ReactElement, { style: menuStyle })}
-                          </div>
-                        )}
-                      >
-                        <div className={styles.flex_item}>
-                          <a href={link.url}>
-                            <Space>
-                              {link.text}
-                              <DownOutlined style={{fontSize: "12px", marginLeft: "-6px", color: "#dddddd"}}/>
-                            </Space>
-                          </a>
-                        </div>
-                      </Dropdown>
-                    )
-                  }
-                </div>
-              )
-            })
-          }
+          <div className={styles.flex_item}>
+            <a href="/">Home Page</a>
+          </div>
+          <div className={styles.flex_item}>
+            <a href="/our-team">Our Teams</a>
+          </div>
+          <Dropdown 
+            menu={{items: [
+              {
+                key: 'Projects',
+                label: (
+                  <a href="/researches/projects">Projects</a>
+                )
+              },
+              {
+                key: 'Tool and Resources',
+                label: (
+                  <a href="/researches/tool-and-resources">Tool and Resources</a>
+                )
+              },
+              {
+                key: 'Publications',
+                label: (
+                  <a href="/researches/publication-lists">Publications</a>
+                )
+              }
+            ]}} 
+            placement="bottom" 
+            arrow
+            dropdownRender={(menu) => (
+              <div style={contentStyle}>
+                {React.cloneElement(menu as React.ReactElement, { style: menuStyle })}
+              </div>
+            )}
+          >
+            <div className={styles.flex_item}>
+              <a href="/our-team">
+                <Space>
+                  Researches
+                  <DownOutlined style={{fontSize: "12px", marginLeft: "-6px", color: "#dddddd"}}/>
+                </Space>
+              </a>
+            </div>
+          </Dropdown>
+          <div className={styles.flex_item}>
+            <a href="/solutions">Solutions</a>
+          </div>
+          <div className={styles.flex_item}>
+            <a href="/courses">Training Courses</a>
+          </div>
+          <div className={styles.flex_item}>
+            <a href="/ai-tech-blogs">AI Tech Blogs</a>
+          </div>
+          <Dropdown 
+            menu={{items: [
+              {
+                key: 'News',
+                label: (
+                  <a href="/news">News</a>
+                )
+              },
+              {
+                key: 'Events',
+                label: (
+                  <a href="/events">Events</a>
+                )
+              },
+              {
+                key: 'Seminars',
+                label: (
+                  <a href="/seminars">Seminars</a>
+                )
+              }
+            ]}} 
+            placement="bottom" 
+            arrow
+            dropdownRender={(menu) => (
+              <div style={contentStyle}>
+                {React.cloneElement(menu as React.ReactElement, { style: menuStyle })}
+              </div>
+            )}
+          >
+            <div className={styles.flex_item}>
+              <a href="/news-and-events">
+                <Space>
+                  News and Events
+                  <DownOutlined style={{fontSize: "12px", marginLeft: "-6px", color: "#dddddd"}}/>
+                </Space>
+              </a>
+            </div>
+          </Dropdown>
+          <div className={styles.flex_item}>
+            <a href="/contactus">Contact</a>
+          </div>
         </div>  
       </div>
     </div>

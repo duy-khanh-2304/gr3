@@ -29,7 +29,7 @@ const NumberSeensChart = ({
         onBarLineChart
         defaultOpen
         id="barLineChart"
-        title="Number of Seens"
+        title="Number of Views"
       >
         <div
           className={isZoomNumberSeensChart ? `${styles.chartzoom}` : `${styles.chart}`}

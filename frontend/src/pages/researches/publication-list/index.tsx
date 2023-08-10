@@ -12,11 +12,9 @@ export default function  PublicationList(props: any){
   useEffect(() => {
     ;(async () => {
       const information = await getContactInformation()
-      const layout = await getLayout()
       const publicationList = await getAllPublications()
       setData({
         information: information.data,
-        layout: layout.data,
         publicationList: publicationList,
       })
     })()
@@ -27,7 +25,7 @@ export default function  PublicationList(props: any){
       <Head>
         <title>Publication List Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout layout={data.layout}
+      <Layout 
         information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>

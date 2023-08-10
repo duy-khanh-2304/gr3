@@ -43,5 +43,11 @@ module.exports = ({ strapi }) => ({
       .plugin('statistics')
       .service('myService')
       .getAllCourses();
+  },
+  async getAllResearchTeams(ctx){
+    ctx.body = await strapi
+      .plugin('statistics')
+      .service('myService')
+      .getAllResearchTeams();
   }
 });

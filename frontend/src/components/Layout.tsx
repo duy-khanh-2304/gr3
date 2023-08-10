@@ -10,10 +10,6 @@ import BreadCrumbs from "./breadCrumbs/BreadCrumbs";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 export default function Layout(props: any) {
-  const {
-    header_navigation,
-    footer_navigation
-  } = props.layout
   const [showButton, setShowButton] = useState(false)
   const [stickyNavbar, setStickyNavbar] = useState(false)
   const router = useRouter()
@@ -42,9 +38,7 @@ export default function Layout(props: any) {
   })
 
   useEffect(() => {
-    //add eventlistener to window
     document.body.addEventListener("scroll", onScroll, { passive: true });
-    // remove event on unmount to prevent a memory leak with the cleanup
     return () => {
       document.removeEventListener("scroll", onScroll);
     }
@@ -57,7 +51,6 @@ export default function Layout(props: any) {
         />
         <NavBar 
           logo={props.information.logo}
-          headerNavigation={header_navigation}
         />
         {
           router.asPath !== "/" && <BreadCrumbs/>
@@ -67,7 +60,6 @@ export default function Layout(props: any) {
         </div>
         <Footer 
           information={props.information}
-          footerNavigation={footer_navigation}
         />
         {
           showButton && <div onClick={onScrollToTop} className={styles.back_to_top}>

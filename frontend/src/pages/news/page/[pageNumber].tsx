@@ -16,13 +16,12 @@ export default function NewsPage(props: any) {
   useEffect(() => {
     ;(async() => {
       const information = await getContactInformation()
-      const layout = await getLayout() 
       const {pageNumber} = router.query 
       const newsList = await getPaginatedSortedNews(Number(pageNumber as string ?? ""))
       const latestList = await getLatestPost()
       setData({
         information: information.data,
-        layout: layout.data,
+        
         currentPage: Number(pageNumber),
         newsList: newsList,
         latestList: latestList.data
@@ -30,7 +29,7 @@ export default function NewsPage(props: any) {
     })()
   }, [])
 
-  if(router.isFallback){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -39,20 +38,7 @@ export default function NewsPage(props: any) {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <CircularProgress/>
-      </div>
-    )
-  }
-  if(!data){
-    return (
-      <div style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <CircularProgress/>
+        <CircularProgress color='success'/>
       </div>
     )
   }
@@ -77,7 +63,7 @@ export default function NewsPage(props: any) {
         <title>{headTitle}</title>
       </Head>
       <Layout
-        layout={data.layout}
+        
         information={data.information}
       >
         <div className={styles.main}>

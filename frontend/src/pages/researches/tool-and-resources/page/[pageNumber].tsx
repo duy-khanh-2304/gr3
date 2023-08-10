@@ -19,19 +19,18 @@ export default function ToolAndResourcePage(props: any) {
   useEffect(() => {
     ;(async() => {
       const information = await getContactInformation()
-      const layout = await getLayout() 
       const {pageNumber} = router.query 
       const toolAndResourceList = await getPaginatedToolAndResources(Number(pageNumber as string ?? ""))
       setData({
         information: information.data,
-        layout: layout.data,
+        
         currentPage: Number(pageNumber),
         toolAndResourceList: toolAndResourceList,
       })
     })()
   }, [])
 
-  if(!data){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -40,21 +39,7 @@ export default function ToolAndResourcePage(props: any) {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <CircularProgress/>
-      </div>
-    )
-  }
-
-  if(router.isFallback){
-    return (
-      <div style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <CircularProgress/>
+        <CircularProgress color='success'/>
       </div>
     )
   }
@@ -79,7 +64,7 @@ export default function ToolAndResourcePage(props: any) {
       <Head>
         <title>{headTitle}</title>
       </Head>
-      <Layout layout={data.layout}
+      <Layout 
         information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>

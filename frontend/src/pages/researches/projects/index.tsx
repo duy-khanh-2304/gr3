@@ -19,11 +19,9 @@ export default function Projects(props: any) {
   useEffect(() => {
     ;(async () => {
       const information = await getContactInformation()
-      const layout = await getLayout()  
       const projectList = await getPaginatedProjects()
       setData({
         information: information.data,
-        layout: layout.data,
         projectList: projectList,
       })
     })()
@@ -38,7 +36,7 @@ export default function Projects(props: any) {
     router.push(`/researches/projects/${item.slug}`)
   }
 
-  if(!data){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -56,7 +54,7 @@ export default function Projects(props: any) {
       <Head>
         <title>Projects Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout layout={data.layout}
+      <Layout 
         information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>

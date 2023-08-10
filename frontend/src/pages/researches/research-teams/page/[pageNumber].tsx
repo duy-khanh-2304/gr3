@@ -19,19 +19,18 @@ export default function ProjectPage(props: any) {
   useEffect(() => {
     ;(async() => {
       const information = await getContactInformation()
-      const layout = await getLayout() 
       const {pageNumber} = router.query 
       const teamList = await getPaginatedTeams(Number(pageNumber as string ?? ""))
       setData({
         information: information.data,
-        layout: layout.data,
+        
         currentPage: Number(pageNumber),
         teamList: teamList,
       })
     })()
   }, [])
 
-  if(router.isFallback){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -40,21 +39,7 @@ export default function ProjectPage(props: any) {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <CircularProgress/>
-      </div>
-    )
-  }
-
-  if(!data){
-    return (
-      <div style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <CircularProgress/>
+        <CircularProgress color='success'/>
       </div>
     )
   }
@@ -79,7 +64,7 @@ export default function ProjectPage(props: any) {
       <Head>
         <title>{headTitle}</title>
       </Head>
-      <Layout layout={data.layout}
+      <Layout 
         information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>

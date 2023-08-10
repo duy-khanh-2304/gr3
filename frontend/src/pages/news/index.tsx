@@ -18,12 +18,10 @@ export default function News() {
   useEffect(() => {
     ;(async () => {
       const information = await getContactInformation()
-      const layout = await getLayout()
       const newsList = await getPaginatedSortedNews()
       const latestList = await getLatestPost()
       setData({
         information: information.data,
-        layout: layout.data,
         newsList: newsList,
         latestList: latestList
       })
@@ -35,7 +33,7 @@ export default function News() {
     router.push(`/news/${item.slug}`)
   }
 
-  if(!data){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -54,7 +52,7 @@ export default function News() {
         <title>News Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout
-        layout={data.layout}
+        
         information={data.information}
       >
         <div className={styles.main}>

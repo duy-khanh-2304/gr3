@@ -18,11 +18,9 @@ export default function ToolAndResources(props: any) {
   useEffect(() => {
     ;(async () => {
       const information = await getContactInformation()
-      const layout = await getLayout()
       const toolAndResourceList = await getPaginatedToolAndResources()
       setData({
         information: information.data,
-        layout: layout.data,
         toolAndResourceList: toolAndResourceList,
       })
     })()
@@ -37,7 +35,7 @@ export default function ToolAndResources(props: any) {
     router.push(`/researches/tool-and-resources/${item.slug}`)
   }
 
-  if(!data){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -56,7 +54,7 @@ export default function ToolAndResources(props: any) {
         <title>Tool and Resources Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout
-        layout={data.layout}
+        
         information={data.information}
       >
         <div className={styles.main}>

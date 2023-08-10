@@ -19,11 +19,9 @@ export default function ResearchTeams(props: any) {
   useEffect(() => {
     ;(async () => {
       const information = await getContactInformation()
-      const layout = await getLayout()
       const teamList = await getPaginatedTeams()
       setData({
         information: information.data,
-        layout: layout.data,
         teamList: teamList,
       })
     })()
@@ -38,7 +36,7 @@ export default function ResearchTeams(props: any) {
   const handleClick = (item: any) => {
     router.push(`/researches/research-teams/${item.slug}`)
   }
-  if(!data){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -57,7 +55,7 @@ export default function ResearchTeams(props: any) {
         <title>Research Teams Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout
-        layout={data.layout}
+        
         information={data.information}
       >
         <div className={styles.main}>

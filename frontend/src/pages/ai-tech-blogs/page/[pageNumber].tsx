@@ -21,13 +21,12 @@ export default function AiTechBlogsPage(props: any) {
   useEffect(() => {
     ;(async() => {
       const information = await getContactInformation()
-      const layout = await getLayout() 
       const {pageNumber} = router.query 
       const aiTechBlogs = await getPaginatedSortedAiTechBlogs(Number(pageNumber as string ?? ""))
       const latestList = await getLatestPost()
       setData({
         information: information.data,
-        layout: layout.data,
+        
         currentPage: Number(pageNumber),
         aiTechBlogs: aiTechBlogs,
         latestList: latestList.data
@@ -47,7 +46,7 @@ export default function AiTechBlogsPage(props: any) {
     router.push(`/ai-tech-blogs/${item.slug}`)
   }
 
-  if(router.isFallback){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -56,20 +55,7 @@ export default function AiTechBlogsPage(props: any) {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <CircularProgress/>
-      </div>
-    )
-  }
-  if(!data){
-    return (
-      <div style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <CircularProgress/>
+        <CircularProgress color='success'/>
       </div>
     )
   }
@@ -79,7 +65,7 @@ export default function AiTechBlogsPage(props: any) {
       <Head>
         <title>{headTitle}</title>
       </Head>
-      <Layout layout={data.layout}
+      <Layout 
         information={data.information}
       >
         <div className={styles.main}>

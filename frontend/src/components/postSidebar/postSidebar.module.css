@@ -110,3 +110,12 @@
   color: #333;
   cursor: pointer;
 }
+
+.entry_header_tag{
+  font-size: 10px;
+  font-weight: 400;
+  color: #fff;
+  background-color: #7a9c59;
+  padding: 2.5px 5px;
+  width: fit-content;
+}

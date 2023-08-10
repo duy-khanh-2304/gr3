@@ -44,28 +44,44 @@ export default function Footer(props: any) {
         <div className={styles.list_footerSection}>
           <div className={styles.list_container}>
             <Grid container>
-              {
-                props.footerNavigation.map((item: any, index: number) => {
-                  return (
-                    <Grid item xs={4} key={index}>
-                      <div className={styles.item_container}>
-                        <h3 className={styles.item_title}>{item.title}</h3>
-                        {
-                          item.links && (
-                            <div className={styles.list_link}>
-                              {item.links.map((link: any, index: number) => {
-                                return <Link key={index} href={link.url} className={styles.link}>
-                                    {link.text}
-                                  </Link>
-                              })}
-                            </div>
-                          )
-                        }
-                      </div>
-                    </Grid>
-                  )
-                })
-              }
+              <Grid item xs={4}>
+                <div className={styles.item_container}>
+                  <h3 className={styles.item_title}>News and Events</h3>
+                  <div className={styles.list_link}>
+                    <a href="/news" className={styles.link}>
+                      News
+                    </a>
+                    <a href="/events" className={styles.link}>
+                      Events
+                    </a>
+                    <a href="/seminars" className={styles.link}>
+                      Seminars
+                    </a>
+                    <a href="/ai-tech-blogs" className={styles.link}>
+                      AI Tech Blogs
+                    </a>
+                  </div>
+                </div>
+              </Grid>
+              <Grid item xs={4}>
+                <div className={styles.item_container}>
+                  <h3 className={styles.item_title}>R & D</h3>
+                  <div className={styles.list_link}>
+                    <a href="/our-team" className={styles.link}>
+                      Research Teams
+                    </a>
+                    <a href="/researches" className={styles.link}>
+                      Projects/Publications
+                    </a>
+                    <a href="/courses" className={styles.link}>
+                      Training Courses
+                    </a>
+                    <a href="/solutions" className={styles.link}>
+                      Solutions
+                    </a>
+                  </div>
+                </div>
+              </Grid>
               <Grid item xs={4}>
                 <div className={styles.item_container}>
                   <h3 className={styles.item_title}>Information</h3>

@@ -62,4 +62,13 @@ module.exports = [
       policies: [],
     },
   },
+  {
+    method: 'GET',
+    path: '/research-teams',
+    handler: 'myController.getAllResearchTeams',
+    config: {
+      auth: false,
+      policies: [],
+    },
+  },
 ];

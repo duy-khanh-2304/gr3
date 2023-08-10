@@ -1,5 +1,9 @@
 import axiosInstance from "@/axiosConfig"
 
+const NUMBER_ITEM_A_PAGE = 8
+
+const LATEST_NUMBER = 6
+
 const selectorFieldNewsAndEvents = `fields[0]=title&fields[1]=slug&fields[2]=publishAt&fields[3]=post_image&fields[4]=post_subtitle&fields[5]=tag&populate[post_image]=*`
 const selectorFieldAiTechBlogs = `fields[0]=title&fields[1]=slug&fields[2]=publishAt&fields[3]=post_image&fields[4]=post_subtitle&fields[5]=tag&populate[post_image]=*`
 const selectorFieldProjects = `fields[0]=title&fields[1]=slug&fields[2]=post_image&fields[3]=post_subtitle&populate[post_image]=*`
@@ -45,12 +49,12 @@ export async function getAllNews(){
 }
 
 export async function getPaginatedNews(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
 export async function getPaginatedSortedNews(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&sort[0]=publishAt:desc&pagination[page]=${page}&pagination[pageSize]=6&${selectorFieldNewsAndEvents}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=news&sort[0]=publishAt:desc&pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
@@ -75,12 +79,12 @@ export async function getAllEvents(){
 }
 
 export async function getPaginatedEvents(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
 export async function getPaginatedSortedEvents(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&sort[0]=publishAt:desc&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=events&sort[0]=publishAt:desc&pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
@@ -105,12 +109,12 @@ export async function getAllSeminars(){
 }
 
 export async function getPaginatedSeminars(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
 export async function getPaginatedSortedSeminars(page: number = 1){
-  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&sort[0]=publishAt:desc&pagination[page]=${page}&${selectorFieldNewsAndEvents}`)).data
+  const response = (await axiosInstance.get(`/api/news-and-events?filters[tag][$containsi]=seminars&sort[0]=publishAt:desc&pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
 
@@ -119,7 +123,7 @@ export async function getOneSeminarBySlug(slug: string){
   return response
 }
 
-export async function getLatestPost(postNumber: number = 5){
+export async function getLatestPost(postNumber: number = LATEST_NUMBER){
   const response = (await axiosInstance.get(`/api/news-and-events?sort[0]=publishAt:desc&pagination[page]=1&pagination[pageSize]=${postNumber}&${selectorFieldNewsAndEvents}`)).data
   return response
 }
@@ -140,12 +144,12 @@ export async function getAllAiTechBlogs(){
 }
 
 export async function getPaginatedAiTechBlogs(page: number = 1){
-  const response = (await axiosInstance.get(`/api/ai-tech-blogs?pagination[page]=${page}&${selectorFieldAiTechBlogs}`)).data
+  const response = (await axiosInstance.get(`/api/ai-tech-blogs?pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldAiTechBlogs}`)).data
   return response
 }
 
 export async function getPaginatedSortedAiTechBlogs(page: number = 1){
-  const response = (await axiosInstance.get(`/api/ai-tech-blogs?sort[0]=publishAt:desc&pagination[page]=${page}&${selectorFieldAiTechBlogs}`)).data
+  const response = (await axiosInstance.get(`/api/ai-tech-blogs?sort[0]=publishAt:desc&pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldAiTechBlogs}`)).data
   return response
 }
 
@@ -170,7 +174,7 @@ export async function getAllProjects(){
 }
 
 export async function getPaginatedProjects(page: number = 1){
-  const response = (await axiosInstance.get(`/api/projects?pagination[page]=${page}&${selectorFieldProjects}`)).data
+  const response = (await axiosInstance.get(`/api/projects?pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldProjects}`)).data
   return response
 }
 
@@ -179,7 +183,7 @@ export async function getOneProjectBySlug(slug: string){
   return response
 }
 
-export async function getLatestProjects(projectsNumber: number = 8){
+export async function getLatestProjects(projectsNumber: number = LATEST_NUMBER){
   const response = (await axiosInstance.get(`/api/projects?sort[0]=publishedAt:desc&pagination[page]=1&pagination[pageSize]=${projectsNumber}&${selectorFieldProjects}`)).data
   return response
 }
@@ -200,7 +204,7 @@ export async function getAllToolAndResources(){
 }
 
 export async function getPaginatedToolAndResources(page: number = 1){
-  const response = (await axiosInstance.get(`/api/tool-and-resources?pagination[page]=${page}&${selectorFieldToolAndResources}`)).data
+  const response = (await axiosInstance.get(`/api/tool-and-resources?pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldToolAndResources}`)).data
   return response
 }
 
@@ -209,7 +213,7 @@ export async function getOneToolAndResourceBySlug(slug: string){
   return response
 }
 
-export async function getLatestToolAndResources(itemNumber: number = 8){
+export async function getLatestToolAndResources(itemNumber: number = LATEST_NUMBER){
   const response = (await axiosInstance.get(`/api/tool-and-resources?sort[0]=publishedAt:desc&pagination[page]=1&pagination[pageSize]=${itemNumber}&${selectorFieldToolAndResources}`)).data
   return response
 }
@@ -230,7 +234,7 @@ export async function getAllSolutions(){
 }
 
 export async function getPaginatedSolutions(page: number = 1){
-  const response = (await axiosInstance.get(`/api/solutions?pagination[page]=${page}&${selectorFieldSolutions}`)).data
+  const response = (await axiosInstance.get(`/api/solutions?pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldSolutions}`)).data
   return response
 }
 
@@ -270,7 +274,7 @@ export async function getAllTeams(){
 }
 
 export async function getPaginatedTeams(page: number = 1){
-  const response = (await axiosInstance.get(`/api/research-teams?pagination[page]=${page}&${selectorFieldResearchTeams}`)).data
+  const response = (await axiosInstance.get(`/api/research-teams?pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldResearchTeams}`)).data
   return response
 }
 
@@ -291,7 +295,8 @@ export async function getAllPartners(){
 
 export async function addComment(
   type: string,
-  slug: string, data: any
+  slug: string, 
+  data: any
 ){
   console.log("AXIOS: ", axiosInstance)
   console.log("Data: ", data)
@@ -333,7 +338,7 @@ export async function getAllCourses(){
 }
 
 export async function getPaginatedCourses(page: number = 1){
-  const response = (await axiosInstance.get(`/api/courses?pagination[page]=${page}&${selectorFieldCourses}`)).data
+  const response = (await axiosInstance.get(`/api/courses?pagination[page]=${page}&pagination[pageSize]=${NUMBER_ITEM_A_PAGE}&${selectorFieldCourses}`)).data
   return response
 }
 

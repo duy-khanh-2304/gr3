@@ -50,13 +50,12 @@ export default function DetailPage(props: any) {
   useEffect(() => {
     ;(async() => {
       const information = await getContactInformation()
-      const layout = await getLayout() 
       const {slug} = router.query
       const teamItem = await getOneTeamBySlug(slug as string ?? "")
       const allTeams = await getAllTeams()
       setData({
         information: information.data,
-        layout: layout.data,
+        
         teamItem: teamItem.data,
         allTeams: allTeams
       })
@@ -66,21 +65,8 @@ export default function DetailPage(props: any) {
       behavior: 'smooth'
     });
   }, [])
-  if(router.isFallback){
-    return (
-      <div style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <CircularProgress/>
-      </div>
-    )
-  }
 
-  if(!data){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -89,7 +75,7 @@ export default function DetailPage(props: any) {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <CircularProgress/>
+        <CircularProgress color='success'/>
       </div>
     )
   }
@@ -98,7 +84,7 @@ export default function DetailPage(props: any) {
       <Head>
         <title>{item.title}</title>
       </Head>
-      <Layout layout={data.layout}
+      <Layout 
         information={data.information}>
         <div className={styles.main}>
           <div className={styles.container}>

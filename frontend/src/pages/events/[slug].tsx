@@ -57,8 +57,14 @@ export default function DetailPage(props: any) {
         }]
       })
       setStatusComment(true)
+setTimeout(() => {
+        setStatusComment(null)
+      }, 3000)
     }catch(error){
       setStatusComment(false)
+setTimeout(() => {
+        setStatusComment(null)
+      }, 3000)
     }
   }
 
@@ -67,13 +73,12 @@ export default function DetailPage(props: any) {
   useEffect(() => {
     ;(async() => {
       const information = await getContactInformation()
-      const layout = await getLayout() 
       const {slug} = router.query
       const eventItem = await getOneEventBySlug(slug as string ?? "")
       const latestList = await getLatestPost()
       setData({
         information: information.data,
-        layout: layout.data,
+        
         eventItem: eventItem.data,
         latestList: latestList.data
       })
@@ -86,7 +91,7 @@ export default function DetailPage(props: any) {
     setUrl(currentUrl)
   }, [])
 
-  if(router.isFallback){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -95,21 +100,7 @@ export default function DetailPage(props: any) {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <CircularProgress/>
-      </div>
-    )
-  }
-
-  if(!data){
-    return (
-      <div style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <CircularProgress/>
+        <CircularProgress color='success'/>
       </div>
     )
   }
@@ -121,7 +112,7 @@ export default function DetailPage(props: any) {
           <title>{item.title}</title>
         </Head>
         <Layout
-          layout={data.layout}
+          
           information={data.information}
         >
           <div className={styles.main}>

@@ -6,6 +6,8 @@
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
+const {v4: uuidv4} = require('uuid')
+
 module.exports = createCoreController('api::course.course', ({strapi}) => ({
   async findOne(ctx){
     const {id: slug} = ctx.params

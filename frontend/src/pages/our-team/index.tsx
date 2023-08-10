@@ -22,12 +22,11 @@ export default function OurTeam(props: any) {
   useEffect(() => {
     ;(async () => {
       const information = await getContactInformation()
-      const layout = await getLayout() 
       const ourTeamPage = await getOurTeamPage()
       const teams = await getAllTeams()
       setData({
         information: information.data,
-        layout: layout.data,
+        
         ourTeamPage: ourTeamPage,
         teams: teams
       })
@@ -39,7 +38,7 @@ export default function OurTeam(props: any) {
     router.push(`/researches/research-teams/${item.slug}`)
   }
 
-  if(!data){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -58,7 +57,7 @@ export default function OurTeam(props: any) {
         <title>Our Team - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout
-        layout={data.layout}
+        
         information={data.information}
       >
         <div className={styles.main}>

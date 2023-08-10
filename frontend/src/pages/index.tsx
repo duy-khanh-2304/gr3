@@ -41,7 +41,6 @@ export default function Home(props: any) {
     ;(async () => {
       const response = await getHomePage()
       const information = await getContactInformation()
-      const layout = await getLayout()
       const sections = response.data.body.filter((component: any) => component.__component === "page.section")
       const sectionsData = {
         'News and Events': [],
@@ -91,7 +90,6 @@ export default function Home(props: any) {
         sectionsData: sectionsData,
         information: information.data,
         data: response.data,
-        layout: layout.data
       })
     })()
 
@@ -126,7 +124,7 @@ export default function Home(props: any) {
         <title>Home Page - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout 
-        layout={data.layout}
+        
         information={data.information}
       >
         <div className={styles.banner}>

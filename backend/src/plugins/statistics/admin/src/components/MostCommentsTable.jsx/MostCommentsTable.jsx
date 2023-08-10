@@ -19,19 +19,6 @@ const MostCommentsTable = ({
 }) => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
-  const entry = {
-    cover: 'https://avatars.githubusercontent.com/u/3874873?v=4',
-    description: 'Chez Léon is a human sized Parisian',
-    category: 'French cuisine',
-    contact: 'Leon Lafrite'
-  };
-  const entries = [];
-  for (let i = 0; i < 5; i++) {
-    entries.push({
-      ...entry,
-      id: i
-    });
-  }
   const history = useHistory()
   return (
     <CollapseSection
@@ -42,23 +29,6 @@ const MostCommentsTable = ({
       id="mostCommentsPosts"
     >
       <div>Information from <span style={{fontSize: '16px'}}>{customDateFormat(duration)}</span> to <span style={{fontSize: "16px"}}>{formatDateToCustomFormat()}</span> is displayed.</div>
-      <div style={{display: "flex", alignItems: "center", margin: "8px 0"}}>
-        <span>Content Type: </span>
-        {
-          types.length > 0 && types.map((_, index) => {
-            return (
-              <Chip key={index} label={_} 
-                style={{
-                  margin: '0 4px', 
-                  color: "#4945ff", 
-                  backgroundColor: "#f0f0ff", 
-                  fontSize: "12px",
-                  overflow: "visible"
-                }}/>
-            )
-          })
-        }
-      </div>
       <div 
         className={zoomMostCommentsTable ? `${styles.tablezoom}` : `${styles.table}`}
         style={{ paddingBottom: '2rem' }}

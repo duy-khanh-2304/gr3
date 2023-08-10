@@ -71,5 +71,36 @@ module.exports = ({ strapi }) => ({
     return data
   },
 
+  async getAllResearchTeams(){
+    const data = await strapi.entityService.findMany('api::research-team.research-team', {
+      populate: {
+        post_image: '*',
+        members: '*',
+        projects: {
+          populate: {
+            comment: true, 
+            seen_time_array: true,  
+          }
+        },
+        tool_and_resources: {
+          populate: {
+            comment: true, 
+            seen_time_array: true,
+          }
+        },
+        publications: '*',
+        solutions: {
+          populate: {
+            comment: true, 
+            seen_time_array: true,
+          }
+        },
+        comment: true, 
+        seen_time_array: true,
+      }
+    })
+    return data
+  },
+
   
 });

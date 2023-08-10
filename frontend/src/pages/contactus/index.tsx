@@ -29,10 +29,8 @@ export default function ContactUs(props: any){
   useEffect(() => {
     ;(async () => {
       const information = await getContactInformation()
-      const layout = await getLayout()
       const contactUsResponse = (await axiosInstance.get("/api/contact-us-page?populate=deep")).data
       setData({
-        layout: layout.data,
         information: information.data,
         contactUs: contactUsResponse.data
       })
@@ -89,7 +87,7 @@ export default function ContactUs(props: any){
         <title>Contact Us</title>
       </Head>
       <Layout
-        layout={data.layout}
+        
         information={data.information}
       >
         <div className={styles.main}>

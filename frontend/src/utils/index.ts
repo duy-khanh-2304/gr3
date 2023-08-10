@@ -8,7 +8,7 @@ export function sortByPublishedDate(list: any){
 }
 
 export function formattedWorkTime(start_time: any, end_time: any){
-  const formattedStartTime = `${start_time.split(":")[0]}:${end_time.split(":")[1]}`
+  const formattedStartTime = `${start_time.split(":")[0]}:${start_time.split(":")[1]}`
   const formattedEndTime = `${end_time.split(":")[0]}:${end_time.split(":")[1]}`
   return {
     formattedStartTime,

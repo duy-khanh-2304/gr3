@@ -12,6 +12,7 @@ const NumberPostsChart = ({
   datasets,
   loadingChart
 }) => {
+  console.log('DATASETS: ', datasets)
   const [isShowLineChart, setIsShowLineChart] = useState(false)
   const calWidth =
     windowSize.innerWidth <= 1360 || isZoomNumberPostsChart ? '100%' : '50%'

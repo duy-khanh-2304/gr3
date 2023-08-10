@@ -16,12 +16,11 @@ export default function AiTechBlog(props: any) {
   useEffect(() => {
     ;(async () => {
       const information = await getContactInformation()
-      const layout = await getLayout() 
       const aiTechBlogs = await getPaginatedSortedAiTechBlogs()
       const latestList = await getLatestPost()
       setData({
         information: information.data,
-        layout: layout.data,
+        
         aiTechBlogs: aiTechBlogs,
         latestList: latestList.data
       })
@@ -36,7 +35,7 @@ export default function AiTechBlog(props: any) {
   const handleClick = (item: any) => {
     router.push(`/ai-tech-blogs/${item.slug}`)
   }
-  if(!data){
+  if(!data || router.isFallback){
     return (
       <div style={{
         width: '100%',
@@ -55,7 +54,7 @@ export default function AiTechBlog(props: any) {
         <title>AI Tech Blogs Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
       <Layout 
-        layout={data.layout}
+        
         information={data.information}
       >
         <div className={styles.main}>

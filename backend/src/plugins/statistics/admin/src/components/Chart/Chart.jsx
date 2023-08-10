@@ -83,6 +83,12 @@ const Chart = ({
           },
           y: {
             stacked: true,
+            ticks: {
+              min: 1,
+              stepSize: chart === "numberSeens" ? 10 : 1,
+              max: 100,
+              beginAtZero: true, // Bắt đầu từ giá trị 0
+            },
           },
         },
       }
@@ -123,7 +129,7 @@ const Chart = ({
         labels: [...labels],
         datasets: [
           {
-            label: chart === 'numberPosts' ? 'Number of Posts' : 'Number of Seens',
+            label: chart === 'numberPosts' ? 'Number of Posts' : 'Number of Views',
             data: [...datasets.data],
             borderColor: chart === 'numberPosts' ? 'rgba(255, 99, 132)' : 'rgb(53, 162, 235)',
             backgroundColor: chart === 'numberPosts' ? 'rgba(255, 99, 132, 0.5)' : 'rgb(53, 162, 235, 0.5)',

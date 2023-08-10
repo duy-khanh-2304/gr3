@@ -42,23 +42,6 @@ const MostSeensTable = ({
       id="mostSeensPosts"
     >
       <div>Information from <span style={{fontSize: '16px'}}>{customDateFormat(duration)}</span> to <span style={{fontSize: "16px"}}>{formatDateToCustomFormat()}</span> is displayed.</div>
-      <div style={{display: "flex", alignItems: "center", margin: "8px 0"}}>
-        <span>Content Type: </span>
-        {
-          types.length > 0 && types.map((_, index) => {
-            return (
-              <Chip key={index} label={_} 
-                style={{
-                  margin: '0 4px', 
-                  color: "#4945ff", 
-                  backgroundColor: "#f0f0ff", 
-                  fontSize: "12px",
-                  overflow: "visible"
-                }}/>
-            )
-          })
-        }
-      </div>
       <div 
         className={zoomMostSeensTable ? `${styles.tablezoom}` : `${styles.table}`}
         style={{ paddingBottom: '2rem' }}
