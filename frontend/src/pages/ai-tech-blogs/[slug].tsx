@@ -12,12 +12,14 @@ import Link from 'next/link'
 import { addComment, getAllAiTechBlogs, getAllNews, getContactInformation, getHomePage, getLatestPost, getLayout, getOneAiTechBlogBySlug, getOneNewsBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
+import Content from "@/components/content/Content";
+import { createId } from "@/utils";
 
 export default function DetailPage(props: any) {
   const [data, setData] = useState<any>()
 
   const item = data?.aiTechBlog
-  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
+  const [commentList, setCommentList] = useState<Array<any>>([])
   const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
 
@@ -34,42 +36,6 @@ export default function DetailPage(props: any) {
         title: component.title
       }
     })
-  const optionParse = {
-    replace: (domNode: any) => {
-      if (domNode.name === 'oembed') {
-        return (
-          <iframe 
-            width="100%" 
-            height="438px" 
-            src={domNode.attribs.url}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          ></iframe>
-        )
-      }
-    }
-  }
-
-  const optionTitle = {
-    replace: (domNode: any) => {
-      if (domNode.name === 'h3') {
-        return (
-          <span>
-            {domToReact(domNode.children)}
-          </span>
-        )
-      }
-    }
-  }
-
-  const createId = (str: string) => {
-    str = str.toLowerCase().trim();
-    const from = 'àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ';
-    const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd';
-    for (let i = 0, l = from.length; i < l; i++) {
-      str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-    }
-    return str.replace(/[^a-z0-9]/g, '_').replace(/-+/g, '_').replace(/^-|-$/g, '');
-  };
 
   const handlePostComment = async (commentData: any) => {
     setStatusComment(null)
@@ -114,10 +80,10 @@ export default function DetailPage(props: any) {
       const latestList = await getLatestPost()
       setData({
         information: information.data,
-        
         aiTechBlog: aiTechBlog.data,
         latestList: latestList.data,
       })
+      setCommentList(aiTechBlog.data.comment)
     })()
     document.body.scrollTo({
       top: 0,
@@ -216,55 +182,7 @@ export default function DetailPage(props: any) {
                   </div>
                   <div className={styles.entry_content}>
                     {
-                      item?.content.length > 0 && item.content.map((component: any, index: number) => {
-                        if(component.__component === "content.paragraph"){
-                          return (
-                            <div key={index}>
-                              {parse(component.content, optionParse)}
-                            </div>
-                          )
-                        }else if(component.__component === "content.intro-team"){
-                          return(
-                            <div key={index}>
-                              {parse(component.content, optionParse)}
-                            </div>
-                          )
-                        }else if(component.__component === "content.pre-formatted-paragraph"){
-                          return(
-                            <div key={index}>
-                              <pre className={styles.preformatted}>
-                                {parse(component.content, optionParse)}
-                              </pre>
-                            </div>
-                          )
-                        }else if(component.__component === "content.paragraph-with-title"){
-                          const indexSection = sections.findIndex((_: any) => _.title === component.title)
-                          const idString = `${indexSection + 1}_${createId(component.title)}`
-                          const subIdString = sections[indexSection].sub_titles.map((subTitle: any, subIndex: number) => {
-                            return `${indexSection + 1}_${subIndex + 1}_${createId(subTitle)}`
-                          })
-                          return (
-                            <div key={index} id={idString}>
-                              <div className={styles.titleSection}>{`${indexSection + 1}. `}{component.title}</div>
-                              {
-                                component.content && <div>{parse(component.content, optionParse)}</div>  
-                              }
-                              {
-                                component.sub_section.length > 0 && component.sub_section.map((section: any, index: number) => {
-                                  return (
-                                    <div key={index} id={subIdString[index]}>
-                                      <div className={styles.subTitleSection}>{`${indexSection + 1}.${index + 1}. `}{section.title}</div>
-                                      <div>
-                                        {parse(section.content, optionParse)}
-                                      </div>
-                                    </div>
-                                  )
-                                })
-                              }
-                            </div>
-                          )
-                        }
-                      })
+                      item?.content.length > 0 && <Content content={item.content}/>
                     }
                   </div>
                   <div>

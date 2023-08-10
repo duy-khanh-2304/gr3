@@ -1,5 +1,6 @@
 import { getAllPublications, getContactInformation, getHomePage, getLayout } from '@/clientApi'
 import Layout from '@/components/Layout'
+import { CircularProgress } from '@mui/material'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -20,17 +21,32 @@ export default function  PublicationList(props: any){
     })()
   }, [])
   const router = useRouter()
+
+  if(!data || router.isFallback){
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <CircularProgress color='success'/>
+      </div>
+    )
+  }
   return (
     <div>
       <Head>
         <title>Publication List Archives - BKAI - The International Research Center for Artificial Intelligence</title>
       </Head>
-      <Layout 
-        information={data.information}>
+      <Layout
+        information={data.information}
+      >
         <div className={styles.main}>
           <div className={styles.container}>
             {
-              publicationList.map((item: any, index: any) => {
+              publicationList && publicationList.map((item: any, index: any) => {
                 return (
                   <div key={index} className={styles.publication}>
                     <span>{index + 1}. </span>

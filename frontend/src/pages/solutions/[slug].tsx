@@ -13,48 +13,16 @@ import { addComment, getAllNews, getAllSolutions, getContactInformation, getHome
 import { useRouter } from "next/router";
 import { ArrowLeftOutlined, ArrowRightOutlined, FullscreenExitOutlined } from "@ant-design/icons";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
+import Content from "@/components/content/Content";
 
 export default function DetailPage(props: any) {
   const [data, setData] = useState<any>()
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const item = data?.solutionItem
-  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
+  const [commentList, setCommentList] = useState<Array<any>>([])
   const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
 
-
-  const imageUrls = item?.content
-    .find((component: any) => component.__component === "content.light-box")?.images
-    .map((image: any) => {
-      return image.url
-    })
-
-  const openLightbox = (index: any) => {
-    setCurrentImageIndex(index);
-    setIsOpen(true);
-  };
-
-  const closeLightbox = () => {
-    setIsOpen(false);
-  };
-
-  const goToPrevious = () => {
-    if (currentImageIndex === 0) {
-      setCurrentImageIndex(imageUrls.length - 1)
-      return
-    };
-    setCurrentImageIndex(currentImageIndex - 1);
-  };
-
-  const goToNext = () => {
-    if (currentImageIndex === imageUrls.length - 1) {
-      setCurrentImageIndex(0)
-      return
-    };
-    setCurrentImageIndex(currentImageIndex + 1);
-  };
   const optionParse = {
     replace: (domNode: any) => {
       if (domNode.name === 'oembed') {
@@ -91,12 +59,12 @@ export default function DetailPage(props: any) {
         }]
       })
       setStatusComment(true)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }catch(error){
       setStatusComment(false)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }
@@ -111,9 +79,9 @@ setTimeout(() => {
       const solutionItem = await getOneSolutionBySlug(slug as string ?? "")
       setData({
         information: information.data,
-        
         solutionItem: solutionItem.data,
       })
+      setCommentList(solutionItem.data.comment)
     })()
     document.body.scrollTo({
       top: 0,
@@ -161,58 +129,7 @@ setTimeout(() => {
                   </div>
                   <div className={styles.entry_content}>
                     {
-                      item.content.length > 0 && item.content.map((component: any, index: number) => {
-                        if(component.__component === "content.paragraph"){
-                          return (
-                            <div key={index}>
-                              {parse(component.content, optionParse)}
-                            </div>
-                          )
-                        }else if(component.__component === "content.button"){
-                          return(
-                            <div key={index}>
-                              <a href={component.url} className={styles.button}>{component.text}</a>
-                            </div>
-                          )
-                        }else if(component.__component === "content.light-box"){
-                          return (
-                            <div key={index}>
-                              {isOpen && (
-                                <div className={styles.lightbox_overlay}>
-                                  <div className={styles.lightbox_exitButton} onClick={closeLightbox}>
-                                    <FullscreenExitOutlined />
-                                  </div>
-                                  <div className={styles.lightbox_container}>
-                                    <button className={styles.lightbox_btn_left} onClick={goToPrevious}>
-                                      <ArrowLeftOutlined />
-                                    </button>
-                                    <img
-                                      className={styles.lightbox_image}
-                                      src={imageUrls[currentImageIndex]}
-                                      alt="Lightbox Image"
-                                    />
-                                    <button className={styles.lightbox_btn_right} onClick={goToNext}>
-                                      <ArrowRightOutlined />
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-
-                              <div className={styles.image_gallery}>
-                                {imageUrls.map((imageUrl: any, index: number) => (
-                                  <img
-                                    key={index}
-                                    className={styles.gallery_image}
-                                    src={imageUrl}
-                                    alt={`Gallery Image ${index}`}
-                                    onClick={() => openLightbox(index)}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          )
-                        }
-                      })
+                      item.content.length > 0 && <Content content={item.content}/>
                     }
                   </div>
                   <Grid container justifyContent="center">

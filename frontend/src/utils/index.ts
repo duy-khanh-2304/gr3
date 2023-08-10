@@ -47,3 +47,13 @@ export const CONTENT_TYPE = [
     api: '/researches/research-teams'
   },
 ]
+
+export const createId = (str: string) => {
+  str = str.toLowerCase().trim();
+  const from = 'àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ';
+  const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd';
+  for (let i = 0, l = from.length; i < l; i++) {
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+  }
+  return str.replace(/[^a-z0-9]/g, '_').replace(/-+/g, '_').replace(/^-|-$/g, '');
+};

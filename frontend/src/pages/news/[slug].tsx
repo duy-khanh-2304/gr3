@@ -12,11 +12,12 @@ import Link from 'next/link'
 import { addComment, getAllNews, getContactInformation, getHomePage, getLatestPost, getLayout, getOneNewsBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
+import Content from "@/components/content/Content";
 
 export default function DetailPage(props: any) {
   const [data, setData] = useState<any>()
   const item = data?.newsItem
-  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
+  const [commentList, setCommentList] = useState<Array<any>>([])
   const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
 
@@ -77,10 +78,10 @@ setTimeout(() => {
       const latestList = await getLatestPost()
       setData({
         information: information.data,
-        
         newsItem: newsItem.data,
         latestList: latestList.data
       })
+      setCommentList(newsItem.data.comment)
     })()
     document.body.scrollTo({
       top: 0,
@@ -136,36 +137,14 @@ setTimeout(() => {
                   </div>
                   <div className={styles.entry_content}>
                     {
-                      item?.content.length > 0 && item.content.map((component: any, index: number) => {
-                        if(component.__component === "content.paragraph"){
-                          return (
-                            <div key={index}>
-                              {parse(component.content, optionParse)}
-                            </div>
-                          )
-                        }else if(component.__component === "content.intro-team"){
-                          return(
-                            <div key={index}>
-                              {parse(component.content, optionParse)}
-                            </div>
-                          )
-                        }else if(component.__component === "content.pre-formatted-paragraph"){
-                          return(
-                            <div key={index}>
-                              <pre className={styles.preformatted}>
-                                {parse(component.content, optionParse)}
-                              </pre>
-                            </div>
-                          )
-                        }
-                      })
+                      item?.content.length > 0 && <Content content={item.content}/>
                     }
                   </div>
                   <div>
                     {item.showCommunicationLink && <CommunicationLinks url={url} />}
                   </div>
                   {
-                    commentList.length > 0 && commentList.map((item: any, index: number) => {
+                    commentList?.length > 0 && commentList.map((item: any, index: number) => {
                       return (
                         <div key={index}>
                           <CommentEntry item={item}/>

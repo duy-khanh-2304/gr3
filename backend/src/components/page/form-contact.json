@@ -6,11 +6,6 @@
   },
   "options": {},
   "attributes": {
-    "input": {
-      "type": "component",
-      "repeatable": true,
-      "component": "page.input"
-    },
     "image": {
       "type": "media",
       "multiple": false,

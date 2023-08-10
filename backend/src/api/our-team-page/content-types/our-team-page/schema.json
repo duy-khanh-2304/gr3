@@ -12,16 +12,17 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "researchTeam": {
-      "type": "component",
-      "repeatable": false,
-      "component": "content.intro-team",
-      "required": true
-    },
     "boardOfDirectors": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::member.member"
+    },
+    "content": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
     }
   }
 }

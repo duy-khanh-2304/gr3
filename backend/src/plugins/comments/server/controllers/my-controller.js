@@ -20,7 +20,9 @@ module.exports = ({ strapi }) => ({
         filters: {
           slug: comment.slug
         },
-        populate: ['comment'],
+        populate: {
+          comment: true
+        },
       })
       const comments = list[0].comment
       const index = comments.findIndex(_ => _.uuid === comment.uuid)

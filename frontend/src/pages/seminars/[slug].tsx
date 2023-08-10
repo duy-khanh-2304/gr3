@@ -12,11 +12,12 @@ import Link from 'next/link'
 import {  addComment, getAllSeminars, getContactInformation, getHomePage, getLatestPost, getLayout, getOneSeminarBySlug } from "@/clientApi";
 import { useRouter } from "next/router";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
+import Content from "@/components/content/Content";
 
 export default function DetailPage(props: any) {
   const [data, setData] = useState<any>()
   const item = data?.seminarItem
-  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
+  const [commentList, setCommentList] = useState<Array<any>>([])
   const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
 
@@ -56,12 +57,12 @@ export default function DetailPage(props: any) {
         }]
       })
       setStatusComment(true)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }catch(error){
       setStatusComment(false)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }
@@ -77,10 +78,10 @@ setTimeout(() => {
       const latestList = await getLatestPost()
       setData({
         information: information.data,
-        
         seminarItem: seminarItem.data,
         latestList: latestList.data
       })
+      setCommentList(seminarItem.data.comment)
     })()
     document.body.scrollTo({
       top: 0,
@@ -135,29 +136,7 @@ setTimeout(() => {
                   </div>
                   <div className={styles.entry_content}>
                     {
-                      item?.content.length > 0 && item.content.map((component: any, index: number) => {
-                        if(component.__component === "content.paragraph"){
-                          return (
-                            <div key={index}>
-                              {parse(component.content, optionParse)}
-                            </div>
-                          )
-                        }else if(component.__component === "content.intro-team"){
-                          return(
-                            <div key={index}>
-                              {parse(component.content, optionParse)}
-                            </div>
-                          )
-                        }else if(component.__component === "content.pre-formatted-paragraph"){
-                          return(
-                            <div key={index}>
-                              <pre className={styles.preformatted}>
-                                {parse(component.content, optionParse)}
-                              </pre>
-                            </div>
-                          )
-                        }
-                      })
+                      item?.content.length > 0 && <Content content={item.content}/>
                     }
                   </div>
                   <div>

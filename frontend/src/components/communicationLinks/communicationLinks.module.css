@@ -6,10 +6,6 @@
   align-items: center;
 }
 
-.container:first-child{
-  margin: 5px;
-}
-
 .item{
   font-size: 22px;
   display: inline-block;

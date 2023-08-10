@@ -22,7 +22,7 @@ export default function DetailPage(props: any) {
   const [data, setData] = useState<any>()
   const item = data?.courseItem
 
-  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
+  const [commentList, setCommentList] = useState<Array<any>>([])
   const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
   
@@ -66,12 +66,12 @@ export default function DetailPage(props: any) {
         }]
       })
       setStatusComment(true)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }catch(error){
       setStatusComment(false)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }
@@ -87,10 +87,10 @@ setTimeout(() => {
       const courseList = await getAllCourses()
       setData({
         information: information.data,
-        
         courseItem: courseItem.data,
         courseList: courseList,
       })
+      setCommentList(courseItem.data.comment)
     })()
     document.body.scrollTo({
       top: 0,
@@ -132,7 +132,7 @@ setTimeout(() => {
                     </h1>
                   </div>
                   <div className={styles.entry_content}>
-                    {parse(item.introduction, optionParse)}
+                    {item.content && parse(item.content, optionParse)}
                     <h3>Slides và video các bài giảng</h3>
                     {
                       item?.lesson.length > 0 && item?.lesson.map((lesson: any, index: number) => {
@@ -208,8 +208,7 @@ setTimeout(() => {
                                   </div>
                                 </Grid>
                               </Grid>
-                            </div>
-                            
+                            </div> 
                           )
                         })
                       }

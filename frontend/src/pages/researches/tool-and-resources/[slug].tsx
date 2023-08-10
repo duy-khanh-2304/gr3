@@ -12,11 +12,12 @@ import { useRouter } from "next/router";
 import RelatedToolAndResource from "@/components/relatedToolAndResources/RelatedToolAndResources";
 import axiosInstance from "@/axiosConfig";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
+import Content from "@/components/content/Content";
 
 export default function DetailPage(props: any) {
   const [data, setData] = useState<any>()
   const item = data?.toolAndResourceItem
-  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
+  const [commentList, setCommentList] = useState<Array<any>>([])
   const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
 
@@ -63,12 +64,12 @@ export default function DetailPage(props: any) {
         }]
       })
       setStatusComment(true)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }catch(error){
       setStatusComment(false)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }
@@ -83,9 +84,9 @@ setTimeout(() => {
       const toolAndResourceItem = await getOneToolAndResourceBySlug(slug as string ?? "")
       setData({
         information: information.data,
-        
         toolAndResourceItem: toolAndResourceItem.data,
       })
+      setCommentList(toolAndResourceItem.data.comment)
     })()
     document.body.scrollTo({
       top: 0,
@@ -137,29 +138,7 @@ setTimeout(() => {
                     <Grid item lg={9} sm={8} style={{ padding: "0 15px" }}>
                       <div className={styles.entry_content}>
                         {
-                          item?.content.length > 0 && item.content.map((component: any, index: number) => {
-                            if(component.__component === "content.paragraph"){
-                              return (
-                                <div key={index}>
-                                  {parse(component.content, optionParse)}
-                                </div>
-                              )
-                            }else if(component.__component === "content.intro-team"){
-                              return(
-                                <div key={index}>
-                                  {parse(component.content, optionParse)}
-                                </div>
-                              )
-                            }else if(component.__component === "content.pre-formatted-paragraph"){
-                              return(
-                                <div key={index}>
-                                  <pre className={styles.preformatted}>
-                                    {parse(component.content, optionParse)}
-                                  </pre>
-                                </div>
-                              )
-                            }
-                          })
+                          item?.content.length > 0 && <Content content={item.content}/>
                         }
                       </div>
                       <div>

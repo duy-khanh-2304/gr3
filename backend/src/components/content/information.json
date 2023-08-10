@@ -25,6 +25,13 @@
     },
     "code": {
       "type": "string"
+    },
+    "image_header": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

@@ -1,3 +1,17 @@
 .button:hover{
   cursor: pointer;
 }
+
+.button_reload{
+  height: 40px;
+  width: 40px;
+  margin-top: 2px;
+  margin-right: 6px;
+  background-color: #ffffff;
+  padding: 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

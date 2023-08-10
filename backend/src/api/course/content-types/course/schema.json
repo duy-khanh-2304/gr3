@@ -34,7 +34,7 @@
     "showCommentBox": {
       "type": "boolean"
     },
-    "introduction": {
+    "content": {
       "type": "customField",
       "options": {
         "preset": "toolbar"

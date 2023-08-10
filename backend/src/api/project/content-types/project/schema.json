@@ -41,8 +41,7 @@
       "components": [
         "content.information",
         "content.paragraph",
-        "content.light-box",
-        "content.image-header"
+        "content.light-box"
       ],
       "required": true
     },

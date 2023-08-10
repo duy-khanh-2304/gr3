@@ -12,17 +12,18 @@ import { addComment, getAllNews, getAllProjects, getContactInformation, getHomeP
 import { useRouter } from "next/router";
 import LatestProject from "@/components/latestProjects/LatestProject";
 import CommentEntry from "@/components/commentEntry/CommentEntry";
+import Content from "@/components/content/Content";
 
 export default function DetailPage(props: any) {
   const [data, setData] = useState<any>()
 
   const item = data?.projectItem
-  const [commentList, setCommentList] = useState<Array<any>>(item?.comment ?? [])
+  const [commentList, setCommentList] = useState<Array<any>>([])
   const [statusComment, setStatusComment] = useState<any>()
   const [url, setUrl] = useState<string>("")
 
   const information = item?.content.find((_: any) => _.__component === "content.information")
-  const imageHeader = item?.content.find((_: any) => _.__component === "content.image-header")?.image
+  const imageHeader = information?.image_header
   const paragraph = item?.content.find((_: any) => _.__component === "content.paragraph")
   const optionParse = {
     replace: (domNode: any) => {
@@ -68,12 +69,12 @@ export default function DetailPage(props: any) {
         }]
       })
       setStatusComment(true)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }catch(error){
       setStatusComment(false)
-setTimeout(() => {
+      setTimeout(() => {
         setStatusComment(null)
       }, 3000)
     }
@@ -89,10 +90,10 @@ setTimeout(() => {
       const latestProjects = await getLatestProjects(10)
       setData({
         information: information.data,
-        
         projectItem: projectItem.data,
         latestProjects: latestProjects.data
       })
+      setCommentList(projectItem.data.comment)
     })()
     document.body.scrollTo({
       top: 0,
@@ -143,36 +144,9 @@ setTimeout(() => {
                   </Grid>
                   <Grid container>
                     <Grid item lg={9} sm={8} style={{ padding: "0 15px" }}>
-                      <Grid container>
-                        <Grid item lg={4}>
-                          <div className={styles.entry_information}>
-                            <h2>Information</h2>
-                            <ul>
-                              <li><span className={styles.heading}>PI:</span>{" "}{information.persional_information}</li>
-                              <li><span className={styles.heading}>Time:</span>{" "}{formatDate(information.start_time)} - {formatDate(information.start_time)}</li>
-                              {
-                                information.code && <li><span className={styles.heading}>Code:</span>{" "}{information.code}</li>
-                              }
-                              <li><span className={styles.heading}>Funding:</span>{" "}{information.funding}</li>
-                              <li><span className={styles.heading}>Main areas:</span>{" "}{information.main_areas}</li>
-                            </ul>
-                          </div>
-                        </Grid>
-                        <Grid item lg={8}>
-                          {
-                            !!imageHeader && <div className={styles.entry_image_header}>
-                              <img 
-                                src={imageHeader.url} 
-                                alt={imageHeader.name}
-                                style={{width: "100%", height: "inherit"}}
-                              />
-                            </div>
-                          }
-                        </Grid>
-                        <div style={{marginTop: "40px"}}>
-                          {parse(paragraph.content, optionParse)}
-                        </div>
-                      </Grid>
+                      {
+                        item?.content.length > 0 && <Content content={item.content} style={{marginBottom: '20px'}}/>
+                      }
                       {
                         item.url && <div className={styles.button}>
                           <a href={item.url}>MORE DETAIL</a>

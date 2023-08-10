@@ -70,7 +70,7 @@ export default function NavBar(props: any){
               {
                 key: 'Publications',
                 label: (
-                  <a href="/researches/publication-lists">Publications</a>
+                  <a href="/researches/publication-list">Publications</a>
                 )
               }
             ]}} 

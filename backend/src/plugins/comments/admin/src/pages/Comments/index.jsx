@@ -23,6 +23,14 @@ const Comments = () => {
     }, 4000)
   }
 
+  const handleReFetchData = async () => {
+    const data = await request("/comments", {
+      method: "GET",
+      "Content-Type": "application/json",
+    })
+    setComments([...data])
+  }
+
   useEffect(() => {
     ;(async () => {
       const data = await request("/comments", {
@@ -63,7 +71,7 @@ const Comments = () => {
                 <EmptyStateLayout content="You don't have any comments to moderate" />
               </Box>
             ) : (
-              <CommentTable commentList={comments} update={updateCommentListAfterEvent}/>
+              <CommentTable commentList={comments} update={updateCommentListAfterEvent} handleReFetchData={handleReFetchData}/>
             ))
           }
         </ContentLayout>
