@@ -118,3 +118,33 @@ DEBUG = is_debug()
         ├── embedding
         └── status
 ```
+
+
+■0000_system/0100_modules/pjconfig_setup.py にホームフォルダのパスを記述
+
+#######################################
+# ホームフォルダのパス
+#######################################
+PJ_BASE_DIR =  "/.../idea_generation_modular"
+
+
+■.envファイルにAPIキーなどを記述
+
+.env.templateファイルをコピーして.envファイルを作成し、APIキーなどを記述してください。
+
+また、APIキーなどを環境変数に設定するのに使うpython-dotenvをインストールしてください。
+
+```
+pip install python-dotenv
+```
+
+その後、Notebookでたとえば以下のように記述すると、.envファイルに記述した環境変数を読み込むことができます。
+
+```
+import sys
+PJ_BASE_DIR =  "/home/azureuser/cloudfiles/code/Users/<ユーザ名>/idea_generation_modular"
+sys.path.append(os.path.join(PJ_BASE_DIR, '0000_system/0100_modules'))
+
+from api_settings import OPEN_API_TYPE
+print(OPEN_API_TYPE)
+```
